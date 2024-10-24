@@ -22,7 +22,7 @@ class FavoriteAnimalRepositoryImpl @Inject constructor(
 
     override suspend fun insertFavoriteAnimal(favoriteAnimal: AnimalEntity): Flow<Result<Boolean>> = flow {
         favoriteAnimalDataSource.insertFavoriteAnimal(favoriteAnimal = favoriteAnimal)
-            .collect { value -> emit(Result.success(vlue)) }
+            .collect { value -> emit(Result.success(value)) }
     }
 
     override suspend fun deleteFavoriteAnimal(desertionNo: Long): Flow<Result<Boolean>> {
