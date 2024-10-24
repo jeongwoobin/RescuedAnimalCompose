@@ -17,7 +17,7 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideAppDataBase(@ApplicationContext appContext: Context) : FavoriteAnimalDatabase {
+    fun provideFavoriteAnimalDatabase(@ApplicationContext appContext: Context) : FavoriteAnimalDatabase {
         return Room.databaseBuilder(
             appContext,
             FavoriteAnimalDatabase::class.java,
@@ -27,8 +27,8 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun providesDao(database: FavoriteAnimalDatabase) : FavoriteAnimalDao {
-        return database.getFavoriteAnimalDao()
+    fun providesDao(favoriteAnimalDatabase: FavoriteAnimalDatabase) : FavoriteAnimalDao {
+        return favoriteAnimalDatabase.getFavoriteAnimalDao()
     }
 
 }

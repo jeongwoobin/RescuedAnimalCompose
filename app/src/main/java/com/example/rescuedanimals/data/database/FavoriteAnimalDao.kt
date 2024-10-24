@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.rescuedanimals.data.model.local.AnimalEntity
+import com.example.rescuedanimals.data.model.local.DBAnimalEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -12,11 +12,11 @@ interface FavoriteAnimalDao {
 
     // 생성
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFavoriteAnimal(favoriteAnimal: AnimalEntity): Flow<Long>
+    fun insertFavoriteAnimal(favoriteAnimal: DBAnimalEntity): Flow<Long>
 
     // 삭제
     @Query("DELETE FROM animal where desertionNo = :desertionNo")
-    fun deleteFavoriteAnimal(desertionNo: Long): Flow<Long>
+    fun deleteFavoriteAnimal(desertionNo: String): Flow<Long>
 
     @Query("DELETE FROM animal")
     fun deleteAll(): Flow<Long>
@@ -33,8 +33,8 @@ interface FavoriteAnimalDao {
 
     // 탐색
     @Query("SELECT * FROM animal")
-    fun getAll(): Flow<List<AnimalEntity>>
+    fun getAll(): Flow<List<DBAnimalEntity>>
 
     @Query("SELECT * FROM animal where desertionNo = :desertionNo")
-    fun getFavoriteAnimal(desertionNo: Long): Flow<AnimalEntity>
+    fun getFavoriteAnimal(desertionNo: String): Flow<DBAnimalEntity>
 }

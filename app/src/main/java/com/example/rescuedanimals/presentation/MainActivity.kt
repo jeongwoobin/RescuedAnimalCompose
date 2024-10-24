@@ -1,4 +1,4 @@
-package com.example.rescuedanimals.view
+package com.example.rescuedanimals.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,9 +38,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier, viewModel: MainViewModel = hiltViewModel()) {
-//    LaunchedEffect(Unit) {
-//        viewModel.getSido()
-//    }
 
     Text(
         text = "Hello ${BuildConfig.PUBLIC_SRVC_KEY}!",

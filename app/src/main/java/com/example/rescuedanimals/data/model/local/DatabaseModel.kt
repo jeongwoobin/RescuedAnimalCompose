@@ -4,9 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "animal")
-data class AnimalEntity(
-//    @PrimaryKey(autoGenerate = true)
-//    val id: Long,
+data class DBAnimalEntity(
     @PrimaryKey(autoGenerate = false)
     val desertionNo: String?,
     val filename: String?,
