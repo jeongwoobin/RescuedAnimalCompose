@@ -1,4 +1,12 @@
 [versions]
+# Project versions
+projectApplicationId = "com.example.rescuedanimals"
+projectVersionName = "1.0"
+projectVersionCode = "1"
+projectMinSdkVersion = "26"
+projectTargetSdkVersion = "34"
+projectCompileSdkVersion = "34"
+
 agp = "8.5.2"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.0.21"#""1.9.22"
@@ -19,8 +27,17 @@ moshi = "1.15.1"
 logger = "2.2.0"
 roomKtx = "2.6.1"
 sandwich = "2.0.10"
+jetbrainsKotlinJvm = "2.0.21"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 [libraries]
+# Dependencies of the included build-logic
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "jetbrainsKotlinJvm" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
+
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
@@ -52,10 +69,18 @@ moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "mosh
 logger = { module = "com.orhanobut:logger", version.ref = "logger" }
 sandwich-retrofit = { module = "com.github.skydoves:sandwich-retrofit", version.ref = "sandwich" }
 sandwich = { module = "com.github.skydoves:sandwich", version.ref = "sandwich" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
+# Custom Convention Plugin
+multi-module-android-application = { id = "multi.module.android.application", version = "unspecified"}
+multi-module-android-application-compose = { id = "multi.module.android.application.compose", version = "unspecified"}
+
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+android-library = { id = "com.android.library", version.ref = "agp" }
