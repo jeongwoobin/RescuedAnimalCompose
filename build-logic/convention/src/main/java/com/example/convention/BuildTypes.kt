@@ -17,34 +17,57 @@ internal fun Project.configureBuildTypes(
             buildConfig = true
         }
 
+        val rescuedAnimalsBaseUrl =
+            gradleLocalProperties(rootDir, providers).getProperty("RESCUED_ANIMALS_BASE_URL")
+        val animalInfoBaseUrl =
+            gradleLocalProperties(rootDir, providers).getProperty("ANIMAL_INFO_BASE_URL")
         val serviceKey = gradleLocalProperties(rootDir, providers).getProperty("PUBLIC_SRVC_KEY")
         when (extensionType) {
             ExtensionType.APPLICATION -> {
                 extensions.configure<ApplicationExtension> {
                     buildTypes {
                         debug {
-                            configureDebugBuildType(apiKey)
+                            configureDebugBuildType(
+                                rescuedAnimalsBaseUrl,
+                                animalInfoBaseUrl,
+                                serviceKey
+                            )
                         }
 //                        create("staging") {
 //                            configureStagingBuildType(apiKey)
 //                        }
                         release {
-                            configureReleaseBuildType(commonExtension, apiKey)
+                            configureReleaseBuildType(
+                                commonExtension,
+                                rescuedAnimalsBaseUrl,
+                                animalInfoBaseUrl,
+                                serviceKey
+                            )
                         }
                     }
                 }
             }
+
             ExtensionType.LIBRARY -> {
                 extensions.configure<LibraryExtension> {
                     buildTypes {
                         debug {
-                            configureDebugBuildType(apiKey)
+                            configureDebugBuildType(
+                                rescuedAnimalsBaseUrl,
+                                animalInfoBaseUrl,
+                                serviceKey
+                            )
                         }
 //                        create("staging") {
 //                            configureStagingBuildType(apiKey)
 //                        }
                         release {
-                            configureReleaseBuildType(commonExtension, apiKey)
+                            configureReleaseBuildType(
+                                commonExtension,
+                                rescuedAnimalsBaseUrl,
+                                animalInfoBaseUrl,
+                                serviceKey
+                            )
                         }
                     }
                 }
@@ -53,9 +76,14 @@ internal fun Project.configureBuildTypes(
     }
 }
 
-private fun BuildType.configureDebugBuildType(apiKey: String) {
-    buildConfigField("String", "API_KEY", "\"$apiKey\"")
-    buildConfigField("String", "BASE_URL", "\"DEBUG_API_URL\"")
+private fun BuildType.configureDebugBuildType(
+    rescuedAnimalsBaseUrl: String,
+    animalInfoBaseUrl: String,
+    serviceKey: String
+) {
+    buildConfigField("String", "RESCUED_ANIMALS_BASE_URL", "\"$rescuedAnimalsBaseUrl\"")
+    buildConfigField("String", "ANIMAL_INFO_BASE_URL", "\"$animalInfoBaseUrl\"")
+    buildConfigField("String", "PUBLIC_SRVC_KEY", "\"$serviceKey\"")
 }
 
 //private fun BuildType.configureStagingBuildType(apiKey: String) {
@@ -65,10 +93,11 @@ private fun BuildType.configureDebugBuildType(apiKey: String) {
 
 private fun BuildType.configureReleaseBuildType(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
-    apiKey: String
+    rescuedAnimalsBaseUrl: String, animalInfoBaseUrl: String, serviceKey: String
 ) {
-    buildConfigField("String", "API_KEY", "\"$apiKey\"")
-    buildConfigField("String", "BASE_URL", "\"RELEASE_API_URL\"")
+    buildConfigField("String", "RESCUED_ANIMALS_BASE_URL", "\"$rescuedAnimalsBaseUrl\"")
+    buildConfigField("String", "ANIMAL_INFO_BASE_URL", "\"$animalInfoBaseUrl\"")
+    buildConfigField("String", "PUBLIC_SRVC_KEY", "\"$serviceKey\"")
 
 
     isMinifyEnabled = true

@@ -5,6 +5,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureKotlinAndroid(
@@ -16,7 +17,7 @@ internal fun Project.configureKotlinAndroid(
         defaultConfig.minSdk = 24
 
         compileOptions {
-            isCoreLibraryDesugaringEnabled = true
+//            isCoreLibraryDesugaringEnabled = true
             sourceCompatibility = JavaVersion.VERSION_17
             targetCompatibility = JavaVersion.VERSION_17
         }
@@ -31,8 +32,8 @@ internal fun Project.configureKotlinAndroid(
 
 private fun Project.configureKotlin() {
     tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_17.toString()
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 }

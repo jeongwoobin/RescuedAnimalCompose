@@ -15,6 +15,8 @@ dependencyResolutionManagement {
     }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "RescuedAnimals"
 include(":app")
 include(":domain")

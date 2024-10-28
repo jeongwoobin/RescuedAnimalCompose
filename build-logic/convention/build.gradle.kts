@@ -1,18 +1,15 @@
 plugins {
-    // private
     `kotlin-dsl`
 }
 
-
-//java {
-//    sourceCompatibility = JavaVersion.VERSION_17
-//    targetCompatibility = JavaVersion.VERSION_17
-//}
+group = "com.example.convention"
 
 dependencies {
     compileOnly(libs.android.gradlePlugin)
+//    compileOnly(libs.android.tools.common)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
+//    compileOnly(libs.room.gradlePlugin)
 }
 
 gradlePlugin {
@@ -24,6 +21,22 @@ gradlePlugin {
         register("androidApplicationCompose") {
             id = "multi.module.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
+        register("androidLibrary") {
+            id = "multi.module.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
+        register("androidLibraryCompose") {
+            id = "multi.module.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
+        register("androidPresentationUI") {
+            id = "multi.module.android.presentation.ui"
+            implementationClass = "AndroidPresentationUIConventionPlugin"
+        }
+        register("javaLibrary") {
+            id = "multi.module.java.library"
+            implementationClass = "JavaLibraryConventionPlugin"
         }
     }
 }
