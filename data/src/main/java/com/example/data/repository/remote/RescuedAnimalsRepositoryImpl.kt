@@ -2,12 +2,13 @@ package com.example.data.repository.remote
 
 import com.example.data.datasource.remote.RescuedAnimalsDataSource
 import com.example.data.mapper.SidoMapper
+import com.example.domain.entity.Sido
+import com.example.domain.repository.remote.RescuedAnimalsRepository
 import javax.inject.Inject
-import com.example.rescuedanimals.domain.entity.Sido
-import com.example.rescuedanimals.domain.repository.remote.RescuedAnimalsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import com.example.domain.entity.Result
 
 
 class RescuedAnimalsRepositoryImpl @Inject constructor(

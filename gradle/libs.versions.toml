@@ -1,5 +1,5 @@
 [versions]
-# Project versions
+# Project info
 projectApplicationId = "com.example.rescuedanimals"
 projectVersionName = "1.0"
 projectVersionCode = "1"
@@ -7,8 +7,9 @@ projectMinSdkVersion = "26"
 projectTargetSdkVersion = "34"
 projectCompileSdkVersion = "34"
 
+# basic
 agp = "8.5.2"
-kotlin = "2.0.21"#""1.9.22"
+kotlin = "2.0.21" #""1.9.22"
 ksp = "2.0.21-1.0.25" #"1.9.21-1.0.15"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -21,13 +22,13 @@ appcompat = "1.7.0"
 material = "1.12.0"
 jetbrainsKotlinJvm = "2.0.21"
 
-
-#hiltAndroid = "2.49"
+# private
+hiltAndroid = "2.49"
+retrofit = "2.11.0"
+okhttp = "4.12.0"
 #navigationCompose = "2.8.3"
 #pagingRuntimeKtx = "3.3.2"
-#retrofit = "2.11.0"
 #hiltNavigationCompose = "1.2.0"
-#okhttp = "4.12.0"
 #moshi = "1.15.1"
 #logger = "2.2.0"
 #roomKtx = "2.6.1"
@@ -41,9 +42,7 @@ ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devto
 #android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
 #room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 
-
-
-
+# basic
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -65,7 +64,14 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 
-
+# private
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltAndroid" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltAndroid" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hiltAndroid" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit"}
+okhttp-bom = { group = "com.squareup.okhttp3", name="okhttp-bom", version.ref = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
 
 #androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 #androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
@@ -74,13 +80,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 #androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomKtx" }
 #androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
 #androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
-#hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
-#hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
-#
-#retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-#retrofit-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit"}
-#okhttp-bom = { group = "com.squareup.okhttp3", name="okhttp-bom", version.ref = "okhttp" }
-#okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
+
 #moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 #logger = { module = "com.orhanobut:logger", version.ref = "logger" }
 #sandwich-retrofit = { module = "com.github.skydoves:sandwich-retrofit", version.ref = "sandwich" }
@@ -95,16 +95,19 @@ multi-module-android-library = { id = "multi.module.android.library", version = 
 multi-module-android-library-compose = { id = "multi.module.android.library.compose", version = "unspecified" }
 multi-module-android-presentation-ui = { id = "multi.module.android.presentation.ui", version = "unspecified" }
 multi-module-java-library = { id = "multi.module.java.library", version = "unspecified" }
+multi-module-android-hilt = { id = "multi.module.android.hilt", version = "unspecified" }
+multi-module-android-retrofit = { id = "multi.module.android.retrofit", version = "unspecified" }
 
+# basic
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
-
-#dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
-#devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+# private
+devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 
 
 [bundles]

@@ -1,6 +1,7 @@
 plugins {
     // 컨벤션 플러그인 적용
     alias(libs.plugins.multi.module.android.application.compose)
+    alias(libs.plugins.multi.module.android.hilt)
 }
 
 android {
