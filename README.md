@@ -1,6 +1,6 @@
-Android Clean Architecture Practice  
+# Android Clean Architecture Practice  
   
-doing  
+## doing  
   - Clean Architecture  
   - MVVM  
   - Repository Pattern  
@@ -10,7 +10,7 @@ doing
   - Room  
   - Compose  
   
-will do  
+## will do  
   - Multi Module(build-logic)  
   - navigation  
   - WorkManager  
