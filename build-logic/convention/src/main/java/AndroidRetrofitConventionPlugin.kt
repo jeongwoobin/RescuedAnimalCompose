@@ -12,8 +12,8 @@ class AndroidRetrofitConventionPlugin: Plugin<Project> {
             dependencies {
                 add("implementation", project.libs.findLibrary("retrofit").get())
                 add("implementation", project.libs.findLibrary("retrofit.converter.moshi").get())
-                add("implementation", platform(project.libs.findLibrary("okhttp.bom").get()))
                 add("implementation", project.libs.findLibrary("okhttp.logging.interceptor").get())
+                add("implementation", platform(project.libs.findLibrary("okhttp.bom").get()))
             }
         }
     }
