@@ -46,5 +46,13 @@ gradlePlugin {
             id = "multi.module.android.retrofit"
             implementationClass = "AndroidRetrofitConventionPlugin"
         }
+        register("androidMoshi") {
+            id = "multi.module.android.moshi"
+            implementationClass = "AndroidMoshiConventionPlugin"
+        }
+        register("androidLogger") {
+            id = "multi.module.android.logger"
+            implementationClass = "AndroidLoggerConventionPlugin"
+        }
     }
 }

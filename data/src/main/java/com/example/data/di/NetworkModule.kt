@@ -1,6 +1,5 @@
 package com.example.data.di
 
-import com.example.rescuedanimals.BuildConfig
 import com.example.data.util.AuthInterceptor
 import com.example.data.util.PublicSrvcParamInterceptor
 import com.squareup.moshi.Moshi

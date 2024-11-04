@@ -21,16 +21,17 @@ composeBom = "2024.10.00"
 appcompat = "1.7.0"
 material = "1.12.0"
 jetbrainsKotlinJvm = "2.0.21"
+composeCompiler = "1.5.15"
 
 # private
+logger = "2.2.0"
 hiltAndroid = "2.49"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
+moshi = "1.15.1"
 #navigationCompose = "2.8.3"
 #pagingRuntimeKtx = "3.3.2"
 #hiltNavigationCompose = "1.2.0"
-#moshi = "1.15.1"
-#logger = "2.2.0"
 #roomKtx = "2.6.1"
 #sandwich = "2.0.10"
 
@@ -65,6 +66,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 
 
 # private
+logger = { module = "com.orhanobut:logger", version.ref = "logger" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltAndroid" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltAndroid" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hiltAndroid" }
@@ -72,6 +74,7 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 retrofit-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit"}
 okhttp-bom = { group = "com.squareup.okhttp3", name="okhttp-bom", version.ref = "okhttp" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 
 #androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 #androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
@@ -81,8 +84,6 @@ okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-i
 #androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
 #androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 
-#moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
-#logger = { module = "com.orhanobut:logger", version.ref = "logger" }
 #sandwich-retrofit = { module = "com.github.skydoves:sandwich-retrofit", version.ref = "sandwich" }
 #sandwich = { module = "com.github.skydoves:sandwich", version.ref = "sandwich" }
 
@@ -97,6 +98,9 @@ multi-module-android-presentation-ui = { id = "multi.module.android.presentation
 multi-module-java-library = { id = "multi.module.java.library", version = "unspecified" }
 multi-module-android-hilt = { id = "multi.module.android.hilt", version = "unspecified" }
 multi-module-android-retrofit = { id = "multi.module.android.retrofit", version = "unspecified" }
+multi-module-android-moshi = { id = "multi.module.android.moshi", version = "unspecified" }
+multi-module-android-logger = { id = "multi.module.android.logger", version = "unspecified" }
+
 
 # basic
 android-application = { id = "com.android.application", version.ref = "agp" }
