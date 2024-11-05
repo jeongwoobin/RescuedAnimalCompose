@@ -11,11 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.viewmodel.MainViewModel
-import com.example.rescuedanimals.BuildConfig
-import com.example.rescuedanimals.ui.theme.RescuedAnimalsTheme
+import com.example.presentation.ui.theme.RescuedAnimalsTheme
 import dagger.hilt.android.AndroidEntryPoint
+//import androidx.hilt.navigation.compose.hiltViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -38,10 +37,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier, viewModel: MainViewModel = hiltViewModel()) {
+fun Greeting(name: String, modifier: Modifier = Modifier, /*viewModel: MainViewModel = hiltViewModel()*/) {
 
     Text(
-        text = "Hello ${BuildConfig.PUBLIC_SRVC_KEY}!",
+        text = "Hello!",
         modifier = modifier
     )
 

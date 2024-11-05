@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.example.domain.entity.Result
+import com.orhanobut.logger.Logger
 
 
 class RescuedAnimalsRepositoryImpl @Inject constructor(

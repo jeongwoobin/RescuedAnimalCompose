@@ -1,6 +1,6 @@
 package com.example.data.util
 
-import com.example.rescuedanimals.BuildConfig
+import com.example.data.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.net.URLDecoder

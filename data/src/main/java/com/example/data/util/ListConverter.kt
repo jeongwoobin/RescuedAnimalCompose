@@ -2,7 +2,7 @@ package com.example.data.util
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-import com.example.rescuedanimals.domain.entity.Animal
+import com.example.domain.entity.Animal
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types

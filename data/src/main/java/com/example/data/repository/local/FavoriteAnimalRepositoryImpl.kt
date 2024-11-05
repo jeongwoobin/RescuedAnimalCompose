@@ -2,11 +2,12 @@ package com.example.data.repository.local
 
 import com.example.data.datasource.local.FavoriteAnimalDataSource
 import com.example.data.mapper.AnimalMapper
-import com.example.rescuedanimals.domain.entity.Animal
-import com.example.rescuedanimals.domain.repository.local.FavoriteAnimalRepository
+import com.example.domain.entity.Animal
+import com.example.domain.repository.local.FavoriteAnimalRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import com.example.domain.entity.Result
 
 class FavoriteAnimalRepositoryImpl @Inject constructor(
     private val favoriteAnimalDataSource: FavoriteAnimalDataSource

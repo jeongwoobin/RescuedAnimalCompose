@@ -2,10 +2,10 @@ package com.example.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.rescuedanimals.domain.usecase.DeleteFavoriteAnimalUseCase
-import com.example.rescuedanimals.domain.usecase.GetFavoriteAnimalUseCase
-import com.example.rescuedanimals.domain.usecase.GetSidoUseCase
-import com.example.rescuedanimals.domain.usecase.InsertFavoriteAnimalUseCase
+import com.example.domain.usecase.GetSidoUseCase
+import com.example.domain.usecase.DeleteFavoriteAnimalUseCase
+import com.example.domain.usecase.GetFavoriteAnimalUseCase
+import com.example.domain.usecase.InsertFavoriteAnimalUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

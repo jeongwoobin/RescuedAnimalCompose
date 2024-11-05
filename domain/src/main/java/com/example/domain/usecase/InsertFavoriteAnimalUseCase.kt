@@ -1,8 +1,8 @@
 package com.example.domain.usecase
 
-import com.example.rescuedanimals.domain.entity.Animal
-import com.example.rescuedanimals.domain.entity.Result
-import com.example.rescuedanimals.domain.repository.local.FavoriteAnimalRepository
+import com.example.domain.entity.Animal
+import com.example.domain.entity.Result
+import com.example.domain.repository.local.FavoriteAnimalRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

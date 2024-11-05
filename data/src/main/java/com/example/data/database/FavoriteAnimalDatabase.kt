@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.data.util.ListConverter
-import com.example.rescuedanimals.domain.entity.Animal
+import com.example.domain.entity.Animal
 
 @Database(entities = [Animal::class], version = 1, exportSchema = false)
 @TypeConverters(ListConverter::class)

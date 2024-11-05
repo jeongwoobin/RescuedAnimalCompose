@@ -8,7 +8,7 @@ class AndroidHiltConventionPlugin: Plugin<Project> {
         target.run {
             pluginManager.run {
                 apply("com.google.devtools.ksp")
-                apply("dagger.hilt.android.plugin")
+                apply("com.google.dagger.hilt.android")
             }
 
             dependencies {
@@ -16,6 +16,7 @@ class AndroidHiltConventionPlugin: Plugin<Project> {
                 add("implementation", project.libs.findLibrary("hilt.android").get())
                 add("testImplementation", project.libs.findLibrary("hilt.android.testing").get())
                 add("kspTest", project.libs.findLibrary("hilt.android.compiler").get())
+                add("implementation", project.libs.findLibrary("androidx.hilt.navigation.compose").get())
             }
         }
     }

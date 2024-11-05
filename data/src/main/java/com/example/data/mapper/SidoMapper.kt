@@ -1,7 +1,7 @@
 package com.example.data.mapper
 
 import com.example.data.model.remote.SidoEntity
-import com.example.rescuedanimals.domain.entity.Sido
+import com.example.domain.entity.Sido
 
 object SidoMapper {
     operator fun invoke(sidoEntity: List<SidoEntity>): List<Sido> {
