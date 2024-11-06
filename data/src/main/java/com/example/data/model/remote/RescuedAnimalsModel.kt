@@ -1,6 +1,8 @@
 package com.example.data.model.remote
 
 import androidx.annotation.Keep
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.JsonClass
 
 @Keep
@@ -19,8 +21,10 @@ data class SidoEntity(
 
 @Keep
 @JsonClass(generateAdapter = true)
+@Entity(tableName = "animal")
 data class AnimalEntity(
-    val desertionNo: String?,
+    @PrimaryKey(autoGenerate = false)
+    val desertionNo: String,
     val filename: String?,
     val happenDt: String?,
     val happenPlace: String?,
@@ -42,4 +46,5 @@ data class AnimalEntity(
     val orgNm: String?,
     val chargeNm: String?,
     val officetel: String?,
+    val favorite: Boolean?
 )

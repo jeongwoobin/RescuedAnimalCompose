@@ -24,7 +24,7 @@ class DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideFavoriteAnimalRemoteDataSource(favoriteAnimalDao: FavoriteAnimalDao): FavoriteAnimalDataSource {
+    fun provideFavoriteAnimalLocalDataSource(favoriteAnimalDao: FavoriteAnimalDao): FavoriteAnimalDataSource {
         return FavoriteAnimalDataSourceImpl(favoriteAnimalDao)
     }
 }

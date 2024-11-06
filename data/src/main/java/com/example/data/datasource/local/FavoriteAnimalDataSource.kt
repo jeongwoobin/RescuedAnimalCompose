@@ -1,16 +1,16 @@
 package com.example.data.datasource.local
 
-import com.example.data.model.local.DBAnimalEntity
+import com.example.data.model.remote.AnimalEntity
 import kotlinx.coroutines.flow.Flow
 
 interface FavoriteAnimalDataSource {
-    suspend fun getAll(): Flow<List<DBAnimalEntity>>
+    suspend fun selectAll(): Flow<List<AnimalEntity>>
 
-    suspend fun getFavoriteAnimal(desertionNo: String): Flow<DBAnimalEntity>
+    suspend fun selectFavoriteAnimal(desertionNo: String): Flow<AnimalEntity>
 
-    suspend fun insertFavoriteAnimal(favoriteAnimal: DBAnimalEntity): Flow<Long>
+    suspend fun insertFavoriteAnimal(favoriteAnimal: AnimalEntity): Flow<Long>
 
-    suspend fun deleteFavoriteAnimal(desertionNo: String): Flow<Long>
+    suspend fun deleteFavoriteAnimal(desertionNo: String): Flow<Int>
 
-    suspend fun deleteAll(): Flow<Long>
+    suspend fun deleteAll(): Flow<Int>
 }

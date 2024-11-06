@@ -3,6 +3,7 @@ package com.example.data.di
 import com.example.data.BuildConfig
 import com.example.data.util.AuthInterceptor
 import com.example.data.util.PublicSrvcParamInterceptor
+import com.orhanobut.logger.Logger
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -23,9 +24,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideMoshiConverterFactory(): MoshiConverterFactory {
-        val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
+        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
         return MoshiConverterFactory.create(moshi)
     }
@@ -34,9 +33,9 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().apply {
-            setLevel(HttpLoggingInterceptor.Level.BODY)
-        }
+        return HttpLoggingInterceptor { message ->
+            Logger.t("Okhttp").i(message)
+        }.setLevel(level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE)
     }
 
     @Provides
@@ -59,40 +58,30 @@ object NetworkModule {
         authInterceptor: AuthInterceptor,
         publicSrvcParamInterceptor: PublicSrvcParamInterceptor
     ): OkHttpClient {
-        return OkHttpClient.Builder()
-            .apply {
-                addInterceptor(authInterceptor)
-                addInterceptor(publicSrvcParamInterceptor)
-                addInterceptor(httpLoggingInterceptor)
-            }
-            .build()
+        return OkHttpClient.Builder().apply {
+            addInterceptor(httpLoggingInterceptor)
+            addInterceptor(authInterceptor)
+            addInterceptor(publicSrvcParamInterceptor)
+        }.build()
     }
 
     @Singleton
     @Provides
     @Named("RescuedAnimals")
     fun provideRescuedAnimalsRetrofit(
-        okHttpClient: OkHttpClient,
-        moshiConverterFactory: MoshiConverterFactory
+        okHttpClient: OkHttpClient, moshiConverterFactory: MoshiConverterFactory
     ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(BuildConfig.RESCUED_ANIMALS_BASE_URL)
-            .addConverterFactory(moshiConverterFactory)
-            .client(okHttpClient)
-            .build()
+        return Retrofit.Builder().baseUrl(BuildConfig.RESCUED_ANIMALS_BASE_URL)
+            .addConverterFactory(moshiConverterFactory).client(okHttpClient).build()
     }
 
     @Singleton
     @Provides
     @Named("AnimalInfo")
     fun provideAnimalInfoRetrofit(
-        okHttpClient: OkHttpClient,
-        moshiConverterFactory: MoshiConverterFactory
+        okHttpClient: OkHttpClient, moshiConverterFactory: MoshiConverterFactory
     ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(BuildConfig.ANIMAL_INFO_BASE_URL)
-            .addConverterFactory(moshiConverterFactory)
-            .client(okHttpClient)
-            .build()
+        return Retrofit.Builder().baseUrl(BuildConfig.ANIMAL_INFO_BASE_URL)
+            .addConverterFactory(moshiConverterFactory).client(okHttpClient).build()
     }
 }

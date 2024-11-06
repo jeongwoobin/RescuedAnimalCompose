@@ -28,7 +28,7 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun providesDao(favoriteAnimalDatabase: FavoriteAnimalDatabase) : FavoriteAnimalDao {
-        return favoriteAnimalDatabase.getFavoriteAnimalDao()
+        return favoriteAnimalDatabase.favoriteAnimalDao()
     }
 
 }

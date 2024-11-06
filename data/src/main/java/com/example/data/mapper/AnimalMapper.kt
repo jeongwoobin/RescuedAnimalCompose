@@ -1,11 +1,11 @@
 package com.example.data.mapper
 
-import com.example.data.model.local.DBAnimalEntity
+import com.example.data.model.remote.AnimalEntity
 import com.example.domain.entity.Animal
 
-
 object AnimalMapper {
-    fun mapperToAnimal(entity: DBAnimalEntity): Animal =
+
+    fun mapperToAnimal(entity: AnimalEntity): Animal =
         Animal(
             desertionNo = entity.desertionNo,
             filename = entity.filename,
@@ -29,19 +29,20 @@ object AnimalMapper {
             orgNm = entity.orgNm,
             chargeNm = entity.chargeNm,
             officetel = entity.officetel,
+            favorite = entity.favorite
         )
 
-    fun mapperToAnimalList(dbAnimalEntity: List<DBAnimalEntity>): List<Animal> {
+    fun mapperToAnimalList(animalEntity: List<AnimalEntity>): List<Animal> {
         val animals = mutableListOf<Animal>()
 
-        dbAnimalEntity.forEach { entity ->
+        animalEntity.forEach { entity ->
             animals.add(mapperToAnimal(entity))
         }
         return animals.toList()
     }
 
-    fun mapperToAnimalEntity(entity: Animal): DBAnimalEntity =
-        DBAnimalEntity(
+    fun mapperToAnimalEntity(entity: Animal): AnimalEntity =
+        AnimalEntity(
             desertionNo = entity.desertionNo,
             filename = entity.filename,
             happenDt = entity.happenDt,
@@ -64,10 +65,11 @@ object AnimalMapper {
             orgNm = entity.orgNm,
             chargeNm = entity.chargeNm,
             officetel = entity.officetel,
+            favorite = entity.favorite
         )
 
-    fun mapperToAnimalEntityList(animalEntity: List<Animal>): List<DBAnimalEntity> {
-        val animals = mutableListOf<DBAnimalEntity>()
+    fun mapperToAnimalEntityList(animalEntity: List<Animal>): List<AnimalEntity> {
+        val animals = mutableListOf<AnimalEntity>()
 
         animalEntity.forEach { entity ->
             animals.add(mapperToAnimalEntity(entity))
