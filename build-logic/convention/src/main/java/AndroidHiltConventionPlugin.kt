@@ -7,8 +7,8 @@ class AndroidHiltConventionPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         target.run {
             pluginManager.run {
-                apply("com.google.devtools.ksp")
                 apply("com.google.dagger.hilt.android")
+                apply("com.google.devtools.ksp")
             }
 
             dependencies {
