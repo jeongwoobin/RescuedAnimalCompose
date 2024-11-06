@@ -6,10 +6,10 @@ group = "com.example.convention"
 
 dependencies {
     compileOnly(libs.android.gradlePlugin)
-//    compileOnly(libs.android.tools.common)
+    compileOnly(libs.android.tools.common)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
-//    compileOnly(libs.room.gradlePlugin)
+    compileOnly(libs.room.gradlePlugin)
 }
 
 gradlePlugin {
@@ -30,10 +30,10 @@ gradlePlugin {
             id = "multi.module.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
-        register("androidPresentationUI") {
-            id = "multi.module.android.presentation.ui"
-            implementationClass = "AndroidPresentationUIConventionPlugin"
-        }
+//        register("androidPresentationUI") {
+//            id = "multi.module.android.presentation.ui"
+//            implementationClass = "AndroidPresentationUIConventionPlugin"
+//        }
         register("javaLibrary") {
             id = "multi.module.java.library"
             implementationClass = "JavaLibraryConventionPlugin"
@@ -53,6 +53,10 @@ gradlePlugin {
         register("androidLogger") {
             id = "multi.module.android.logger"
             implementationClass = "AndroidLoggerConventionPlugin"
+        }
+        register("androidRoom") {
+            id = "multi.module.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
         }
     }
 }

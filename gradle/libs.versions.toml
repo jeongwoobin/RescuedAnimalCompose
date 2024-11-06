@@ -9,6 +9,7 @@ projectCompileSdkVersion = "34"
 
 # basic
 agp = "8.5.2"
+androidTools = "31.7.2"
 kotlin = "2.0.21" #""1.9.22"
 ksp = "2.0.21-1.0.25" #"1.9.21-1.0.15"
 coreKtx = "1.13.1"
@@ -24,15 +25,16 @@ jetbrainsKotlinJvm = "2.0.21"
 composeCompiler = "1.5.15"
 
 # private
+kotlinxCoroutines = "1.9.0"
 logger = "2.2.0"
 hiltAndroid = "2.49"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
 moshi = "1.15.1"
-#navigationCompose = "2.8.3"
+navigationCompose = "2.8.3"
+hiltNavigationCompose = "1.2.0"
+roomKtx = "2.6.1"
 #pagingRuntimeKtx = "3.3.2"
-#hiltNavigationCompose = "1.2.0"
-#roomKtx = "2.6.1"
 #sandwich = "2.0.10"
 
 [libraries]
@@ -40,8 +42,8 @@ moshi = "1.15.1"
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "jetbrainsKotlinJvm" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-#android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
-#room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "roomKtx" }
 
 # basic
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -75,14 +77,19 @@ retrofit-converter-moshi = { group = "com.squareup.retrofit2", name = "converter
 okhttp-bom = { group = "com.squareup.okhttp3", name="okhttp-bom", version.ref = "okhttp" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomKtx" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
-#androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-#androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+# Kotlin
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hiltAndroid" }
+
+
 #androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingRuntimeKtx" }
 #androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
-#androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomKtx" }
-#androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
-#androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 
 #sandwich-retrofit = { module = "com.github.skydoves:sandwich-retrofit", version.ref = "sandwich" }
 #sandwich = { module = "com.github.skydoves:sandwich", version.ref = "sandwich" }
@@ -100,6 +107,7 @@ multi-module-android-hilt = { id = "multi.module.android.hilt", version = "unspe
 multi-module-android-retrofit = { id = "multi.module.android.retrofit", version = "unspecified" }
 multi-module-android-moshi = { id = "multi.module.android.moshi", version = "unspecified" }
 multi-module-android-logger = { id = "multi.module.android.logger", version = "unspecified" }
+multi-module-android-room = { id = "multi.module.android.room", version = "unspecified" }
 
 
 # basic
@@ -115,16 +123,17 @@ dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hi
 
 
 [bundles]
-compose = [
-    "androidx-activity-compose",
-    "androidx-lifecycle-runtime-compose",
-    "androidx-lifecycle-viewmodel-compose",
-    "androidx-material3",
-    "androidx-ui",
-    "androidx-ui-graphics",
-    "androidx-ui-tooling-preview",
-]
-compose-debug = [
-    "androidx-ui-tooling",
-    "androidx-ui-test-manifest",
-]
+#compose = [
+#    "androidx-activity-compose",
+#    "androidx-lifecycle-runtime-compose",
+#    "androidx-lifecycle-viewmodel-compose",
+#    "androidx-material3",
+#    "androidx-ui",
+#    "androidx-ui-graphics",
+#    "androidx-ui-tooling-preview",
+#    "androidx-navigation-compose"
+#]
+#compose-debug = [
+#    "androidx-ui-tooling",
+#    "androidx-ui-test-manifest",
+#]

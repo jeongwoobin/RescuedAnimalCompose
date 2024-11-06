@@ -1,6 +1,7 @@
 plugins {
     // 컨벤션 플러그인 적용
     alias(libs.plugins.multi.module.android.application.compose)
+    alias(libs.plugins.multi.module.android.logger)
     alias(libs.plugins.multi.module.android.hilt)
 }
 
@@ -20,6 +21,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 }
 
 dependencies {
@@ -38,4 +40,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // private
+    implementation(projects.domain)
+    implementation(projects.data)
+    implementation(projects.presentation)
 }

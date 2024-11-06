@@ -1,7 +1,7 @@
 package com.example.data.mapper
 
 import com.example.data.model.local.DBAnimalEntity
-import com.example.rescuedanimals.domain.entity.Animal
+import com.example.domain.entity.Animal
 
 
 object AnimalMapper {

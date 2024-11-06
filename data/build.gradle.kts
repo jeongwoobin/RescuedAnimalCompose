@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.multi.module.android.hilt)
     alias(libs.plugins.multi.module.android.retrofit)
     alias(libs.plugins.multi.module.android.moshi)
+    alias(libs.plugins.multi.module.android.room)
 }
 
 android {
