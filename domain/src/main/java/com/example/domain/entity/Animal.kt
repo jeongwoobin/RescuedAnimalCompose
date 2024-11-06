@@ -1,7 +1,11 @@
 package com.example.domain.entity
 
+//import androidx.annotation.Keep
+
+//@Keep
+//@JsonClass(generateAdapter = true)
 data class Animal(
-    val desertionNo: String?,
+    val desertionNo: String,
     val filename: String?,
     val happenDt: String?,
     val happenPlace: String?,
@@ -23,4 +27,5 @@ data class Animal(
     val orgNm: String?,
     val chargeNm: String?,
     val officetel: String?,
+    var favorite: Boolean?
 )

@@ -9,12 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.presentation.viewmodel.MainViewModel
 import com.example.presentation.ui.theme.RescuedAnimalsTheme
 import dagger.hilt.android.AndroidEntryPoint
-//import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -37,7 +38,12 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier, /*viewModel: MainViewModel = hiltViewModel()*/) {
+fun Greeting(name: String, modifier: Modifier = Modifier, viewModel: MainViewModel = hiltViewModel()) {
+
+    LaunchedEffect(Unit) {
+        viewModel.getSido()
+        viewModel.getRescuedAnimal()
+    }
 
     Text(
         text = "Hello!",

@@ -8,19 +8,19 @@ data class Result<out T>(
 
     companion object {
 
-        fun <T> success(data: T?): Result<T> {
+        fun <T> success(data: T? = null): Result<T> {
             return Result(Status.SUCCESS, data, null)
         }
 
-        fun <T> error(message: String, data: T?): Result<T> {
+        fun <T> error(message: String, data: T? = null): Result<T> {
             return Result(Status.ERROR, data, message)
         }
 
-        fun <T> fail(): Result<T> {
-            return Result(Status.FAIL, null, null)
+        fun <T> fail(message: String): Result<T> {
+            return Result(Status.FAIL, null, message)
         }
 
-        fun <T> loading(data: T?): Result<T> {
+        fun <T> loading(data: T? = null): Result<T> {
             return Result(Status.LOADING, data, null)
         }
     }
