@@ -16,6 +16,7 @@ import com.example.presentation.viewmodel.MainViewModel
 import com.example.presentation.ui.theme.RescuedAnimalsTheme
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -38,24 +39,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier, viewModel: MainViewModel = hiltViewModel()) {
-
-    LaunchedEffect(Unit) {
-        viewModel.getSido()
-        viewModel.getRescuedAnimal()
-    }
-
-    Text(
-        text = "Hello!",
-        modifier = modifier
-    )
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RescuedAnimalsTheme {
-        Greeting("Android")
-    }
+fun SetNavigation(internetConnected: Boolean) {
+    val navController = rememberNavController()
+    val startDestination =
+        if (internetConnected) Screen.RescuedAnimalScreen.route else Screen.FavoriteScreen.route
+    MainNavGraph(navController = navController, startDestination = startDestination)
 }
