@@ -2,14 +2,14 @@ package com.example.presentation.screens.favoriteScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.rescuedanimals.domain.entity.Animal
-import com.example.rescuedanimals.domain.entity.Event
-import com.example.rescuedanimals.domain.entity.Result
-import com.example.rescuedanimals.domain.entity.Status
-import com.example.rescuedanimals.domain.usecase.DeleteFavoriteAnimalUseCase
-import com.example.rescuedanimals.domain.usecase.SelectFavoriteAnimalUseCase
-import com.example.rescuedanimals.domain.usecase.InsertFavoriteAnimalUseCase
-import com.example.rescuedanimals.presentation.utils.Utils
+import com.example.domain.entity.Animal
+import com.example.domain.entity.Event
+import com.example.domain.entity.Result
+import com.example.domain.entity.Status
+import com.example.domain.usecase.DeleteFavoriteAnimalUseCase
+import com.example.domain.usecase.SelectFavoriteAnimalUseCase
+import com.example.domain.usecase.InsertFavoriteAnimalUseCase
+import com.example.presentation.utils.Utils
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
