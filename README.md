@@ -16,3 +16,4 @@
   - WorkManager  
   - Google Analytics
   - test code
+  - UI Test
