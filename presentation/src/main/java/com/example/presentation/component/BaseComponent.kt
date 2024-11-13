@@ -11,13 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.ArrowCircleUp
-import androidx.compose.material.icons.filled.Downloading
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FormatListNumbered
-import androidx.compose.material.icons.filled.Http
-import androidx.compose.material.icons.filled.TagFaces
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
