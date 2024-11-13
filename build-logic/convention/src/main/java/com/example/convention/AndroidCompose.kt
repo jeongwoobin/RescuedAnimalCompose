@@ -20,12 +20,12 @@ internal fun Project.configureAndroidCompose(
             val bom = libs.findLibrary("androidx.compose.bom").get()
             add("implementation", platform(bom))
             add("androidTestImplementation", platform(bom))
-            add("debugImplementation", libs.findLibrary("androidx.ui.tooling.preview").get())
+//            add("debugImplementation", libs.findLibrary("androidx.ui.tooling.preview").get())
 
 //            add("implementation", project.libs.findBundle("compose").get())
 //            add("implementation", project.libs.findBundle("compose.debug").get())
 //            add("debugImplementation", project.libs.findBundle("compose.debug").get())
-            add("androidTestImplementation", project.libs.findLibrary("androidx.ui.test.junit4").get())
+//            add("androidTestImplementation", project.libs.findLibrary("androidx.ui.test.junit4").get())
 
         }
     }

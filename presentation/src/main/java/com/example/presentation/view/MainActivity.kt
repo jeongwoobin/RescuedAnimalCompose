@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -17,6 +18,8 @@ import com.example.presentation.ui.theme.RescuedAnimalsTheme
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.presentation.navigation.Screen
+import com.example.rescuedanimals.presentation.navigation.MainNavGraph
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -28,10 +31,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             RescuedAnimalsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Box(modifier = Modifier.padding(innerPadding)) {
+                        SetNavigation(internetConnected = true)
+                    }
                 }
             }
         }
@@ -42,6 +44,8 @@ class MainActivity : ComponentActivity() {
 fun SetNavigation(internetConnected: Boolean) {
     val navController = rememberNavController()
     val startDestination =
-        if (internetConnected) Screen.RescuedAnimalScreen.route else Screen.FavoriteScreen.route
+//        if (internetConnected)
+            Screen.RescuedAnimalScreen.route
+//        else Screen.FavoriteScreen.route
     MainNavGraph(navController = navController, startDestination = startDestination)
 }

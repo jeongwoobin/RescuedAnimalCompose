@@ -11,6 +11,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.ArrowCircleUp
+import androidx.compose.material.icons.filled.Downloading
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FormatListNumbered
+import androidx.compose.material.icons.filled.Http
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
@@ -18,7 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.VerticalDivider
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+//import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -34,7 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
-import androidx.window.core.layout.WindowWidthSizeClass
+//import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.presentation.navigation.Screen
 import com.example.presentation.ui.theme.Line_Thin
 import com.example.presentation.ui.theme.Primary_Red_500
@@ -49,9 +55,9 @@ fun Header(
     route: Screen,
     rightButtonClicked: (() -> Unit)? = null
 ) {
-    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+//    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 
-    if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT)
+//    if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -80,35 +86,35 @@ fun Header(
                 )
             }
         }
-    else
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .padding(vertical = 20.dp, horizontal = 10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            backButtonClicked?.let { onClicked ->
-                VectorIcon(
-                    modifier = Modifier.clickable {
-                        onClicked()
-                    },
-                    vector = Icons.Default.ArrowBackIosNew,
-                    tint = Text_600,
-                    contentDescription = "go to back"
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            rightButtonClicked?.let { onClicked ->
-                VectorIcon(
-                    modifier = Modifier.clickable {
-                        onClicked()
-                    },
-                    vector = if (route == Screen.RescuedAnimalScreen) Icons.Default.Favorite else Icons.Default.FormatListNumbered,
-                    tint = if (route == Screen.RescuedAnimalScreen) Primary_Red_500 else Text_600,
-                    contentDescription = "right button icon"
-                )
-            }
-        }
+//    else
+//        Column(
+//            modifier = Modifier
+//                .fillMaxHeight()
+//                .padding(vertical = 20.dp, horizontal = 10.dp),
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//        ) {
+//            backButtonClicked?.let { onClicked ->
+//                VectorIcon(
+//                    modifier = Modifier.clickable {
+//                        onClicked()
+//                    },
+//                    vector = Icons.Default.ArrowBackIosNew,
+//                    tint = Text_600,
+//                    contentDescription = "go to back"
+//                )
+//            }
+//            Spacer(modifier = Modifier.weight(1f))
+//            rightButtonClicked?.let { onClicked ->
+//                VectorIcon(
+//                    modifier = Modifier.clickable {
+//                        onClicked()
+//                    },
+//                    vector = if (route == Screen.RescuedAnimalScreen) Icons.Default.Favorite else Icons.Default.FormatListNumbered,
+//                    tint = if (route == Screen.RescuedAnimalScreen) Primary_Red_500 else Text_600,
+//                    contentDescription = "right button icon"
+//                )
+//            }
+//        }
 }
 
 @Composable

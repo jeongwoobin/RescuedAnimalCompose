@@ -30,10 +30,10 @@ gradlePlugin {
             id = "multi.module.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
-//        register("androidPresentationUI") {
-//            id = "multi.module.android.presentation.ui"
-//            implementationClass = "AndroidPresentationUIConventionPlugin"
-//        }
+        register("androidPresentationUI") {
+            id = "multi.module.android.presentation.ui"
+            implementationClass = "AndroidPresentationUIConventionPlugin"
+        }
         register("javaLibrary") {
             id = "multi.module.java.library"
             implementationClass = "JavaLibraryConventionPlugin"
