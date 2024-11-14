@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RescuedAnimalsTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = {}) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
                         SetNavigation(internetConnected = true)
                     }
