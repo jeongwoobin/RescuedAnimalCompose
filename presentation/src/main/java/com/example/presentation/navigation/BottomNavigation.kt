@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
