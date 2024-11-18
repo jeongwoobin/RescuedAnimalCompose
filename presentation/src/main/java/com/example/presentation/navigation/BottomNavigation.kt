@@ -20,26 +20,26 @@ sealed class MenuItem(
     @DrawableRes val iconId: Int,
     // Resource ID of the label text for the menu item
     @StringRes val labelId: Int,
-    // ID of a destination to navigate users
-    @IdRes val destinationId: Int
+    // Route of a destination to navigate
+    val screenRoute: String
 ) {
 
     data object Home: MenuItem(
         R.drawable.ic_baseline_home_24,
         R.string.home,
-        R.id.SportsListFragment
+        "Home"
     )
 
     data object Favorites: MenuItem(
         R.drawable.ic_baseline_favorite_24,
         R.string.favorites,
-        R.id.FavoritesFragment
+        "Favorite"
     )
 
-    data object Settings: MenuItem(
+    data object MyPage: MenuItem(
         R.drawable.ic_baseline_settings_24,
-        R.string.settings,
-        R.id.SettingsFragment
+        R.string.mypage,
+        "MyPage"
     )
 }
 
