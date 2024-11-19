@@ -8,17 +8,14 @@ import com.example.presentation.screens.myPage.myPageScreenRoute
 import com.example.presentation.screens.rescuedAnimalScreen.rescuedAnimalScreenRoute
 
 @Composable
-fun MainNavGraph(navController: NavHostController, startDestination: String) {
+fun MyPageNavGraph(navController: NavHostController, startDestination: String) {
 
     NavHost(navController = navController, startDestination = startDestination) {
 
-        // RescuedAnimalScreen
-        rescuedAnimalScreenRoute(navController = navController)
-
-        // favoriteScreen
-        favoriteScreenRoute(navController = navController)
-
         // myPageScreen
         myPageScreenRoute(navController = navController)
+
+        // findMyPet
+
     }
 }

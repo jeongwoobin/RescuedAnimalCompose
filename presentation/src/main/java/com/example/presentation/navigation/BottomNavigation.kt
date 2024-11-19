@@ -1,9 +1,9 @@
 package com.example.presentation.navigation
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -12,39 +12,40 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.presentation.R
+import com.orhanobut.logger.Logger
+import com.skydoves.landscapist.glide.GlideImage
 
-sealed class MenuItem(
+sealed class BottomNavItem(
+    // Resource ID of the title for the menu item
+    @StringRes val title: Int,
     // Resource ID of the icon for the menu item
-    @DrawableRes val iconId: Int,
-    // Resource ID of the label text for the menu item
-    @StringRes val labelId: Int,
+    @DrawableRes val icon: Int,
     // Route of a destination to navigate
     val screenRoute: String
 ) {
 
-    data object Home: MenuItem(
-        R.drawable.ic_baseline_home_24,
-        R.string.home,
-        "Home"
+    data object Home : BottomNavItem(
+        R.string.home, R.drawable.ic_home, Screen.RescuedAnimalScreen.route
     )
 
-    data object Favorites: MenuItem(
-        R.drawable.ic_baseline_favorite_24,
-        R.string.favorites,
-        "Favorite"
+    data object Favorites : BottomNavItem(
+        R.string.favorites, R.drawable.ic_favorite, Screen.FavoriteScreen.route
     )
 
-    data object MyPage: MenuItem(
-        R.drawable.ic_baseline_settings_24,
-        R.string.mypage,
-        "MyPage"
+    data object MyPage : BottomNavItem(
+        R.string.myPage, R.drawable.ic_mypage, Screen.MyPageScreen.route
     )
 }
 
 @Composable
-private fun MyBottomNavigation(
+fun MyBottomNavigation(
     modifier: Modifier = Modifier,
     containerColor: Color,
     contentColor: Color,
@@ -54,10 +55,10 @@ private fun MyBottomNavigation(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     val items = listOf(
-        BottomNavItem.Home,
-        BottomNavItem.Rating,
-        BottomNavItem.Profile
+        BottomNavItem.Home, BottomNavItem.Favorites, BottomNavItem.MyPage
     )
+
+    Logger.d("currentRoute: $currentRoute")
 
     AnimatedVisibility(
         visible = items.map { it.screenRoute }.contains(currentRoute)
@@ -73,21 +74,19 @@ private fun MyBottomNavigation(
                     label = {
                         Text(
                             text = stringResource(id = item.title),
-                            style = TextStyle(
-                                fontSize = 12.sp
-                            )
+//                            style = TextStyle(
+//                                fontSize = 12.sp
+//                            )
                         )
                     },
                     icon = {
-                        Icon(
-                            painter = painterResource(id = item.icon),
-                            contentDescription = stringResource(id = item.title)
-                        )
+                        GlideImage(modifier = Modifier.size(24.dp), imageModel = { item.icon })
                     },
                     onClick = {
                         navController.navigate(item.screenRoute) {
-                            navController.graph.startDestinationRoute?.let {
-                                popUpTo(it) { saveState = true }
+
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
                             }
                             launchSingleTop = true
                             restoreState = true

@@ -168,7 +168,7 @@ fun AnimalItemCompact(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit
             .border(BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(10.dp))
             .padding(10.dp),
     ) {
-        Logger.d("${item.favorite}")
+//        Logger.d("itemFavorite: ${item.favorite}")
         Row(
             modifier = Modifier
                 .fillMaxWidth()
