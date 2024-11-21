@@ -32,6 +32,7 @@ class AndroidLibraryConventionPlugin: Plugin<Project> {
 
             dependencies {
                 add("implementation", project.libs.findLibrary("logger").get())
+                add("testImplementation", project.libs.findLibrary("junit").get())
             }
         }
     }
