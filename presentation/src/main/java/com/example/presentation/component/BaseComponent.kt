@@ -47,7 +47,6 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 //import androidx.window.core.layout.WindowWidthSizeClass
-import com.example.presentation.navigation.Screen
 import com.example.presentation.ui.theme.Line_Thin
 import com.example.presentation.ui.theme.Primary_Red_500
 import com.example.presentation.ui.theme.Text_600
@@ -60,8 +59,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun Header(
     backButtonClicked: (() -> Unit)? = null,
-    route: Screen,
-    rightButtonClicked: (() -> Unit)? = null
+//    rightButtonClicked: (() -> Unit)? = null
 ) {
 //    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 
@@ -83,16 +81,16 @@ fun Header(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
-            rightButtonClicked?.let { onClicked ->
-                VectorIcon(
-                    modifier = Modifier.clickable {
-                        onClicked()
-                    },
-                    vector = if (route == Screen.RescuedAnimalScreen) Icons.Default.Favorite else Icons.Default.FormatListNumbered,
-                    tint = if (route == Screen.RescuedAnimalScreen) Primary_Red_500 else Text_600,
-                    contentDescription = "right button icon"
-                )
-            }
+//            rightButtonClicked?.let { onClicked ->
+//                VectorIcon(
+//                    modifier = Modifier.clickable {
+//                        onClicked()
+//                    },
+//                    vector = if (route == Screen.RescuedAnimalScreen) Icons.Default.Favorite else Icons.Default.FormatListNumbered,
+//                    tint = if (route == Screen.RescuedAnimalScreen) Primary_Red_500 else Text_600,
+//                    contentDescription = "right button icon"
+//                )
+//            }
         }
 //    else
 //        Column(

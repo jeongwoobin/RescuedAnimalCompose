@@ -26,7 +26,6 @@ import com.example.presentation.component.LinearProgressBar
 import com.example.presentation.component.AnimalList
 import com.example.presentation.component.HDivider
 import com.example.presentation.component.VDivider
-import com.example.presentation.navigation.Screen
 import com.example.rescuedanimals.presentation.screens.rescuedAnimalScreen.RescuedAnimalViewModel
 import kotlinx.coroutines.launch
 
@@ -61,11 +60,7 @@ fun RescuedAnimalScreen(
         }) {
 //        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT)
             Column {
-                Header(
-                    route = Screen.RescuedAnimalScreen,
-                    rightButtonClicked = {
-                        navController.navigate(Screen.FavoriteScreen.route)
-                    })
+                Header()
                 HDivider(modifier = Modifier.padding(horizontal = 20.dp))
                 CustomPullToRefreshBox(
                     modifier = Modifier

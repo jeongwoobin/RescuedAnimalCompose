@@ -1,7 +1,6 @@
-package com.example.presentation.viewmodel
+package com.example.presentation.screens
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.GetSidoUseCase
 import com.example.domain.usecase.DeleteFavoriteAnimalUseCase
 import com.example.domain.usecase.GetRescuedAnimalUseCase
@@ -9,8 +8,6 @@ import com.example.domain.usecase.SelectFavoriteAnimalUseCase
 import com.example.domain.usecase.InsertFavoriteAnimalUseCase
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

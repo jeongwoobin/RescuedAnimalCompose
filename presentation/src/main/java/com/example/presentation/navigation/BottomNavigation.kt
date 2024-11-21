@@ -19,6 +19,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.presentation.R
+import com.example.presentation.navigation.graph.FavoriteScreen
+import com.example.presentation.navigation.graph.MyPageScreen
+import com.example.presentation.navigation.graph.RescuedAnimalScreen
 import com.orhanobut.logger.Logger
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -32,15 +35,15 @@ sealed class BottomNavItem(
 ) {
 
     data object Home : BottomNavItem(
-        R.string.home, R.drawable.ic_home, Screen.RescuedAnimalScreen.route
+        R.string.home, R.drawable.ic_home, RescuedAnimalScreen.RescuedAnimal.route
     )
 
     data object Favorites : BottomNavItem(
-        R.string.favorites, R.drawable.ic_favorite, Screen.FavoriteScreen.route
+        R.string.favorites, R.drawable.ic_favorite, FavoriteScreen.Favorite.route
     )
 
     data object MyPage : BottomNavItem(
-        R.string.myPage, R.drawable.ic_mypage, Screen.MyPageScreen.route
+        R.string.myPage, R.drawable.ic_mypage, MyPageScreen.MyPage.route
     )
 }
 

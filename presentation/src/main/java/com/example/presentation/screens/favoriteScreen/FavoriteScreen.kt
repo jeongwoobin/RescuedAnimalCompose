@@ -23,7 +23,6 @@ import com.example.presentation.component.CustomPullToRefreshBox
 import com.example.presentation.component.GoToTopFAB
 import com.example.presentation.component.Header
 import com.example.presentation.component.HDivider
-import com.example.presentation.navigation.Screen
 import com.example.presentation.component.AnimalList
 import com.example.presentation.component.LinearProgressBar
 import com.example.presentation.component.VDivider
@@ -61,11 +60,7 @@ fun FavoriteScreen(
         }) {
 //        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT)
             Column {
-                Header(
-                    route = Screen.FavoriteScreen,
-                    rightButtonClicked = {
-                        navController.navigate(Screen.RescuedAnimalScreen.route)
-                    })
+                Header()
                 HDivider(modifier = Modifier.padding(horizontal = 20.dp))
                 CustomPullToRefreshBox(
                     modifier = Modifier
