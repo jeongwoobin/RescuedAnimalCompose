@@ -48,7 +48,7 @@ fun FavoriteScreen(
 
     BaseScreen(
         snackbarHostState = snackbarHostState,
-        loadingStateFlow = favoriteViewModel.resultState,
+        loadingState = false,
         loadingProgressBar = { LinearProgressBar() },
         fab = {
             GoToTopFAB(onClicked = {
@@ -59,34 +59,34 @@ fun FavoriteScreen(
             })
         }) {
 //        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT)
-            Column {
-                Header()
-                HDivider(modifier = Modifier.padding(horizontal = 20.dp))
-                CustomPullToRefreshBox(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 20.dp),
-                    onRefresh = { favoriteViewModel.selectFavoriteAnimal() }) {
-                    AnimalList(
-                        modifier = Modifier.fillMaxSize(),
-                        listState = listState,
-                        itemListState = favoriteViewModel.favoriteAnimalList,
-                        onLoadMore = { refresh ->
-                            coroutineScope.launch {
-                                favoriteViewModel.selectFavoriteAnimal()
-                            }
-                        },
-                        itemClicked = { index, animal ->
-                            coroutineScope.launch {
-                                favoriteViewModel.deleteFavoriteAnimal(
-                                    index = index,
-                                    animal = animal
-                                )
-                            }
+        Column {
+            Header()
+            HDivider(modifier = Modifier.padding(horizontal = 20.dp))
+            CustomPullToRefreshBox(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 20.dp),
+                onRefresh = { favoriteViewModel.selectFavoriteAnimal() }) {
+                AnimalList(
+                    modifier = Modifier.fillMaxSize(),
+                    listState = listState,
+                    itemList = favoriteViewModel.favoriteAnimalList.collectAsStateWithLifecycle().value,
+                    onLoadMore = { refresh ->
+                        coroutineScope.launch {
+                            favoriteViewModel.selectFavoriteAnimal()
                         }
-                    )
-                }
+                    },
+                    itemClicked = { index, animal ->
+                        coroutineScope.launch {
+                            favoriteViewModel.deleteFavoriteAnimal(
+                                index = index,
+                                animal = animal
+                            )
+                        }
+                    }
+                )
             }
+        }
 //        else
 //            Row {
 //                Header(

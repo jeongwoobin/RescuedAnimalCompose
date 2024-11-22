@@ -21,12 +21,12 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 fun BaseScreen(
     snackbarHostState: SnackbarHostState,
-    loadingStateFlow: StateFlow<Result<Any>>,
+    loadingState: Boolean,
     loadingProgressBar: @Composable () -> Unit = {},
     fab: @Composable () -> Unit = {},
     content: @Composable () -> Unit
 ) {
-    val loading by loadingStateFlow.collectAsStateWithLifecycle()
+//    val loading by loadingStateFlow.collectAsStateWithLifecycle()
 
     Scaffold(modifier = Modifier
         .fillMaxSize(),
@@ -41,8 +41,8 @@ fun BaseScreen(
                 content()
             }
 
-            if (loading.status == Status.LOADING) {
-                Box(modifier = Modifier.align(alignment = Alignment.BottomCenter)) {
+            if (loadingState) {
+                Box(modifier = Modifier.height(40.dp).align(alignment = Alignment.BottomCenter)) {
                     loadingProgressBar()
                 }
             }

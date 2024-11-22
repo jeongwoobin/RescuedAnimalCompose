@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.multi.module.android.presentation.ui)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.multi.module.android.hilt)
+
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 android {
@@ -27,4 +29,5 @@ dependencies {
 
     // private
     implementation(projects.domain)
+    implementation(libs.kotlinx.serialization.json)
 }

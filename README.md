@@ -1,21 +1,21 @@
 # Android Clean Architecture Practice  
 
-## done
-
-  
-## doing  
+## done  
   - Clean Architecture  
   - MVVM  
   - Repository Pattern  
   - publicApi  
   - Hilt  
   - Retrofit  
-  - Room  
   - Compose  
   
-## will do  
+## doing  
   - Multi Module(build-logic)  
   - navigation  
+  - Room  
+  - MVVM -> MVI  
+  
+## will do  
   - WorkManager  
   - Google Analytics
   - test code

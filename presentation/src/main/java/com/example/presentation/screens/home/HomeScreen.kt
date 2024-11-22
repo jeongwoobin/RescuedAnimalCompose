@@ -10,12 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.presentation.navigation.MyBottomNavigation
 import com.example.presentation.navigation.graph.HomeNavGraph
 import com.example.presentation.screens.SetNavigation
 
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(navController: NavHostController = rememberNavController()) {
 
     Scaffold(modifier = Modifier.fillMaxSize(), bottomBar = {
         MyBottomNavigation(

@@ -70,28 +70,24 @@ import kotlinx.coroutines.flow.map
 fun AnimalList(
     modifier: Modifier = Modifier,
     listState: LazyGridState,
-    itemListState: StateFlow<List<Animal>>,
+    itemList: List<Animal>,
     onLoadMore: (Boolean) -> Unit,
     itemClicked: (Int, Animal) -> Unit
 ) {
 //    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-    val list by itemListState.collectAsStateWithLifecycle()
+//    val list by itemListState.collectAsStateWithLifecycle()
 
     LaunchedEffect(listState) {
 
-        snapshotFlow { listState.firstVisibleItemIndex }
-            .map { index ->
-                val totalCount = listState.layoutInfo.totalItemsCount
-                val temp = totalCount - 20
+        snapshotFlow { listState.firstVisibleItemIndex }.map { index ->
+            val totalCount = listState.layoutInfo.totalItemsCount
+            val temp = totalCount - 20
 
-                Logger.d("index: $index, totalCount: ${totalCount}")
-                totalCount != 0 && index > temp
-            }
-            .distinctUntilChanged()
-            .filter { it }
-            .collect {
-                onLoadMore(false)
-            }
+//            Logger.d("index: $index, totalCount: ${totalCount}")
+            totalCount != 0 && index > temp
+        }.distinctUntilChanged().filter { it }.collect {
+            onLoadMore(false)
+        }
     }
 //    LaunchedEffect(listState) {
 //        snapshotFlow {
@@ -129,26 +125,25 @@ fun AnimalList(
 //            }
 //        }
     LazyVerticalGrid(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         state = listState,
         contentPadding = PaddingValues(vertical = 10.dp),
         columns =
 //        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT)
-            GridCells.Fixed(
+        GridCells.Fixed(
             1
         )
 //        else GridCells.Adaptive(200.dp)
-    ,
+        ,
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        itemsIndexed(list) { index, item ->
+        itemsIndexed(itemList) { index, item ->
 //            if ((windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT))
-                AnimalItemCompact(
-                    index = index,
-                    item = item,
-                    onClicked = { i, animal -> itemClicked(i, animal) })
+            AnimalItemCompact(
+                index = index,
+                item = item,
+                onClicked = { i, animal -> itemClicked(i, animal) })
 //            else
 //                AnimalItemExpanded(
 //                    index = index,
@@ -174,28 +169,22 @@ fun AnimalItemCompact(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit
                 .fillMaxWidth()
                 .height(IntrinsicSize.Min)
         ) {
-            GlideImage(
-                modifier = Modifier
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(10.dp))
-                    .layout { measurable, constraints ->
-                        if (constraints.maxHeight == Constraints.Infinity) {
-                            layout(0, 0) {}
-                        } else {
-                            val placeable = measurable.measure(constraints)
-                            layout(placeable.width, placeable.height) {
-                                placeable.place(0, 0)
-                            }
+            GlideImage(modifier = Modifier
+                .aspectRatio(1f)
+                .clip(RoundedCornerShape(10.dp))
+                .layout { measurable, constraints ->
+                    if (constraints.maxHeight == Constraints.Infinity) {
+                        layout(0, 0) {}
+                    } else {
+                        val placeable = measurable.measure(constraints)
+                        layout(placeable.width, placeable.height) {
+                            placeable.place(0, 0)
                         }
-                    },
-                imageModel = { item.filename }, // loading a network image using an URL.
+                    }
+                }, imageModel = { item.filename }, // loading a network image using an URL.
                 imageOptions = ImageOptions(
-                    contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center
-                ),
-                loading = { LoadingIcon() },
-                failure = { PlaceHolderIcon() }
-            )
+                    contentScale = ContentScale.Crop, alignment = Alignment.Center
+                ), loading = { LoadingIcon() }, failure = { PlaceHolderIcon() })
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -205,23 +194,15 @@ fun AnimalItemCompact(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    modifier = Modifier.padding(start = 10.dp),
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
-                    text = "# ${item.desertionNo}"
+                    modifier = Modifier.padding(start = 10.dp), style = TextStyle(
+                        color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.Bold
+                    ), text = "# ${item.desertionNo}"
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    modifier = Modifier.padding(start = 10.dp),
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold
-                    ),
-                    text = "Name : ${item.kindCd}"
+                    modifier = Modifier.padding(start = 10.dp), style = TextStyle(
+                        color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.SemiBold
+                    ), text = "Name : ${item.kindCd}"
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Row(
@@ -230,13 +211,9 @@ fun AnimalItemCompact(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        modifier = Modifier.padding(start = 10.dp),
-                        style = TextStyle(
-                            color = Color.Gray,
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Normal
-                        ),
-                        text = "Age : ${item.age}"
+                        modifier = Modifier.padding(start = 10.dp), style = TextStyle(
+                            color = Color.Gray, fontSize = 14.sp, fontWeight = FontWeight.Normal
+                        ), text = "Age : ${item.age}"
                     )
                     VectorIcon(
                         modifier = Modifier.clickable {
@@ -255,19 +232,17 @@ fun AnimalItemCompact(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit
 @Composable
 fun AnimalItemMedium(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit) {
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                onClicked(index, item)
-            }
-            .padding(10.dp),
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .clickable {
+            onClicked(index, item)
+        }
+        .padding(10.dp),
         shape = RoundedCornerShape(10.dp),
         border = BorderStroke(1.dp, Color.LightGray),
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
-        )
-    ) {
+        )) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -275,46 +250,29 @@ fun AnimalItemMedium(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit)
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start
         ) {
-            GlideImage(
-                imageModel = { item.popfile }, // loading a network image using an URL.
+            GlideImage(imageModel = { item.popfile }, // loading a network image using an URL.
                 imageOptions = ImageOptions(
-                    contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center
-                ),
-                loading = { LoadingIcon() },
-                failure = {
+                    contentScale = ContentScale.Crop, alignment = Alignment.Center
+                ), loading = { LoadingIcon() }, failure = {
                     PlaceHolderIcon()
-                }
+                })
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                modifier = Modifier.padding(start = 10.dp), style = TextStyle(
+                    color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.Bold
+                ), text = "# ${item.desertionNo}"
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                modifier = Modifier.padding(start = 10.dp),
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                ),
-                text = "# ${item.desertionNo}"
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                modifier = Modifier.padding(start = 10.dp),
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                ),
-                text = "Name : ${item.kindCd}"
+                modifier = Modifier.padding(start = 10.dp), style = TextStyle(
+                    color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.SemiBold
+                ), text = "Name : ${item.kindCd}"
             )
             Spacer(modifier = Modifier.height(5.dp))
             Text(
-                modifier = Modifier.padding(start = 10.dp),
-                style = TextStyle(
-                    color = Color.Gray,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal
-                ),
-                text = "Age : ${item.age}"
+                modifier = Modifier.padding(start = 10.dp), style = TextStyle(
+                    color = Color.Gray, fontSize = 14.sp, fontWeight = FontWeight.Normal
+                ), text = "Age : ${item.age}"
             )
         }
     }
@@ -333,55 +291,38 @@ fun AnimalItemExpanded(index: Int, item: Animal, onClicked: (Int, Animal) -> Uni
             .padding(10.dp),
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
-            GlideImage(
-                modifier = Modifier
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(10.dp)),
+            GlideImage(modifier = Modifier
+                .aspectRatio(1f)
+                .clip(RoundedCornerShape(10.dp)),
                 imageModel = { item.filename }, // loading a network image using an URL.
                 imageOptions = ImageOptions(
-                    contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center
+                    contentScale = ContentScale.Crop, alignment = Alignment.Center
                 ),
                 loading = { LoadingIcon() },
-                failure = { PlaceHolderIcon() }
-            )
+                failure = { PlaceHolderIcon() })
             Column(
-                modifier = Modifier
-                    .background(Color.White),
+                modifier = Modifier.background(Color.White),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    modifier = Modifier.padding(start = 10.dp),
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
-                    text = "# ${item.desertionNo}"
+                    modifier = Modifier.padding(start = 10.dp), style = TextStyle(
+                        color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.Bold
+                    ), text = "# ${item.desertionNo}"
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    modifier = Modifier.padding(start = 10.dp),
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold
-                    ),
-                    text = "Name : ${item.kindCd}"
+                    modifier = Modifier.padding(start = 10.dp), style = TextStyle(
+                        color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.SemiBold
+                    ), text = "Name : ${item.kindCd}"
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    modifier = Modifier.padding(start = 10.dp),
-                    style = TextStyle(
-                        color = Color.Gray,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal
-                    ),
-                    text = "Age : ${item.age}"
+                    modifier = Modifier.padding(start = 10.dp), style = TextStyle(
+                        color = Color.Gray, fontSize = 14.sp, fontWeight = FontWeight.Normal
+                    ), text = "Age : ${item.age}"
                 )
             }
             Spacer(modifier = Modifier.height(5.dp))

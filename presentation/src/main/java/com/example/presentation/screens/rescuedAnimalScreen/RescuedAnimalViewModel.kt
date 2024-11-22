@@ -1,4 +1,4 @@
-package com.example.rescuedanimals.presentation.screens.rescuedAnimalScreen
+package com.example.presentation.screens.rescuedAnimalScreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RescuedAnimalViewModel @Inject constructor(
+class RescuedAnimalViewModel2 @Inject constructor(
     private val getRescuedAnimalUseCase: GetRescuedAnimalUseCase,
     private val selectFavoriteAnimalUseCase: SelectFavoriteAnimalUseCase,
     private val insertFavoriteAnimalUseCase: InsertFavoriteAnimalUseCase,
