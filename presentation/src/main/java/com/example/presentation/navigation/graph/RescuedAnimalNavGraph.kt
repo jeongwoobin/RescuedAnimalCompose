@@ -40,9 +40,9 @@ fun NavGraphBuilder.rescuedAnimalNavGraph(navController: NavHostController) {
                 })
         }
 
-//        composable<RescuedAnimalScreen.RescuedAnimalDetail> {
-//            AnimalDetailScreen(navController = navController)
-//        }
+        composable<RescuedAnimalScreen.RescuedAnimalDetail> {
+            AnimalDetailScreen(navController = navController)
+        }
 
         composable(
             route = "${RescuedAnimalScreen.RescuedAnimal.route}/${RescuedAnimalScreen.RescuedAnimalDetail.route}",
