@@ -17,6 +17,7 @@ import kotlinx.serialization.Serializable
 
 fun NavGraphBuilder.rescuedAnimalNavGraph(navController: NavHostController) {
 
+
     navigation(
         route = Graph.RESCUEDANIMAL,
         startDestination = RescuedAnimalScreen.RescuedAnimal.route
