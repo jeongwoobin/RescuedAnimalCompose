@@ -8,15 +8,11 @@ import com.example.presentation.screens.favoriteScreen.FavoriteScreen
 
 fun NavGraphBuilder.favoriteNavGraph(navController: NavHostController) {
 
-    navigation(
-        startDestination = FavoriteScreen.Favorite.route, route = Graph.FAVORITE
+    navigation<HomeGraph.Favorite>(
+        startDestination = FavoriteGraph.Favorite
     ) {
-        composable(FavoriteScreen.Favorite.route) {
+        composable<FavoriteGraph.Favorite> {
             FavoriteScreen(navController = navController)
         }
     }
-}
-
-sealed class FavoriteScreen(val route: String) {
-    data object Favorite : FavoriteScreen("FAVORITE")
 }

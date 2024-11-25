@@ -15,13 +15,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.presentation.R
-import com.example.presentation.navigation.graph.FavoriteScreen
-import com.example.presentation.navigation.graph.MyPageScreen
-import com.example.presentation.navigation.graph.RescuedAnimalScreen
+import com.example.presentation.navigation.graph.HomeGraph
 import com.orhanobut.logger.Logger
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -31,19 +31,19 @@ sealed class BottomNavItem(
     // Resource ID of the icon for the menu item
     @DrawableRes val icon: Int,
     // Route of a destination to navigate
-    val screenRoute: String
+    val screenRoute: HomeGraph
 ) {
 
     data object Home : BottomNavItem(
-        R.string.home, R.drawable.ic_home, RescuedAnimalScreen.RescuedAnimal.route
+        R.string.home, R.drawable.ic_home, HomeGraph.RescuedAnimal
     )
 
     data object Favorites : BottomNavItem(
-        R.string.favorites, R.drawable.ic_favorite, FavoriteScreen.Favorite.route
+        R.string.favorites, R.drawable.ic_favorite, HomeGraph.Favorite
     )
 
     data object MyPage : BottomNavItem(
-        R.string.myPage, R.drawable.ic_mypage, MyPageScreen.MyPage.route
+        R.string.myPage, R.drawable.ic_mypage, HomeGraph.MyPage
     )
 }
 
@@ -56,7 +56,7 @@ fun MyBottomNavigation(
     navController: NavHostController
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+    val currentRoute = navBackStackEntry?.destination
     val items = listOf(
         BottomNavItem.Home, BottomNavItem.Favorites, BottomNavItem.MyPage
     )
@@ -64,7 +64,7 @@ fun MyBottomNavigation(
     Logger.d("currentRoute: $currentRoute")
 
     AnimatedVisibility(
-        visible = items.map { it.screenRoute }.contains(currentRoute)
+        visible = true //items.map { it.screenRoute }.contains(currentRoute)
     ) {
         NavigationBar(
             modifier = modifier,
@@ -73,7 +73,9 @@ fun MyBottomNavigation(
         ) {
             items.forEach { item ->
                 NavigationBarItem(
-                    selected = currentRoute == item.screenRoute,
+                    selected = currentRoute?.hierarchy?.any { it ->
+                        it.hasRoute(item::class)
+                    } == true,//currentRoute == item.screenRoute,
                     label = {
                         Text(
                             text = stringResource(id = item.title),

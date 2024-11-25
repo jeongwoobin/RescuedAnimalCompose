@@ -14,7 +14,7 @@ import com.example.presentation.ui.theme.RescuedAnimalsTheme
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.navigation.compose.rememberNavController
 import com.example.presentation.navigation.graph.RootNavGraph
-import com.example.presentation.navigation.graph.Graph
+import com.example.presentation.navigation.graph.RootGraph
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -38,6 +38,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun SetNavigation(navController: NavHostController, internetConnected: Boolean) {
-    val startDestination = Graph.HOME
+    val startDestination = RootGraph.Home
     RootNavGraph(navController = navController, startDestination = startDestination)
 }

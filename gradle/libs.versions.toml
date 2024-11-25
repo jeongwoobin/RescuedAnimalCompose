@@ -21,7 +21,6 @@ activityCompose = "1.9.3"
 composeBom = "2024.10.00"
 appcompat = "1.7.0"
 material = "1.12.0"
-jetbrainsKotlinJvm = "2.0.21"
 composeCompiler = "1.5.15"
 
 # private
@@ -42,7 +41,7 @@ landscapistGlide = "2.4.1"
 [libraries]
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
-kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "jetbrainsKotlinJvm" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "roomKtx" }
@@ -119,12 +118,13 @@ multi-module-android-room = { id = "multi.module.android.room", version = "unspe
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 # private
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 
 [bundles]

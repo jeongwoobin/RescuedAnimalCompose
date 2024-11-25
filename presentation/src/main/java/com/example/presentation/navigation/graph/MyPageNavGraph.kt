@@ -8,15 +8,11 @@ import com.example.presentation.screens.myPage.MyPageScreen
 
 fun NavGraphBuilder.myPageNavGraph(navController: NavHostController) {
 
-    navigation(
-        startDestination = MyPageScreen.MyPage.route, route = Graph.MYPAGE
+    navigation<HomeGraph.MyPage>(
+        startDestination = MyPageGraph.MyPage
     ) {
-        composable(MyPageScreen.MyPage.route) {
+        composable<MyPageGraph.MyPage> {
             MyPageScreen(navController = navController)
         }
     }
-}
-
-sealed class MyPageScreen(val route: String) {
-    data object MyPage : MyPageScreen("MY_PAGE")
 }

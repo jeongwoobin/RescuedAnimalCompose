@@ -9,7 +9,7 @@ import androidx.navigation.compose.rememberNavController
 fun HomeNavGraph(navController: NavHostController) {
 
     NavHost(
-        navController = navController, route = Graph.HOME, startDestination = Graph.RESCUEDANIMAL
+        navController = navController, startDestination = HomeGraph.RescuedAnimal
     ) {
 
         rescuedAnimalNavGraph(navController = navController)
