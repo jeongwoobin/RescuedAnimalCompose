@@ -22,6 +22,7 @@ import com.example.presentation.component.Header
 import com.example.presentation.component.LinearProgressBar
 import com.example.presentation.component.AnimalList
 import com.example.presentation.component.HDivider
+import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
 //import com.example.rescuedanimals.presentation.screens.rescuedAnimalScreen.RescuedAnimalViewModel
 import kotlinx.coroutines.launch
@@ -41,6 +42,7 @@ fun RescuedAnimalScreen(
 
     LaunchedEffect(effectFlow) {
         effectFlow.collect { effect ->
+            Logger.d("effectFlow: $effect")
             when (effect) {
                 is RescuedAnimalContract.Effect.ShowSnackbar -> {
                     snackbarHostState.showSnackbar(effect.content, null)

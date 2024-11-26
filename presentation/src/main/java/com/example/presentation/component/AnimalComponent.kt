@@ -143,7 +143,9 @@ fun AnimalList(
             AnimalItemCompact(
                 index = index,
                 item = item,
-                onClicked = { i, animal -> itemClicked(i, animal) })
+                onClicked = { i, animal ->
+                    itemClicked(i, animal)
+                })
 //            else
 //                AnimalItemExpanded(
 //                    index = index,
@@ -161,9 +163,11 @@ fun AnimalItemCompact(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit
             .fillMaxWidth()
             .background(color = Color.White, shape = RoundedCornerShape(10.dp))
             .border(BorderStroke(1.dp, Color.LightGray), shape = RoundedCornerShape(10.dp))
+            .clickable {
+                onClicked(index, item)
+            }
             .padding(10.dp),
     ) {
-//        Logger.d("itemFavorite: ${item.favorite}")
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -217,7 +221,7 @@ fun AnimalItemCompact(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit
                     )
                     VectorIcon(
                         modifier = Modifier.clickable {
-                            onClicked(index, item)
+//                            onClicked(index, item)
                         },
                         vector = if (item.favorite == true) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         tint = Primary_Red_500

@@ -1,5 +1,5 @@
 <resources>
     <string name="home">Home</string>
-    <string name="favorites">Favorites</string>
+    <string name="favorite">Favorite</string>
     <string name="myPage">MyPage</string>
 </resources>

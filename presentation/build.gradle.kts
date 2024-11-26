@@ -1,8 +1,8 @@
 plugins {
 //    alias(libs.plugins.multi.module.android.library.compose)
     alias(libs.plugins.multi.module.android.presentation.ui)
-    alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.multi.module.android.hilt)
+//    alias(libs.plugins.jetbrains.kotlin.android)
 }
 
 android {
@@ -27,5 +27,4 @@ dependencies {
 
     // private
     implementation(projects.domain)
-//    implementation(libs.kotlinx.serialization.json)
 }

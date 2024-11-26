@@ -34,48 +34,13 @@ fun NavGraphBuilder.rescuedAnimalNavGraph(navController: NavHostController) {
                 })
         }
 
-        composable<RescuedAnimalGraph.RescuedAnimalDetail> {
+        composable<RescuedAnimalGraph.RescuedAnimal.RescuedAnimalDetail> {
             AnimalDetailScreen(navController = navController)
         }
     }
-
-//    navigation(
-//        route = HomeGraph.RescuedAnimal,
-//        startDestination = RescuedAnimalScreen.RescuedAnimal
-//    ) {
-//        composable(route = RescuedAnimalScreen.RescuedAnimal.route) {
-//            val viewModel = hiltViewModel<RescuedAnimalViewModel>()
-//            RescuedAnimalScreen(
-//                navController = navController,
-//                uiState = viewModel.uiState.collectAsStateWithLifecycle(
-//                    lifecycleOwner = LocalLifecycleOwner.current
-//                ),
-//                onEventSent = viewModel::setEvent,
-//                effectFlow = viewModel.effect,
-//                onNavigationRequested = { navigationEffect ->
-//                    when (navigationEffect) {
-//                        is RescuedAnimalContract.Effect.Navigation.ToDetail ->
-//                            navController.navigateToRescuedAnimalDetail(id = navigationEffect.id)
-//
-//                        is RescuedAnimalContract.Effect.Navigation.ToFilter -> {}
-//                    }
-//                })
-//        }
-//        composable(
-//            route = "${RescuedAnimalScreen.RescuedAnimal.route}/${RescuedAnimalScreen.RescuedAnimalDetail.route}",
-//            arguments = listOf(navArgument("id") {
-//                type = NavType.StringType
-//                defaultValue = "-1"
-//            })
-//        ) {
-//            AnimalDetailScreen(navController = navController)
-//        }
-//    }
-
-
 }
 
 
 fun NavHostController.navigateToRescuedAnimalDetail(id: String) {
-    navigate(RescuedAnimalGraph.RescuedAnimalDetail(id))
+    navigate(RescuedAnimalGraph.RescuedAnimal.RescuedAnimalDetail(id))
 }
