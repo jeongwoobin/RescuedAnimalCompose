@@ -65,7 +65,7 @@ class RescuedAnimalViewModel @Inject constructor(
             }
 
             is RescuedAnimalContract.Event.OnListItemClicked -> {
-                setEffect { RescuedAnimalContract.Effect.Navigation.ToDetail(event.id) }
+                setEffect { RescuedAnimalContract.Effect.Navigation.ToDetail(event.animal) }
             }
         }
     }

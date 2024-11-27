@@ -1,7 +1,6 @@
 package com.example.presentation.screens.favoriteScreen
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -18,15 +17,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 //import androidx.window.core.layout.WindowWidthSizeClass
-import com.example.presentation.component.BaseScreen
+import com.example.presentation.base.BaseScreen
 import com.example.presentation.component.CustomPullToRefreshBox
 import com.example.presentation.component.GoToTopFAB
 import com.example.presentation.component.Header
 import com.example.presentation.component.HDivider
 import com.example.presentation.component.AnimalList
 import com.example.presentation.component.LinearProgressBar
-import com.example.presentation.component.VDivider
-import com.example.presentation.screens.favoriteScreen.FavoriteViewModel
 import kotlinx.coroutines.launch
 
 @Composable

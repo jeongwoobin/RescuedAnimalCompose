@@ -36,6 +36,8 @@ class AndroidLibraryConventionPlugin: Plugin<Project> {
             dependencies {
                 add("implementation", project.libs.findLibrary("logger").get())
                 add("testImplementation", project.libs.findLibrary("junit").get())
+//                add("androidTestImplementation", project.libs.findLibrary("androidx.junit").get())
+//                add("androidTestImplementation", project.libs.findLibrary("androidx.espresso.core").get())
 
                 add("implementation", project.libs.findLibrary("kotlinx.serialization.json").get())
             }

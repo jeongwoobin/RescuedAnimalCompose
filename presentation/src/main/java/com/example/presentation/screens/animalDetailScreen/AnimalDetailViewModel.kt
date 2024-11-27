@@ -2,8 +2,11 @@ package com.example.presentation.screens.animalDetailScreen
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.navigation.toRoute
+import com.example.domain.entity.Animal
 import com.example.domain.entity.Event
 import com.example.domain.entity.Result
+import com.example.presentation.navigation.graph.RescuedAnimalGraph
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,8 +17,9 @@ import javax.inject.Inject
 class AnimalDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    val id: String =
-        requireNotNull(savedStateHandle.get<String>("id")) { "lectureName is required." }
+    val animal: Animal = savedStateHandle.toRoute<Animal>()
+//        requireNotNull(savedStateHandle.toRoute<Animal>() { "animal is required." }
+//        savedStateHandle.toRoute<Animal>(typeMap = RescuedAnimalGraph.RescuedAnimal.RescuedAnimalDetail.typeMap)
 
 
     private val _resultState: MutableStateFlow<Result<Any>> = MutableStateFlow(Result.success())

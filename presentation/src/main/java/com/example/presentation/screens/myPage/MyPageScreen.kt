@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.presentation.component.BaseScreen
+import com.example.presentation.base.BaseScreen
 import com.example.presentation.component.LinearProgressBar
 
 @Composable

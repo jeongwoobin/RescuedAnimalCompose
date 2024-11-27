@@ -2,6 +2,9 @@ package com.example.data.mapper
 
 import com.example.data.model.remote.AnimalEntity
 import com.example.domain.entity.Animal
+import java.net.URLDecoder
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 object AnimalMapper {
 

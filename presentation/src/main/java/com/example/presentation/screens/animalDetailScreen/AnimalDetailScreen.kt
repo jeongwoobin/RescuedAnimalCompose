@@ -13,11 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
-import com.example.presentation.component.BaseScreen
+import com.example.presentation.base.BaseScreen
 import com.example.presentation.component.LinearProgressBar
-import com.example.presentation.screens.favoriteScreen.FavoriteViewModel
 
 @Composable
 fun AnimalDetailScreen(
@@ -38,7 +36,7 @@ fun AnimalDetailScreen(
                 .fillMaxWidth()
                 .height(56.dp)
                 .clickable { navController.popBackStack() })
-            Text(text = "Detail Screen id: ${animalDetailViewModel.id}")
+            Text(text = "Detail Screen id: ")
         }
     }
 }

@@ -5,8 +5,11 @@ import androidx.annotation.StringRes
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
+import com.example.domain.entity.Animal
 import com.example.presentation.R
+import com.example.presentation.utils.serializableType
 import kotlinx.serialization.Serializable
+import kotlin.reflect.typeOf
 
 sealed interface RootGraph {
     @Serializable
@@ -60,7 +63,13 @@ sealed interface RescuedAnimalGraph {
     data object RescuedAnimal : RescuedAnimalGraph {
 
         @Serializable
-        data class RescuedAnimalDetail(val id: String) : RescuedAnimalGraph
+        data class RescuedAnimalDetail(val animal: Animal) : RescuedAnimalGraph {
+            companion object {
+                val typeMap = mapOf(
+                    typeOf<Animal>() to serializableType<Animal>(),
+                )
+            }
+        }
     }
 
 //    @Serializable

@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 //import androidx.window.core.layout.WindowWidthSizeClass
-import com.example.presentation.component.BaseScreen
+import com.example.presentation.base.BaseScreen
 import com.example.presentation.component.CustomPullToRefreshBox
 import com.example.presentation.component.GoToTopFAB
 import com.example.presentation.component.Header
@@ -84,7 +84,7 @@ fun RescuedAnimalScreen(
 //                        }
                     },
                     itemClicked = { index, animal ->
-                        onEventSent(RescuedAnimalContract.Event.OnListItemClicked(animal.desertionNo))
+                        onEventSent(RescuedAnimalContract.Event.OnListItemClicked(animal))
 //                            coroutineScope.launch {
 //                                if (animal.favorite == true)
 //                                    rescuedAnimalViewModel.deleteFavoriteAnimal(

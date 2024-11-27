@@ -1,9 +1,14 @@
 package com.example.domain.entity
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
 //import androidx.annotation.Keep
 
 //@Keep
 //@JsonClass(generateAdapter = true)
+
+@Serializable
 data class Animal(
     val desertionNo: String,
     val filename: String?,
