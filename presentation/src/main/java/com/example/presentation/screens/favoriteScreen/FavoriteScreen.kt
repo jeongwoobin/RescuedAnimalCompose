@@ -74,13 +74,14 @@ fun FavoriteScreen(
                         }
                     },
                     itemClicked = { index, animal ->
-                        coroutineScope.launch {
-                            favoriteViewModel.deleteFavoriteAnimal(
-                                index = index,
-                                animal = animal
-                            )
-                        }
-                    }
+//                        coroutineScope.launch {
+//                            favoriteViewModel.deleteFavoriteAnimal(
+//                                index = index,
+//                                animal = animal
+//                            )
+//                        }
+                    },
+                    favoriteClicked = {index, animal ->}
                 )
             }
         }

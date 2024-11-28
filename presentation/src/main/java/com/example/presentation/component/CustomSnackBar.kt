@@ -33,8 +33,8 @@ fun DefaultSnackBar(
 ) {
 //	snackBarHostState.currentSnackbarData?.dismiss()
 
-    val state = remember { snackBarHostState.currentSnackbarData }
-    if (state != null) state.dismiss()
+    val state: SnackbarData? = remember { snackBarHostState.currentSnackbarData }
+    state?.dismiss()
 
     SnackbarHost(
         hostState = snackBarHostState,

@@ -12,12 +12,15 @@ class RescuedAnimalContract {
         data class LoadMore(val refresh: Boolean) : Event()
         data object OnFilterClicked : Event()
         data class OnListItemClicked(val animal: Animal) : Event()
+        data class OnItemFavoriteClicked(val index: Int, val animal: Animal) : Event()
     }
 
     // Ui View States
     data class State(
         val pageState: Int,
         val rescuedAnimalListState: List<Animal>,
+        val originFavoriteAnimalListState: List<Animal>,
+        val remainFavoriteAnimalListSTate: List<Animal>,
         val loadingState: LoadingState
     ) : UiState
 

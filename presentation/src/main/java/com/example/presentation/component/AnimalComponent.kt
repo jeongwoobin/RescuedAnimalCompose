@@ -72,7 +72,8 @@ fun AnimalList(
     listState: LazyGridState,
     itemList: List<Animal>,
     onLoadMore: (Boolean) -> Unit,
-    itemClicked: (Int, Animal) -> Unit
+    itemClicked: (Int, Animal) -> Unit,
+    favoriteClicked: (Int, Animal) -> Unit
 ) {
 //    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 //    val list by itemListState.collectAsStateWithLifecycle()
@@ -145,6 +146,9 @@ fun AnimalList(
                 item = item,
                 onClicked = { i, animal ->
                     itemClicked(i, animal)
+                },
+                favoriteClicked = { i, animal ->
+                    favoriteClicked(i, animal)
                 })
 //            else
 //                AnimalItemExpanded(
@@ -157,7 +161,7 @@ fun AnimalList(
 
 
 @Composable
-fun AnimalItemCompact(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit) {
+fun AnimalItemCompact(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit, favoriteClicked: (Int, Animal) -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -221,7 +225,7 @@ fun AnimalItemCompact(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit
                     )
                     VectorIcon(
                         modifier = Modifier.clickable {
-//                            onClicked(index, item)
+                            favoriteClicked(index, item)
                         },
                         vector = if (item.favorite == true) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         tint = Primary_Red_500

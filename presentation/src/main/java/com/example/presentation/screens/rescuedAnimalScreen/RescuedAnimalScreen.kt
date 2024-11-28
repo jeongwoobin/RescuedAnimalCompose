@@ -99,6 +99,9 @@ fun RescuedAnimalScreen(
 //
 //                                }
 //                            }
+                    },
+                    favoriteClicked = { index, animal ->
+                        onEventSent(RescuedAnimalContract.Event.OnItemFavoriteClicked(index, animal))
                     })
             }
         }

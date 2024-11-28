@@ -32,7 +32,7 @@ interface FavoriteAnimalDao {
 //    fun updateDate(id: Long, date: LocalDateTime)
 
     // 탐색
-    @Query("SELECT * FROM animal")
+    @Query("SELECT * FROM animal ORDER BY desertionNo DESC")
     fun selectAll(): Flow<List<AnimalEntity>>
 
     @Query("SELECT * FROM animal where desertionNo = :desertionNo")
