@@ -7,11 +7,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.example.domain.entity.Animal
 import com.example.presentation.screens.animalDetailScreen.AnimalDetailScreen
 import com.example.presentation.screens.rescuedAnimalScreen.RescuedAnimalContract
 import com.example.presentation.screens.rescuedAnimalScreen.RescuedAnimalScreen
 import com.example.presentation.screens.rescuedAnimalScreen.RescuedAnimalViewModel
+import com.orhanobut.logger.Logger
 
 fun NavGraphBuilder.rescuedAnimalNavGraph(navController: NavHostController) {
 

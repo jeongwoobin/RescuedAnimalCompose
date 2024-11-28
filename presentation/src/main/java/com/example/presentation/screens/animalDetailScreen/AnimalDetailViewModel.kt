@@ -17,10 +17,8 @@ import javax.inject.Inject
 class AnimalDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    val animal: Animal = savedStateHandle.toRoute<Animal>()
-//        requireNotNull(savedStateHandle.toRoute<Animal>() { "animal is required." }
-//        savedStateHandle.toRoute<Animal>(typeMap = RescuedAnimalGraph.RescuedAnimal.RescuedAnimalDetail.typeMap)
-
+    val animal: Animal =
+        savedStateHandle.toRoute<RescuedAnimalGraph.RescuedAnimal.RescuedAnimalDetail>(typeMap = RescuedAnimalGraph.RescuedAnimal.RescuedAnimalDetail.typeMap).animal
 
     private val _resultState: MutableStateFlow<Result<Any>> = MutableStateFlow(Result.success())
     val resultState: StateFlow<Result<Any>>

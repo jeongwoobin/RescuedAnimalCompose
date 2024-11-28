@@ -1,6 +1,5 @@
 package com.example.domain.entity
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 //import androidx.annotation.Keep

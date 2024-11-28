@@ -2,9 +2,6 @@ package com.example.presentation.navigation.graph
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavDestination.Companion.hierarchy
 import com.example.domain.entity.Animal
 import com.example.presentation.R
 import com.example.presentation.utils.serializableType
@@ -52,12 +49,6 @@ sealed class HomeGraph(
     )
 }
 
-//fun NavDestination.bottomNavVisibility(): Boolean {
-//    return hierarchy.any { it ->
-//        it.hasRoute(RescuedAnimalGraph.RescuedAnimal::class)
-//    }
-//}
-
 sealed interface RescuedAnimalGraph {
     @Serializable
     data object RescuedAnimal : RescuedAnimalGraph {
@@ -71,17 +62,12 @@ sealed interface RescuedAnimalGraph {
             }
         }
     }
-
-//    @Serializable
-//    data class RescuedAnimalDetail2(val id: String) : RescuedAnimalGraph
 }
-
 
 sealed interface FavoriteGraph {
     @Serializable
     data object Favorite : FavoriteGraph
 }
-
 
 sealed interface MyPageGraph {
     @Serializable
