@@ -8,11 +8,11 @@ interface FavoriteAnimalRepository {
 
     suspend fun selectAll(): Flow<Result<List<Animal>>>
 
-    suspend fun selectFavoriteAnimal(desertionNo: String): Flow<Result<Animal>>
+    suspend fun selectFavoriteAnimal(desertionNo: Long): Flow<Result<Animal>>
 
     suspend fun insertFavoriteAnimal(favoriteAnimal: Animal): Flow<Result<Boolean>>
 
-    suspend fun deleteFavoriteAnimal(desertionNo: String): Flow<Result<Boolean>>
+    suspend fun deleteFavoriteAnimal(desertionNo: Long): Flow<Result<Boolean>>
 
     suspend fun deleteAll(): Flow<Result<Boolean>>
 }

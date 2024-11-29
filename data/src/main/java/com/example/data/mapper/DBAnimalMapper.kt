@@ -1,16 +1,13 @@
 package com.example.data.mapper
 
-import com.example.data.model.remote.AnimalEntity
+import com.example.data.model.local.DBAnimalEntity
 import com.example.domain.entity.Animal
-import java.net.URLDecoder
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
-object AnimalMapper {
+object DBAnimalMapper {
 
-    fun mapperToAnimal(entity: AnimalEntity): Animal =
+    fun mapperToAnimal(entity: DBAnimalEntity): Animal =
         Animal(
-            desertionNo = entity.desertionNo.toLongOrNull() ?: -1L,
+            desertionNo = entity.desertionNo,
             filename = entity.filename,
             happenDt = entity.happenDt,
             happenPlace = entity.happenPlace,
@@ -35,7 +32,7 @@ object AnimalMapper {
             favorite = entity.favorite
         )
 
-    fun mapperToAnimalList(animalEntity: List<AnimalEntity>): List<Animal> {
+    fun mapperToAnimalList(animalEntity: List<DBAnimalEntity>): List<Animal> {
         val animals = mutableListOf<Animal>()
 
         animalEntity.forEach { entity ->
@@ -44,9 +41,9 @@ object AnimalMapper {
         return animals.toList()
     }
 
-    fun mapperToAnimalEntity(entity: Animal): AnimalEntity =
-        AnimalEntity(
-            desertionNo = entity.desertionNo.toString(),
+    fun mapperToAnimalEntity(entity: Animal): DBAnimalEntity =
+        DBAnimalEntity(
+            desertionNo = entity.desertionNo,
             filename = entity.filename,
             happenDt = entity.happenDt,
             happenPlace = entity.happenPlace,
@@ -71,8 +68,8 @@ object AnimalMapper {
             favorite = entity.favorite
         )
 
-    fun mapperToAnimalEntityList(animalEntity: List<Animal>): List<AnimalEntity> {
-        val animals = mutableListOf<AnimalEntity>()
+    fun mapperToAnimalEntityList(animalEntity: List<Animal>): List<DBAnimalEntity> {
+        val animals = mutableListOf<DBAnimalEntity>()
 
         animalEntity.forEach { entity ->
             animals.add(mapperToAnimalEntity(entity))

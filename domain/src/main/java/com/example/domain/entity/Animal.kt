@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Animal(
-    val desertionNo: String,
+    val desertionNo: Long,
     val filename: String?,
     val happenDt: String?,
     val happenPlace: String?,

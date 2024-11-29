@@ -1,29 +1,16 @@
-package com.example.data.model.remote
+package com.example.data.model.local
 
 import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.JsonClass
 
-@Keep
-@JsonClass(generateAdapter = true)
-data class SidoEntity(
-    val orgCd: String,
-    val orgdownNm: String
-)
-
 //@Keep
 //@JsonClass(generateAdapter = true)
-//data class SidoItemEntity(
-//    val orgCd: String,
-//    val orgdownNm: String
-//)
-
-@Keep
-@JsonClass(generateAdapter = true)
-data class AnimalEntity(
+@Entity(tableName = "animal")
+data class DBAnimalEntity(
     @PrimaryKey(autoGenerate = false)
-    val desertionNo: String,
+    val desertionNo: Long,
     val filename: String?,
     val happenDt: String?,
     val happenPlace: String?,
