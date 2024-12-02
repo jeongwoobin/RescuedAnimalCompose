@@ -4,7 +4,7 @@ import com.example.data.model.local.DBAnimalEntity
 import kotlinx.coroutines.flow.Flow
 
 interface FavoriteAnimalDataSource {
-    suspend fun selectAll(): Flow<List<DBAnimalEntity>>
+    suspend fun selectAll(): List<DBAnimalEntity>
 
     suspend fun selectFavoriteAnimal(desertionNo: Long): Flow<DBAnimalEntity>
 

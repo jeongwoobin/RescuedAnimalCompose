@@ -10,5 +10,5 @@ class SelectFavoriteAnimalUseCase@Inject constructor(
     private val repo: FavoriteAnimalRepository
 ) {
 
-    suspend operator fun invoke(): Flow<Result<List<Animal>>> = repo.selectAll()
+    suspend operator fun invoke(): Result<List<Animal>> = repo.selectAll()
 }

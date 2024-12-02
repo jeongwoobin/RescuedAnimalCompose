@@ -47,7 +47,11 @@ class RescuedAnimalViewModel @Inject constructor(
     override fun handleEvent(event: RescuedAnimalContract.Event) {
         when (event) {
             is RescuedAnimalContract.Event.LoadMore -> {
-                getRescuedAnimal(refresh = event.refresh)
+                if(event.refresh) {
+                    selectFavoriteAnimal()
+                }else {
+                    getRescuedAnimal(refresh = event.refresh)
+                }
             }
 
             is RescuedAnimalContract.Event.OnFilterClicked -> {
@@ -85,6 +89,7 @@ class RescuedAnimalViewModel @Inject constructor(
     private fun syncLocalAndRemoteList(
         favoriteList: List<Animal>, rescuedList: List<Animal>
     ): List<Animal> {
+        Logger.d("syncLocalAndRemoteList")
         if (favoriteList.isEmpty() || (rescuedList.last().desertionNo > favoriteList.first().desertionNo)) return rescuedList
         val tempFavoriteList = favoriteList.toMutableList()
         val tempRescuedList = rescuedList.toMutableList()
@@ -106,13 +111,15 @@ class RescuedAnimalViewModel @Inject constructor(
     private fun getRescuedAnimal(refresh: Boolean = false) {
         Logger.d("getRescuedAnimal")
         if (refresh) updatePage(refresh = true)
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Default) {
             getRescuedAnimalUseCase(
                 pageNo = currentState.pageState,
                 numOfRows = if (currentState.pageState != 1) 20 else 40
             ).onStart { setState { copy(loadingState = RescuedAnimalContract.LoadingState.Loading) } }
-                .onCompletion { setState { copy(loadingState = RescuedAnimalContract.LoadingState.Idle) } }
-                .collect { result ->
+                .onCompletion {
+                    setState { copy(loadingState = RescuedAnimalContract.LoadingState.Idle) }
+                    Logger.d("getRescuedAnimal completion")
+                }.collect { result ->
                     Logger.d("getRescuedAnimal result\nstatus: ${result.status}\nmessage: ${result.message}")
                     when (result.status) {
                         Status.LOADING -> {}
@@ -129,8 +136,7 @@ class RescuedAnimalViewModel @Inject constructor(
                                             else currentState.rescuedAnimalListState + list
                                         )
                                     }
-                                }
-                                else {
+                                } else {
                                     // 데이터가 없습니다
                                     setEffect {
                                         RescuedAnimalContract.Effect.ShowSnackbar(
@@ -177,7 +183,8 @@ class RescuedAnimalViewModel @Inject constructor(
                                         copy(rescuedAnimalListState = currentState.rescuedAnimalListState.toMutableList()
                                             .apply {
                                                 this[index] = this[index].copy(favorite = true)
-                                            })
+                                            },
+                                            originFavoriteAnimalListState = currentState.originFavoriteAnimalListState + listOf(animal.copy(favorite = true)))
                                     }
                                     setEffect {
                                         RescuedAnimalContract.Effect.ShowSnackbar(
@@ -231,6 +238,9 @@ class RescuedAnimalViewModel @Inject constructor(
                                         copy(rescuedAnimalListState = currentState.rescuedAnimalListState.toMutableList()
                                             .apply {
                                                 this[index] = this[index].copy(favorite = false)
+                                            },
+                                            originFavoriteAnimalListState = currentState.originFavoriteAnimalListState.toMutableList().apply {
+                                                remove(animal)
                                             })
                                     }
                                     setEffect {
@@ -270,29 +280,48 @@ class RescuedAnimalViewModel @Inject constructor(
 
     private fun selectFavoriteAnimal() {
         viewModelScope.launch(Dispatchers.IO) {
-            selectFavoriteAnimalUseCase().onStart { setState { copy(loadingState = RescuedAnimalContract.LoadingState.Loading) } }
-                .onCompletion {
-                    Logger.d("select completion")
-                    setState { copy(loadingState = RescuedAnimalContract.LoadingState.Idle) }
-                    getRescuedAnimal(refresh = true)
-                }.collect { result ->
-                    Logger.d("selectFavoriteAnimal result\nstatus: ${result.status}\ndata: ${result.data}\nmessage: ${result.message}")
-                    when (result.status) {
-                        Status.LOADING -> {}
-                        Status.SUCCESS -> {
-                            result.data?.let { data ->
-                                if (data.isNotEmpty()) setState {
-                                    copy(
-                                        originFavoriteAnimalListState = data
-                                    )
-                                }
+            selectFavoriteAnimalUseCase().let { result ->
+                Logger.d("selectFavoriteAnimal result\nstatus: ${result.status}\ndata: ${result.data}\nmessage: ${result.message}")
+                when (result.status) {
+                    Status.LOADING -> {}
+                    Status.SUCCESS -> {
+                        result.data?.let { data ->
+                            if (data.isNotEmpty()) setState {
+                                copy(
+                                    originFavoriteAnimalListState = data
+                                )
                             }
                         }
-
-                        else -> {}
                     }
 
+                    else -> {}
                 }
+                getRescuedAnimal(refresh = true)
+            }
+//                .onStart { setState { copy(loadingState = RescuedAnimalContract.LoadingState.Loading) } }
+////                .onCompletion {
+////                    Logger.d("select completion")
+////                    setState { copy(loadingState = RescuedAnimalContract.LoadingState.Idle) }
+//////                    getRescuedAnimal(refresh = true)
+////                }
+//                .collect { result ->
+//                    Logger.d("selectFavoriteAnimal result\nstatus: ${result.status}\ndata: ${result.data}\nmessage: ${result.message}")
+//                    when (result.status) {
+//                        Status.LOADING -> {}
+//                        Status.SUCCESS -> {
+//                            result.data?.let { data ->
+//                                if (data.isNotEmpty()) setState {
+//                                    copy(
+//                                        originFavoriteAnimalListState = data
+//                                    )
+//                                }
+//                            }
+//                        }
+//
+//                        else -> {}
+//                    }
+//                    getRescuedAnimal(refresh = true)
+//                }
         }
     }
 }

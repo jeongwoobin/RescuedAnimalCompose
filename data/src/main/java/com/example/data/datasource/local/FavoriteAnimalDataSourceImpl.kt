@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class FavoriteAnimalDataSourceImpl @Inject constructor(private val favoriteAnimalDao: FavoriteAnimalDao): FavoriteAnimalDataSource {
-    override suspend fun selectAll(): Flow<List<DBAnimalEntity>> = favoriteAnimalDao.selectAll()
+    override suspend fun selectAll(): List<DBAnimalEntity> = favoriteAnimalDao.selectAll()
 
     override suspend fun selectFavoriteAnimal(desertionNo: Long): Flow<DBAnimalEntity> = favoriteAnimalDao.selectFavoriteAnimal(desertionNo = desertionNo)
 

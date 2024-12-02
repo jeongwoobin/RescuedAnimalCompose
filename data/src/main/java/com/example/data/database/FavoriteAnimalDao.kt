@@ -33,7 +33,7 @@ interface FavoriteAnimalDao {
 
     // 탐색
     @Query("SELECT * FROM animal ORDER BY desertionNo DESC")
-    fun selectAll(): Flow<List<DBAnimalEntity>>
+    fun selectAll(): List<DBAnimalEntity>
 
     @Query("SELECT * FROM animal where desertionNo = :desertionNo")
     fun selectFavoriteAnimal(desertionNo: Long): Flow<DBAnimalEntity>
