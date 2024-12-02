@@ -1,146 +1,153 @@
 package com.example.presentation.screens.favoriteScreen
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.Animal
-import com.example.domain.entity.Event
-import com.example.domain.entity.Result
 import com.example.domain.entity.Status
 import com.example.domain.usecase.DeleteFavoriteAnimalUseCase
 import com.example.domain.usecase.SelectFavoriteAnimalUseCase
-import com.example.domain.usecase.InsertFavoriteAnimalUseCase
+import com.example.presentation.base.BaseViewModel
 import com.example.presentation.utils.Utils
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(
     private val selectFavoriteAnimalUseCase: SelectFavoriteAnimalUseCase,
-    private val insertFavoriteAnimalUseCase: InsertFavoriteAnimalUseCase,
     private val deleteFavoriteAnimalUseCase: DeleteFavoriteAnimalUseCase
-) : ViewModel() {
-
-    private val _resultState: MutableStateFlow<Result<Any>> = MutableStateFlow(Result.success())
-    val resultState: StateFlow<Result<Any>>
-        get() = _resultState.asStateFlow()
-
-    private val _snackbarEvent: MutableStateFlow<Event<String?>> = MutableStateFlow(Event(null))
-    val snackbarEvent: StateFlow<Event<String?>>
-        get() = _snackbarEvent.asStateFlow()
-
-    private val _favoriteAnimalList: MutableStateFlow<List<Animal>> = MutableStateFlow(emptyList())
-    val favoriteAnimalList: StateFlow<List<Animal>>
-        get() = _favoriteAnimalList.asStateFlow()
+) : BaseViewModel<FavoriteContract.Event, FavoriteContract.State, FavoriteContract.Effect>() {
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            selectFavoriteAnimal()
+//        initData()
+    }
+
+    override fun createInitialState(): FavoriteContract.State {
+        return FavoriteContract.State(
+            favoriteAnimalListState = listOf(), loadingState = FavoriteContract.LoadingState.Idle
+        )
+    }
+
+    override fun handleEvent(event: FavoriteContract.Event) {
+        when (event) {
+            is FavoriteContract.Event.InitData -> {
+                initData()
+            }
+            is FavoriteContract.Event.LoadMore -> {
+                selectFavoriteAnimal()
+            }
+
+            is FavoriteContract.Event.OnListItemClicked -> {
+                setEffect { FavoriteContract.Effect.Navigation.ToDetail(event.animal) }
+            }
+
+            is FavoriteContract.Event.OnItemFavoriteClicked -> {
+                deleteFavoriteAnimal(index = event.index, animal = event.animal)
+            }
+
+            else -> {}
         }
     }
 
-    private fun updateSnackbarEvent(text: String) {
-        _snackbarEvent.update { Event(text) }
+    private fun initData() {
+        selectFavoriteAnimal()
     }
 
-    private fun setResultState(state: Result<Any>) {
-        try {
-            if ((resultState.value as Result).status != state.status) _resultState.update { state }
-        } catch (e: Exception) {
-        }
-    }
-
-    suspend fun selectFavoriteAnimal() {
+    private fun selectFavoriteAnimal() {
         viewModelScope.launch(Dispatchers.IO) {
+            setState { copy(loadingState = FavoriteContract.LoadingState.Loading) }
             selectFavoriteAnimalUseCase().let { result ->
-                Logger.d("selectFavoriteAnimal result status: ${result.status}")
-                setResultState(result)
+                Logger.d("selectFavoriteAnimal result\nstatus: ${result.status}\ndata: ${result.data}\nmessage: ${result.message}")
                 when (result.status) {
+                    Status.LOADING -> {}
                     Status.SUCCESS -> {
                         result.data?.let { data ->
-                            if (data.isNotEmpty()) _favoriteAnimalList.update { data }
-                            else {
-                                // 데이터가 없습니다
-                                updateSnackbarEvent(Utils.snackBarContent(content = "저장된 데이터가 없습니다."))
+                            if (data.isNotEmpty()) setState {
+                                copy(
+                                    favoriteAnimalListState = data
+                                )
+                            } else {
+                                setEffect {
+                                    FavoriteContract.Effect.ShowSnackbar(
+                                        Utils.snackBarContent(
+                                            content = "저장된 데이터가 없습니다."
+                                        )
+                                    )
+                                }
                             }
                         }
                     }
 
-                    Status.LOADING -> {}
                     else -> {
-                        updateSnackbarEvent(
-                            Utils.snackBarContent(
-                                isError = true, content = result.message.toString()
-                            )
-                        )
-                    }
-                }
-            }
-//                .onStart { emit(Result.loading(null)) }
-//                .collect { result ->
-//                    Logger.d("selectFavoriteAnimal result status: ${result.status}")
-//                    setResultState(result)
-//                    when (result.status) {
-//                        Status.SUCCESS -> {
-//                            result.data?.let { data ->
-//                                if (data.isNotEmpty())
-//                                    _favoriteAnimalList.update { data }
-//                                else {
-//                                    // 데이터가 없습니다
-//                                    updateSnackbarEvent(Utils.snackBarContent(content = "저장된 데이터가 없습니다."))
-//                                }
-//                            }
-//                        }
-//
-//                        Status.LOADING -> {}
-//                        else -> {
-//                            updateSnackbarEvent(
-//                                Utils.snackBarContent(
-//                                    isError = true,
-//                                    content = result.message.toString()
-//                                )
-//                            )
-//                        }
-//                    }
-//                }
-        }
-    }
-
-    suspend fun deleteFavoriteAnimal(index: Int, animal: Animal) {
-        viewModelScope.launch(Dispatchers.IO) {
-            deleteFavoriteAnimalUseCase(animal).onStart { emit(Result.loading(null)) }
-                .collect { result ->
-                    Logger.d("deleteFavoriteAnimal result status: ${result.status}")
-                    setResultState(result)
-                    when (result.status) {
-                        Status.SUCCESS -> {
-                            result.data?.let { data ->
-                                if (data) _favoriteAnimalList.update {
-                                    favoriteAnimalList.value.toMutableList()
-                                        .apply { this.removeAt(index) }
-                                }
-                                else {
-                                    updateSnackbarEvent(Utils.snackBarContent(content = "이미 삭제된 데이터입니다."))
-                                }
-                            }
-                        }
-
-                        Status.LOADING -> {}
-                        else -> {
-                            updateSnackbarEvent(
+                        setEffect {
+                            FavoriteContract.Effect.ShowSnackbar(
                                 Utils.snackBarContent(
                                     isError = true, content = result.message.toString()
                                 )
                             )
                         }
                     }
+                }
+            }
+            delay(1000) // 로딩바 안 보여서 추가
+            setState { copy(loadingState = FavoriteContract.LoadingState.Idle) }
+        }
+    }
+
+    private fun deleteFavoriteAnimal(index: Int, animal: Animal) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteFavoriteAnimalUseCase(
+                favoriteAnimal = animal.copy(favorite = false)
+            ).onStart { setState { copy(loadingState = FavoriteContract.LoadingState.Loading) } }
+                .onCompletion { setState { copy(loadingState = FavoriteContract.LoadingState.Idle) } }
+                .collect { result ->
+                    Logger.d("deleteFavoriteAnimal result\nstatus: ${result.status}\nmessage: ${result.message}")
+                    when (result.status) {
+                        Status.LOADING -> {}
+                        Status.SUCCESS -> {
+                            result.data?.let { data ->
+                                if (data) {
+                                    setState {
+                                        copy(favoriteAnimalListState = currentState.favoriteAnimalListState.toMutableList()
+                                            .apply {
+                                                removeAt(index)
+                                            })
+                                    }
+                                    setEffect {
+                                        FavoriteContract.Effect.ShowSnackbar(
+                                            Utils.snackBarContent(
+                                                content = "관심목록에서 제거하였습니다."
+                                            )
+                                        )
+                                    }
+                                } else {
+                                    // 데이터가 없습니다
+                                    setEffect {
+                                        FavoriteContract.Effect.ShowSnackbar(
+                                            Utils.snackBarContent(
+                                                isError = true, content = "관심목록 삭제에 실패하였습니다."
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        else -> {
+                            setEffect {
+                                FavoriteContract.Effect.ShowSnackbar(
+                                    Utils.snackBarContent(
+                                        isError = true, content = result.message.toString()
+                                    )
+                                )
+                            }
+                        }
+                    }
+
                 }
         }
     }

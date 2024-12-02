@@ -13,6 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.navigation.NavController
 //import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.presentation.base.BaseScreen
@@ -39,6 +41,12 @@ fun RescuedAnimalScreen(
     val coroutineScope = rememberCoroutineScope()
     val listState = rememberLazyGridState()
     val snackbarHostState = remember { SnackbarHostState() }
+
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        // refresh your data
+        Logger.d("RescuedAnimalScreen ON_RESUME")
+        onEventSent(RescuedAnimalContract.Event.InitData)
+    }
 
     LaunchedEffect(effectFlow) {
         effectFlow.collect { effect ->
@@ -101,7 +109,12 @@ fun RescuedAnimalScreen(
 //                            }
                     },
                     favoriteClicked = { index, animal ->
-                        onEventSent(RescuedAnimalContract.Event.OnItemFavoriteClicked(index, animal))
+                        onEventSent(
+                            RescuedAnimalContract.Event.OnItemFavoriteClicked(
+                                index,
+                                animal
+                            )
+                        )
                     })
             }
         }

@@ -1,11 +1,11 @@
-package com.example.presentation.screens.rescuedAnimalScreen
+package com.example.presentation.screens.favoriteScreen
 
 import com.example.domain.entity.Animal
 import com.example.presentation.base.UiEffect
 import com.example.presentation.base.UiEvent
 import com.example.presentation.base.UiState
 
-class RescuedAnimalContract {
+class FavoriteContract {
 
     // Events that user performed
     sealed class Event : UiEvent {
@@ -18,8 +18,7 @@ class RescuedAnimalContract {
 
     // Ui View States
     data class State(
-        val pageState: Int,
-        val rescuedAnimalListState: List<Animal>,
+//        val pageState: Int,
         val favoriteAnimalListState: List<Animal>,
         val loadingState: LoadingState
     ) : UiState

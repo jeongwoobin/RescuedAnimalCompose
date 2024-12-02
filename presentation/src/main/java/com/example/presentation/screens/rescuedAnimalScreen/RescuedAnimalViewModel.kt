@@ -26,7 +26,7 @@ class RescuedAnimalViewModel @Inject constructor(
 ) : BaseViewModel<RescuedAnimalContract.Event, RescuedAnimalContract.State, RescuedAnimalContract.Effect>() {
 
     init {
-        selectFavoriteAnimal()
+//        initData()
     }
 
     /**
@@ -36,7 +36,7 @@ class RescuedAnimalViewModel @Inject constructor(
         return RescuedAnimalContract.State(
             pageState = 1,
             rescuedAnimalListState = listOf(),
-            originFavoriteAnimalListState = listOf(),
+            favoriteAnimalListState = listOf(),
             loadingState = RescuedAnimalContract.LoadingState.Idle
         )
     }
@@ -46,6 +46,10 @@ class RescuedAnimalViewModel @Inject constructor(
      */
     override fun handleEvent(event: RescuedAnimalContract.Event) {
         when (event) {
+            is RescuedAnimalContract.Event.InitData -> {
+                initData()
+            }
+
             is RescuedAnimalContract.Event.LoadMore -> {
                 if(event.refresh) {
                     selectFavoriteAnimal()
@@ -69,6 +73,10 @@ class RescuedAnimalViewModel @Inject constructor(
                 else insertFavoriteAnimal(index = event.index, animal = event.animal)
             }
         }
+    }
+
+    private fun initData() {
+        selectFavoriteAnimal()
     }
 
     private fun updatePage(refresh: Boolean = false) {
@@ -102,7 +110,7 @@ class RescuedAnimalViewModel @Inject constructor(
         }
         setState {
             copy(
-                originFavoriteAnimalListState = tempFavoriteList
+                favoriteAnimalListState = tempFavoriteList
             )
         }
         return tempRescuedList
@@ -127,7 +135,7 @@ class RescuedAnimalViewModel @Inject constructor(
                             result.data?.let { data ->
                                 if (data.items.item.isNotEmpty()) {
                                     val list = syncLocalAndRemoteList(
-                                        favoriteList = currentState.originFavoriteAnimalListState,
+                                        favoriteList = currentState.favoriteAnimalListState,
                                         rescuedList = data.items.item
                                     )
                                     setState {
@@ -184,7 +192,7 @@ class RescuedAnimalViewModel @Inject constructor(
                                             .apply {
                                                 this[index] = this[index].copy(favorite = true)
                                             },
-                                            originFavoriteAnimalListState = currentState.originFavoriteAnimalListState + listOf(animal.copy(favorite = true)))
+                                            favoriteAnimalListState = currentState.favoriteAnimalListState + listOf(animal.copy(favorite = true)))
                                     }
                                     setEffect {
                                         RescuedAnimalContract.Effect.ShowSnackbar(
@@ -239,7 +247,7 @@ class RescuedAnimalViewModel @Inject constructor(
                                             .apply {
                                                 this[index] = this[index].copy(favorite = false)
                                             },
-                                            originFavoriteAnimalListState = currentState.originFavoriteAnimalListState.toMutableList().apply {
+                                            favoriteAnimalListState = currentState.favoriteAnimalListState.toMutableList().apply {
                                                 remove(animal)
                                             })
                                     }
@@ -280,6 +288,7 @@ class RescuedAnimalViewModel @Inject constructor(
 
     private fun selectFavoriteAnimal() {
         viewModelScope.launch(Dispatchers.IO) {
+            setState { copy(loadingState = RescuedAnimalContract.LoadingState.Loading) }
             selectFavoriteAnimalUseCase().let { result ->
                 Logger.d("selectFavoriteAnimal result\nstatus: ${result.status}\ndata: ${result.data}\nmessage: ${result.message}")
                 when (result.status) {
@@ -288,7 +297,7 @@ class RescuedAnimalViewModel @Inject constructor(
                         result.data?.let { data ->
                             if (data.isNotEmpty()) setState {
                                 copy(
-                                    originFavoriteAnimalListState = data
+                                    favoriteAnimalListState = data
                                 )
                             }
                         }
@@ -298,30 +307,6 @@ class RescuedAnimalViewModel @Inject constructor(
                 }
                 getRescuedAnimal(refresh = true)
             }
-//                .onStart { setState { copy(loadingState = RescuedAnimalContract.LoadingState.Loading) } }
-////                .onCompletion {
-////                    Logger.d("select completion")
-////                    setState { copy(loadingState = RescuedAnimalContract.LoadingState.Idle) }
-//////                    getRescuedAnimal(refresh = true)
-////                }
-//                .collect { result ->
-//                    Logger.d("selectFavoriteAnimal result\nstatus: ${result.status}\ndata: ${result.data}\nmessage: ${result.message}")
-//                    when (result.status) {
-//                        Status.LOADING -> {}
-//                        Status.SUCCESS -> {
-//                            result.data?.let { data ->
-//                                if (data.isNotEmpty()) setState {
-//                                    copy(
-//                                        originFavoriteAnimalListState = data
-//                                    )
-//                                }
-//                            }
-//                        }
-//
-//                        else -> {}
-//                    }
-//                    getRescuedAnimal(refresh = true)
-//                }
         }
     }
 }

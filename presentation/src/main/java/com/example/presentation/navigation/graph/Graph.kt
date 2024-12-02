@@ -66,7 +66,17 @@ sealed interface RescuedAnimalGraph {
 
 sealed interface FavoriteGraph {
     @Serializable
-    data object Favorite : FavoriteGraph
+    data object Favorite : FavoriteGraph{
+
+        @Serializable
+        data class FavoriteDetail(val animal: Animal) : FavoriteGraph {
+            companion object {
+                val typeMap = mapOf(
+                    typeOf<Animal>() to serializableType<Animal>(),
+                )
+            }
+        }
+    }
 }
 
 sealed interface MyPageGraph {
