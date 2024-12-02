@@ -8,7 +8,6 @@
   - Hilt  
   - Retrofit  
   - Compose  
-  - MVVM -> MVI  
   
 ## doing  
   - Multi Module(build-logic)  

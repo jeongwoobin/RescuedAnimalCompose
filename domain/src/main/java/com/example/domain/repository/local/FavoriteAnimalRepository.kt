@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface FavoriteAnimalRepository {
 
-    suspend fun selectAll(): Flow<Result<List<Animal>>>
+    suspend fun selectAll(): Result<List<Animal>>
 
     suspend fun selectFavoriteAnimal(desertionNo: Long): Flow<Result<Animal>>
 

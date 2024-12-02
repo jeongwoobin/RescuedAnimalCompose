@@ -10,7 +10,7 @@ object AnimalMapper {
 
     fun mapperToAnimal(entity: AnimalEntity): Animal =
         Animal(
-            desertionNo = entity.desertionNo.toLongOrNull() ?: -1L,
+            desertionNo = entity.desertionNo.toLong(), //toLongOrNull() ?: -1L,
             filename = entity.filename,
             happenDt = entity.happenDt,
             happenPlace = entity.happenPlace,

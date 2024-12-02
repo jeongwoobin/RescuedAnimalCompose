@@ -20,7 +20,6 @@ class RescuedAnimalContract {
         val pageState: Int,
         val rescuedAnimalListState: List<Animal>,
         val originFavoriteAnimalListState: List<Animal>,
-        val remainFavoriteAnimalListSTate: List<Animal>,
         val loadingState: LoadingState
     ) : UiState
 

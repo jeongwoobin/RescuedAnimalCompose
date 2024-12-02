@@ -52,57 +52,80 @@ class FavoriteViewModel @Inject constructor(
 
     private fun setResultState(state: Result<Any>) {
         try {
-            if ((resultState.value as Result).status != state.status)
-                _resultState.update { state }
-        } catch(e: Exception) {
+            if ((resultState.value as Result).status != state.status) _resultState.update { state }
+        } catch (e: Exception) {
         }
     }
 
     suspend fun selectFavoriteAnimal() {
         viewModelScope.launch(Dispatchers.IO) {
-            selectFavoriteAnimalUseCase()
-                .onStart { emit(Result.loading(null)) }
-                .collect { result ->
-                    Logger.d("selectFavoriteAnimal result status: ${result.status}")
-                    setResultState(result)
-                    when (result.status) {
-                        Status.SUCCESS -> {
-                            result.data?.let { data ->
-                                if (data.isNotEmpty())
-                                    _favoriteAnimalList.update { data }
-                                else {
-                                    // 데이터가 없습니다
-                                    updateSnackbarEvent(Utils.snackBarContent(content = "저장된 데이터가 없습니다."))
-                                }
+            selectFavoriteAnimalUseCase().let { result ->
+                Logger.d("selectFavoriteAnimal result status: ${result.status}")
+                setResultState(result)
+                when (result.status) {
+                    Status.SUCCESS -> {
+                        result.data?.let { data ->
+                            if (data.isNotEmpty()) _favoriteAnimalList.update { data }
+                            else {
+                                // 데이터가 없습니다
+                                updateSnackbarEvent(Utils.snackBarContent(content = "저장된 데이터가 없습니다."))
                             }
                         }
+                    }
 
-                        Status.LOADING -> {}
-                        else -> {
-                            updateSnackbarEvent(
-                                Utils.snackBarContent(
-                                    isError = true,
-                                    content = result.message.toString()
-                                )
+                    Status.LOADING -> {}
+                    else -> {
+                        updateSnackbarEvent(
+                            Utils.snackBarContent(
+                                isError = true, content = result.message.toString()
                             )
-                        }
+                        )
                     }
                 }
+            }
+//                .onStart { emit(Result.loading(null)) }
+//                .collect { result ->
+//                    Logger.d("selectFavoriteAnimal result status: ${result.status}")
+//                    setResultState(result)
+//                    when (result.status) {
+//                        Status.SUCCESS -> {
+//                            result.data?.let { data ->
+//                                if (data.isNotEmpty())
+//                                    _favoriteAnimalList.update { data }
+//                                else {
+//                                    // 데이터가 없습니다
+//                                    updateSnackbarEvent(Utils.snackBarContent(content = "저장된 데이터가 없습니다."))
+//                                }
+//                            }
+//                        }
+//
+//                        Status.LOADING -> {}
+//                        else -> {
+//                            updateSnackbarEvent(
+//                                Utils.snackBarContent(
+//                                    isError = true,
+//                                    content = result.message.toString()
+//                                )
+//                            )
+//                        }
+//                    }
+//                }
         }
     }
 
     suspend fun deleteFavoriteAnimal(index: Int, animal: Animal) {
         viewModelScope.launch(Dispatchers.IO) {
-            deleteFavoriteAnimalUseCase(animal)
-                .onStart { emit(Result.loading(null)) }
+            deleteFavoriteAnimalUseCase(animal).onStart { emit(Result.loading(null)) }
                 .collect { result ->
                     Logger.d("deleteFavoriteAnimal result status: ${result.status}")
                     setResultState(result)
                     when (result.status) {
                         Status.SUCCESS -> {
                             result.data?.let { data ->
-                                if (data)
-                                    _favoriteAnimalList.update { favoriteAnimalList.value.toMutableList().apply { this.removeAt(index) } }
+                                if (data) _favoriteAnimalList.update {
+                                    favoriteAnimalList.value.toMutableList()
+                                        .apply { this.removeAt(index) }
+                                }
                                 else {
                                     updateSnackbarEvent(Utils.snackBarContent(content = "이미 삭제된 데이터입니다."))
                                 }
@@ -113,8 +136,7 @@ class FavoriteViewModel @Inject constructor(
                         else -> {
                             updateSnackbarEvent(
                                 Utils.snackBarContent(
-                                    isError = true,
-                                    content = result.message.toString()
+                                    isError = true, content = result.message.toString()
                                 )
                             )
                         }
