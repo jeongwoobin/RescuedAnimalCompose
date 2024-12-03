@@ -26,6 +26,7 @@ import com.example.presentation.navigation.graph.RescuedAnimalGraph
 import com.example.presentation.screens.favoriteScreen.FavoriteContract
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun AnimalDetailScreen(

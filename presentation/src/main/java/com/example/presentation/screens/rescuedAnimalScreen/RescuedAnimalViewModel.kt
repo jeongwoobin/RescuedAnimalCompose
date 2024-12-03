@@ -167,7 +167,6 @@ class RescuedAnimalViewModel @Inject constructor(
                                             )
                                         )
                                     }
-//                                    updateSnackbarEvent()
                                 }
                                 updatePage()
                             }

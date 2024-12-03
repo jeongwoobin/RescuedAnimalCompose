@@ -30,6 +30,7 @@ import com.example.presentation.component.LinearProgressBar
 import com.example.presentation.screens.rescuedAnimalScreen.RescuedAnimalContract
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable

@@ -47,7 +47,6 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect
         viewModelScope.launch { _event.emit(newEvent) }
     }
 
-
     /**
      * Set new Ui State
      */
@@ -60,10 +59,8 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect
      * Set new Effect
      */
     protected fun setEffect(builder: () -> Effect) {
-        Logger.d("setEffect")
         val effectValue = builder()
         viewModelScope.launch {
-            Logger.d("setEffect scope")
             _effect.send(effectValue)
         }
     }
