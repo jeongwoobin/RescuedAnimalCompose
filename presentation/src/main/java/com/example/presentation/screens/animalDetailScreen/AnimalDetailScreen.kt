@@ -40,7 +40,7 @@ fun AnimalDetailScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(effectFlow) {
-        effectFlow.collect { effect ->
+        effectFlow.collectLatest { effect ->
             Logger.d("effectFlow: $effect")
             when (effect) {
                 is AnimalDetailContract.Effect.ShowSnackbar -> {

@@ -52,7 +52,7 @@ fun FavoriteScreen(
     }
 
     LaunchedEffect(effectFlow) {
-        effectFlow.collect { effect ->
+        effectFlow.collectLatest { effect ->
             Logger.d("effectFlow: $effect")
             when (effect) {
                 is FavoriteContract.Effect.ShowSnackbar -> {

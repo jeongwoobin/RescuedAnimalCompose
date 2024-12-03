@@ -26,6 +26,7 @@ import com.example.presentation.component.AnimalList
 import com.example.presentation.component.HDivider
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 //import com.example.rescuedanimals.presentation.screens.rescuedAnimalScreen.RescuedAnimalViewModel
 import kotlinx.coroutines.launch
 
@@ -49,7 +50,7 @@ fun RescuedAnimalScreen(
     }
 
     LaunchedEffect(effectFlow) {
-        effectFlow.collect { effect ->
+        effectFlow.collectLatest { effect ->
             Logger.d("effectFlow: $effect")
             when (effect) {
                 is RescuedAnimalContract.Effect.ShowSnackbar -> {
