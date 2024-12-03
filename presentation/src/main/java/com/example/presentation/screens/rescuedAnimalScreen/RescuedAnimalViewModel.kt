@@ -1,5 +1,6 @@
 package com.example.presentation.screens.rescuedAnimalScreen
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.Animal
 import com.example.domain.entity.Status
@@ -23,7 +24,10 @@ class RescuedAnimalViewModel @Inject constructor(
     private val selectFavoriteAnimalUseCase: SelectFavoriteAnimalUseCase,
     private val insertFavoriteAnimalUseCase: InsertFavoriteAnimalUseCase,
     private val deleteFavoriteAnimalUseCase: DeleteFavoriteAnimalUseCase,
-) : BaseViewModel<RescuedAnimalContract.Event, RescuedAnimalContract.State, RescuedAnimalContract.Effect>() {
+    savedStateHandle: SavedStateHandle,
+) : BaseViewModel<RescuedAnimalContract.Event, RescuedAnimalContract.State, RescuedAnimalContract.Effect>(
+    savedStateHandle
+) {
 
     init {
 //        initData()
@@ -32,7 +36,7 @@ class RescuedAnimalViewModel @Inject constructor(
     /**
      * Create initial State of Views
      */
-    override fun createInitialState(): RescuedAnimalContract.State {
+    override fun createInitialState(savedStateHandle: SavedStateHandle): RescuedAnimalContract.State {
         return RescuedAnimalContract.State(
             pageState = 1,
             rescuedAnimalListState = listOf(),
@@ -51,9 +55,9 @@ class RescuedAnimalViewModel @Inject constructor(
             }
 
             is RescuedAnimalContract.Event.LoadMore -> {
-                if(event.refresh) {
+                if (event.refresh) {
                     selectFavoriteAnimal()
-                }else {
+                } else {
                     getRescuedAnimal(refresh = event.refresh)
                 }
             }
@@ -98,14 +102,24 @@ class RescuedAnimalViewModel @Inject constructor(
         favoriteList: List<Animal>, rescuedList: List<Animal>
     ): List<Animal> {
         Logger.d("syncLocalAndRemoteList")
-        if (favoriteList.isEmpty() || (rescuedList.last().desertionNo > favoriteList.first().desertionNo)) return rescuedList
+        if (favoriteList.isEmpty()
+//            || (rescuedList.last().desertionNo > favoriteList.first().desertionNo)
+            ) return rescuedList
         val tempFavoriteList = favoriteList.toMutableList()
         val tempRescuedList = rescuedList.toMutableList()
         for (animal in tempRescuedList) {
-            if (animal.desertionNo == tempFavoriteList.first().desertionNo) {
-                animal.favorite = true
-                tempFavoriteList.removeFirst()
+            for(favoriteAnimal in tempFavoriteList) {
+                if (animal.desertionNo == favoriteAnimal.desertionNo) {
+                    animal.favorite = true
+                    tempFavoriteList.remove(favoriteAnimal)
+                    break
+                }
             }
+            // 서버에서 받은 리스트가 sort가 되어있을 때 사용..
+//            if (animal.desertionNo == tempFavoriteList.first().desertionNo) {
+//                animal.favorite = true
+//                tempFavoriteList.removeFirst()
+//            }
             if (tempFavoriteList.isEmpty()) break
         }
         setState {
@@ -188,11 +202,15 @@ class RescuedAnimalViewModel @Inject constructor(
                             result.data?.let { data ->
                                 if (data) {
                                     setState {
-                                        copy(rescuedAnimalListState = currentState.rescuedAnimalListState.toMutableList()
-                                            .apply {
-                                                this[index] = this[index].copy(favorite = true)
-                                            },
-                                            favoriteAnimalListState = currentState.favoriteAnimalListState + listOf(animal.copy(favorite = true)))
+                                        copy(
+                                            rescuedAnimalListState = currentState.rescuedAnimalListState.toMutableList()
+                                                .apply {
+                                                    this[index] = this[index].copy(favorite = true)
+                                                },
+                                            favoriteAnimalListState = currentState.favoriteAnimalListState + listOf(
+                                                animal.copy(favorite = true)
+                                            )
+                                        )
                                     }
                                     setEffect {
                                         RescuedAnimalContract.Effect.ShowSnackbar(
@@ -247,9 +265,10 @@ class RescuedAnimalViewModel @Inject constructor(
                                             .apply {
                                                 this[index] = this[index].copy(favorite = false)
                                             },
-                                            favoriteAnimalListState = currentState.favoriteAnimalListState.toMutableList().apply {
-                                                remove(animal)
-                                            })
+                                            favoriteAnimalListState = currentState.favoriteAnimalListState.toMutableList()
+                                                .apply {
+                                                    remove(animal)
+                                                })
                                     }
                                     setEffect {
                                         RescuedAnimalContract.Effect.ShowSnackbar(

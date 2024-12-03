@@ -1,7 +1,9 @@
 package com.example.presentation.base
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.orhanobut.logger.Logger
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,11 +18,13 @@ interface UiEvent
 
 interface UiEffect
 
-abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect> : ViewModel() {
+abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect>(
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
     // Create Initial State of View
-    private val initialState: State by lazy { createInitialState() }
-    abstract fun createInitialState(): State
+    private val initialState: State by lazy { createInitialState(savedStateHandle = savedStateHandle) }
+    abstract fun createInitialState(savedStateHandle: SavedStateHandle): State
 
     // Get Current State
     val currentState: State
@@ -56,8 +60,12 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect
      * Set new Effect
      */
     protected fun setEffect(builder: () -> Effect) {
+        Logger.d("setEffect")
         val effectValue = builder()
-        viewModelScope.launch { _effect.send(effectValue) }
+        viewModelScope.launch {
+            Logger.d("setEffect scope")
+            _effect.send(effectValue)
+        }
     }
 
     init {

@@ -10,6 +10,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.domain.entity.Animal
 import com.example.presentation.screens.animalDetailScreen.AnimalDetailScreen
+import com.example.presentation.screens.animalDetailScreen.AnimalDetailViewModel
 import com.example.presentation.screens.rescuedAnimalScreen.RescuedAnimalContract
 import com.example.presentation.screens.rescuedAnimalScreen.RescuedAnimalScreen
 import com.example.presentation.screens.rescuedAnimalScreen.RescuedAnimalViewModel
@@ -38,7 +39,20 @@ fun NavGraphBuilder.rescuedAnimalNavGraph(navController: NavHostController) {
         }
 
         composable<RescuedAnimalGraph.RescuedAnimal.RescuedAnimalDetail>(typeMap = RescuedAnimalGraph.RescuedAnimal.RescuedAnimalDetail.typeMap) {
-            AnimalDetailScreen(navController = navController)
+            val viewModel = hiltViewModel<AnimalDetailViewModel>()
+            AnimalDetailScreen(navController = navController,
+                uiState = viewModel.uiState.collectAsStateWithLifecycle(
+                    lifecycleOwner = LocalLifecycleOwner.current
+                ),
+                onEventSent = viewModel::setEvent,
+                effectFlow = viewModel.effect,
+                onNavigationRequested = { navigationEffect ->
+//                    when (navigationEffect) {
+//                        is AnimalDetailContract.Effect.Navigation.ToImage -> navController.navigateToFavoriteDetail(
+//                            animal = navigationEffect.animal
+//                        )
+//                    }
+                })
         }
     }
 }

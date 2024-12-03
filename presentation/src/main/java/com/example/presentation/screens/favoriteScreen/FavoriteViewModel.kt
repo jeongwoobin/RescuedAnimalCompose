@@ -1,5 +1,6 @@
 package com.example.presentation.screens.favoriteScreen
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.Animal
 import com.example.domain.entity.Status
@@ -19,14 +20,15 @@ import javax.inject.Inject
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(
     private val selectFavoriteAnimalUseCase: SelectFavoriteAnimalUseCase,
-    private val deleteFavoriteAnimalUseCase: DeleteFavoriteAnimalUseCase
-) : BaseViewModel<FavoriteContract.Event, FavoriteContract.State, FavoriteContract.Effect>() {
+    private val deleteFavoriteAnimalUseCase: DeleteFavoriteAnimalUseCase,
+    savedStateHandle: SavedStateHandle
+) : BaseViewModel<FavoriteContract.Event, FavoriteContract.State, FavoriteContract.Effect>(savedStateHandle) {
 
     init {
 //        initData()
     }
 
-    override fun createInitialState(): FavoriteContract.State {
+    override fun createInitialState(savedStateHandle: SavedStateHandle): FavoriteContract.State {
         return FavoriteContract.State(
             favoriteAnimalListState = listOf(), loadingState = FavoriteContract.LoadingState.Idle
         )

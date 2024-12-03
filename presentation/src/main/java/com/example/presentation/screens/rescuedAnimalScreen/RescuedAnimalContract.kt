@@ -24,7 +24,7 @@ class RescuedAnimalContract {
         val loadingState: LoadingState
     ) : UiState
 
-    // View State that related to Rescued Animal
+    // View State that related to Screen
     sealed class LoadingState {
         data object Idle : LoadingState()
         data object Loading : LoadingState()

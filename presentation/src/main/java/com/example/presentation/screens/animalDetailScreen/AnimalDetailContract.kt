@@ -1,25 +1,22 @@
-package com.example.presentation.screens.favoriteScreen
+package com.example.presentation.screens.animalDetailScreen
 
 import com.example.domain.entity.Animal
 import com.example.presentation.base.UiEffect
 import com.example.presentation.base.UiEvent
 import com.example.presentation.base.UiState
 
-class FavoriteContract {
+class AnimalDetailContract {
 
     // Events that user performed
     sealed class Event : UiEvent {
-        data object InitData : Event()
-        data class LoadMore(val refresh: Boolean) : Event()
-        data object OnFilterClicked : Event()
-        data class OnListItemClicked(val animal: Animal) : Event()
+        data class OnImageClicked(val image: String) : Event()
+        data class OnCareTelClicked(val tel: String) : Event()
         data class OnItemFavoriteClicked(val index: Int, val animal: Animal) : Event()
     }
 
     // Ui View States
     data class State(
-//        val pageState: Int,
-        val favoriteAnimalListState: List<Animal>,
+        val animalState: Animal,
         val loadingState: LoadingState
     ) : UiState
 
@@ -33,8 +30,7 @@ class FavoriteContract {
     sealed class Effect : UiEffect {
         data class ShowSnackbar(val content: String) : Effect()
         sealed class Navigation : Effect() {
-            data class ToDetail(val animal: Animal) : Navigation()
-            data object ToFilter : Navigation()
+            data class ToImage(val image: String) : Navigation()
         }
     }
 }
