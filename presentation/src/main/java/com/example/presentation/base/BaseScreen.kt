@@ -23,11 +23,10 @@ fun BaseScreen(
 ) {
 //    val loading by loadingStateFlow.collectAsStateWithLifecycle()
 
-    Scaffold(modifier = Modifier
-        .fillMaxSize(),
-        floatingActionButton = { fab() }) {
-        Box(modifier = Modifier
-            .fillMaxSize()) {
+    Scaffold(modifier = Modifier.fillMaxSize(), floatingActionButton = { fab() }) {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -37,9 +36,9 @@ fun BaseScreen(
             }
 
             if (loadingState) {
-                Box(modifier = Modifier.height(40.dp).align(alignment = Alignment.BottomCenter)) {
-                    loadingProgressBar()
-                }
+//                Box(modifier = Modifier.height(40.dp).align(alignment = Alignment.BottomCenter)) {
+                loadingProgressBar()
+//                }
             }
 
             DefaultSnackBar(

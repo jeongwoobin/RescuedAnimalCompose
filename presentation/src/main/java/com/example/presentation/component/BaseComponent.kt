@@ -1,5 +1,6 @@
 package com.example.presentation.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,9 +8,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -19,6 +22,7 @@ import androidx.compose.material.icons.filled.Downloading
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FormatListNumbered
 import androidx.compose.material.icons.filled.Http
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
@@ -45,10 +49,13 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.presentation.ui.theme.Dim
 //import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.presentation.ui.theme.Line_Thin
 import com.example.presentation.ui.theme.Primary_Red_500
+import com.example.presentation.ui.theme.Text_500
 import com.example.presentation.ui.theme.Text_600
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
@@ -64,24 +71,24 @@ fun Header(
 //    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 
 //    if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .padding(vertical = 10.dp, horizontal = 20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            backButtonClicked?.let { onClicked ->
-                VectorIcon(
-                    modifier = Modifier.clickable {
-                        onClicked()
-                    },
-                    vector = Icons.Default.ArrowBackIosNew,
-                    tint = Text_600,
-                    contentDescription = "go to back"
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp)
+            .padding(vertical = 10.dp, horizontal = 20.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        backButtonClicked?.let { onClicked ->
+            VectorIcon(
+                modifier = Modifier.clickable {
+                    onClicked()
+                },
+                vector = Icons.Default.ArrowBackIosNew,
+                tint = Color.White,
+                contentDescription = "go to back"
+            )
+        }
+        Spacer(modifier = Modifier.weight(1f))
 //            rightButtonClicked?.let { onClicked ->
 //                VectorIcon(
 //                    modifier = Modifier.clickable {
@@ -92,7 +99,7 @@ fun Header(
 //                    contentDescription = "right button icon"
 //                )
 //            }
-        }
+    }
 //    else
 //        Column(
 //            modifier = Modifier
@@ -126,7 +133,7 @@ fun Header(
 
 @Composable
 fun GoToTopFAB(onClicked: () -> Unit) {
-    FloatingActionButton(onClick = onClicked) {
+    FloatingActionButton(containerColor = Text_500,onClick = onClicked) {
         VectorIcon(
             vector = Icons.Filled.ArrowCircleUp,
             tint = Color.Black,
@@ -136,10 +143,10 @@ fun GoToTopFAB(onClicked: () -> Unit) {
 }
 
 @Composable
-fun HDivider(modifier: Modifier = Modifier, color: Color = Line_Thin) {
+fun HDivider(modifier: Modifier = Modifier, height: Dp = 1.dp, color: Color = Line_Thin) {
     HorizontalDivider(
         modifier = modifier
-            .height(1.dp)
+            .height(height)
             .fillMaxWidth(), color = color
     )
 }
@@ -188,10 +195,11 @@ fun PlaceHolderIcon() {
 fun LinearProgressBar() {
     Box(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxSize()
+            .background(Dim),
         contentAlignment = Alignment.Center
     ) {
-        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+        CircularProgressIndicator(modifier = Modifier.size(50.dp))
     }
 }
 

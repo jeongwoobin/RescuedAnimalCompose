@@ -305,8 +305,8 @@ class RescuedAnimalViewModel @Inject constructor(
     }
 
     private fun selectFavoriteAnimal() {
+        setState { copy(loadingState = RescuedAnimalContract.LoadingState.Loading) }
         viewModelScope.launch(Dispatchers.IO) {
-            setState { copy(loadingState = RescuedAnimalContract.LoadingState.Loading) }
             selectFavoriteAnimalUseCase().let { result ->
                 Logger.d("selectFavoriteAnimal result\nstatus: ${result.status}\ndata: ${result.data}\nmessage: ${result.message}")
                 when (result.status) {
