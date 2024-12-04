@@ -55,6 +55,7 @@ import com.example.presentation.ui.theme.Dim
 //import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.presentation.ui.theme.Line_Thin
 import com.example.presentation.ui.theme.Primary_Red_500
+import com.example.presentation.ui.theme.Text_400
 import com.example.presentation.ui.theme.Text_500
 import com.example.presentation.ui.theme.Text_600
 import com.skydoves.landscapist.ImageOptions
@@ -133,7 +134,7 @@ fun Header(
 
 @Composable
 fun GoToTopFAB(onClicked: () -> Unit) {
-    FloatingActionButton(containerColor = Text_500,onClick = onClicked) {
+    FloatingActionButton(containerColor = Text_400,onClick = onClicked) {
         VectorIcon(
             vector = Icons.Filled.ArrowCircleUp,
             tint = Color.Black,

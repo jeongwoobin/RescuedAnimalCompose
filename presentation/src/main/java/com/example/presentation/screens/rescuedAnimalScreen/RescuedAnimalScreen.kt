@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.SnackbarHostState
 //import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
@@ -43,11 +44,16 @@ fun RescuedAnimalScreen(
     val listState = rememberLazyGridState()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
-        // refresh your data
-        Logger.d("RescuedAnimalScreen ON_RESUME")
+    LaunchedEffect(Unit) {
+        Logger.d("RescuedAnimalScreen Init")
         onEventSent(RescuedAnimalContract.Event.InitData)
     }
+
+//    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+//        // refresh your data
+//        Logger.d("RescuedAnimalScreen ON_RESUME")
+//        onEventSent(RescuedAnimalContract.Event.InitData)
+//    }
 
     LaunchedEffect(effectFlow) {
         effectFlow.collectLatest { effect ->

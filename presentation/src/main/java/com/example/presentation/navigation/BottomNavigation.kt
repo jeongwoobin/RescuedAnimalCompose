@@ -86,18 +86,6 @@ fun MyBottomNavigation(
                                 contentDescription = null,
                                 tint = if (selected) Color.White else Text_400
                             )
-//                            GlideImage(
-//                                modifier = Modifier.size(24.dp),
-//                                imageModel = { item.icon },
-//                                imageOptions = ImageOptions(
-//                                    contentScale = ContentScale.Fit,
-//                                    alignment = Alignment.Center,
-//                                    colorFilter = ColorFilter.tint(
-//                                        color = if (selected) Color.White else Text_400,
-//                                        blendMode = BlendMode.SrcIn
-//                                    )
-//                                )
-//                            )
                         },
                         onClick = {
                             navController.navigate(item) {

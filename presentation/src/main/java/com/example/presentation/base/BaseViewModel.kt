@@ -52,6 +52,7 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect
      */
     protected fun setState(reduce: State.() -> State) {
         val newState = currentState.reduce()
+        Logger.d("setState")
         _uiState.value = newState
     }
 
