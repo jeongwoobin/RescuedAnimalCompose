@@ -11,7 +11,7 @@ class AnimalDetailContract {
     sealed class Event : UiEvent {
         data class OnImageClicked(val image: String) : Event()
         data class OnCareTelClicked(val tel: String) : Event()
-        data class OnItemFavoriteClicked(val index: Int, val animal: Animal) : Event()
+        data class OnItemFavoriteClicked(val animal: Animal) : Event()
     }
 
     // Ui View States

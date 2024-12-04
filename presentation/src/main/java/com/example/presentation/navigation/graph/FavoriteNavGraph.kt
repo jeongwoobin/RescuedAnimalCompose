@@ -11,6 +11,7 @@ import com.example.domain.entity.Animal
 import com.example.presentation.screens.animalDetailScreen.AnimalDetailContract
 import com.example.presentation.screens.animalDetailScreen.AnimalDetailScreen
 import com.example.presentation.screens.animalDetailScreen.AnimalDetailViewModel
+import com.example.presentation.screens.animalDetailScreen.detailScreen
 import com.example.presentation.screens.favoriteScreen.FavoriteContract
 import com.example.presentation.screens.favoriteScreen.FavoriteScreen
 import com.example.presentation.screens.favoriteScreen.FavoriteViewModel
@@ -39,27 +40,10 @@ fun NavGraphBuilder.favoriteNavGraph(navController: NavHostController) {
                 })
         }
 
-
-        composable<FavoriteGraph.Favorite.FavoriteDetail>(typeMap = FavoriteGraph.Favorite.FavoriteDetail.typeMap) {
-            val viewModel = hiltViewModel<AnimalDetailViewModel>()
-            AnimalDetailScreen(navController = navController,
-                uiState = viewModel.uiState.collectAsStateWithLifecycle(
-                    lifecycleOwner = LocalLifecycleOwner.current
-                ),
-                onEventSent = viewModel::setEvent,
-                effectFlow = viewModel.effect,
-                onNavigationRequested = { navigationEffect ->
-//                    when (navigationEffect) {
-//                        is AnimalDetailContract.Effect.Navigation.ToImage -> navController.navigateToFavoriteDetail(
-//                            animal = navigationEffect.animal
-//                        )
-//                    }
-                })
-        }
+        detailScreen(navController)
     }
 }
 
-
 fun NavHostController.navigateToFavoriteDetail(animal: Animal) {
-    navigate(FavoriteGraph.Favorite.FavoriteDetail(animal = animal))
+    navigate(DetailGraph.Detail(animal = animal))
 }

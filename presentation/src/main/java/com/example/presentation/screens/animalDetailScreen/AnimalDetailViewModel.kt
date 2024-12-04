@@ -7,6 +7,7 @@ import com.example.domain.entity.Animal
 import com.example.domain.entity.Event
 import com.example.domain.entity.Result
 import com.example.presentation.base.BaseViewModel
+import com.example.presentation.navigation.graph.DetailGraph
 import com.example.presentation.navigation.graph.RescuedAnimalGraph
 import com.example.presentation.screens.favoriteScreen.FavoriteContract
 import com.orhanobut.logger.Logger
@@ -25,8 +26,8 @@ class AnimalDetailViewModel @Inject constructor(
 
     override fun createInitialState(savedStateHandle: SavedStateHandle): AnimalDetailContract.State {
         return AnimalDetailContract.State(
-            animalState = savedStateHandle.toRoute<RescuedAnimalGraph.RescuedAnimal.RescuedAnimalDetail>(
-                typeMap = RescuedAnimalGraph.RescuedAnimal.RescuedAnimalDetail.typeMap
+            animalState = savedStateHandle.toRoute<DetailGraph.Detail>(
+                typeMap = DetailGraph.Detail.typeMap
             ).animal, loadingState = AnimalDetailContract.LoadingState.Idle
         )
     }

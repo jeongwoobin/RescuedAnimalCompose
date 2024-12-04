@@ -51,35 +51,26 @@ sealed class HomeGraph(
 
 sealed interface RescuedAnimalGraph {
     @Serializable
-    data object RescuedAnimal : RescuedAnimalGraph {
-
-        @Serializable
-        data class RescuedAnimalDetail(val animal: Animal) : RescuedAnimalGraph {
-            companion object {
-                val typeMap = mapOf(
-                    typeOf<Animal>() to serializableType<Animal>(),
-                )
-            }
-        }
-    }
+    data object RescuedAnimal : RescuedAnimalGraph {}
 }
 
 sealed interface FavoriteGraph {
     @Serializable
-    data object Favorite : FavoriteGraph{
-
-        @Serializable
-        data class FavoriteDetail(val animal: Animal) : FavoriteGraph {
-            companion object {
-                val typeMap = mapOf(
-                    typeOf<Animal>() to serializableType<Animal>(),
-                )
-            }
-        }
-    }
+    data object Favorite : FavoriteGraph {}
 }
 
 sealed interface MyPageGraph {
     @Serializable
     data object MyPage : MyPageGraph
+}
+
+sealed interface DetailGraph {
+    @Serializable
+    data class Detail(val animal: Animal) {
+        companion object {
+            val typeMap = mapOf(
+                typeOf<Animal>() to serializableType<Animal>(),
+            )
+        }
+    }
 }
