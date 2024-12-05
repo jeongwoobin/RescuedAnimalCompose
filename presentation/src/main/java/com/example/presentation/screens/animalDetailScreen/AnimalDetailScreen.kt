@@ -1,12 +1,8 @@
 package com.example.presentation.screens.animalDetailScreen
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -34,18 +30,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.toRoute
 import com.example.domain.entity.Animal
 import com.example.presentation.base.BaseScreen
 import com.example.presentation.component.Header
-import com.example.presentation.component.LinearProgressBar
+import com.example.presentation.component.LoadingProgressBar
 import com.example.presentation.component.LoadingIcon
 import com.example.presentation.component.PlaceHolderIcon
 import com.example.presentation.component.VectorIcon
-import com.example.presentation.navigation.graph.RescuedAnimalGraph
-import com.example.presentation.screens.favoriteScreen.FavoriteContract
 import com.example.presentation.ui.theme.Primary_Blue_600
 import com.example.presentation.ui.theme.Primary_Red_500
 import com.example.presentation.utils.Utils
@@ -85,7 +77,7 @@ fun AnimalDetailScreen(
     BaseScreen(
         snackbarHostState = snackbarHostState,
         loadingState = uiState.value.loadingState == AnimalDetailContract.LoadingState.Loading,
-        loadingProgressBar = { LinearProgressBar() },
+        loadingProgressBar = { LoadingProgressBar() },
     ) {
         Header(backButtonClicked = popBackStack)
         LazyColumn(modifier = Modifier.padding(horizontal = 20.dp)) {

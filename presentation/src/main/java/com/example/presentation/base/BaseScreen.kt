@@ -36,9 +36,7 @@ fun BaseScreen(
             }
 
             if (loadingState) {
-//                Box(modifier = Modifier.height(40.dp).align(alignment = Alignment.BottomCenter)) {
                 loadingProgressBar()
-//                }
             }
 
             DefaultSnackBar(

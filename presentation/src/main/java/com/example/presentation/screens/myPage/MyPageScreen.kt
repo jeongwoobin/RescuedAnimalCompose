@@ -18,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.presentation.base.BaseScreen
-import com.example.presentation.component.LinearProgressBar
+import com.example.presentation.component.LoadingProgressBar
 
 @Composable
 fun MyPageScreen(
@@ -33,7 +33,7 @@ fun MyPageScreen(
     BaseScreen(
         snackbarHostState = snackbarHostState,
         loadingState = false,
-        loadingProgressBar = { LinearProgressBar() },
+        loadingProgressBar = { LoadingProgressBar() },
     ) {
         Column {
             Box(modifier = Modifier.fillMaxWidth().height(56.dp).clickable {  })

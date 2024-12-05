@@ -7,22 +7,19 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.SnackbarHostState
 //import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.navigation.NavController
 //import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.presentation.base.BaseScreen
 import com.example.presentation.component.CustomPullToRefreshBox
 import com.example.presentation.component.GoToTopFAB
 import com.example.presentation.component.Header
-import com.example.presentation.component.LinearProgressBar
+import com.example.presentation.component.LoadingProgressBar
 import com.example.presentation.component.AnimalList
 import com.example.presentation.component.HDivider
 import com.orhanobut.logger.Logger
@@ -69,7 +66,7 @@ fun RescuedAnimalScreen(
 
     BaseScreen(snackbarHostState = snackbarHostState,
         loadingState = uiState.value.loadingState == RescuedAnimalContract.LoadingState.Loading,
-        loadingProgressBar = { LinearProgressBar() },
+        loadingProgressBar = { LoadingProgressBar() },
         fab = {
             GoToTopFAB(onClicked = {
                 coroutineScope.launch {

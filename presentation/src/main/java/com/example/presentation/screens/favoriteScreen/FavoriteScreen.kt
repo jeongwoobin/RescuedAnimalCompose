@@ -9,15 +9,12 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 //import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.presentation.base.BaseScreen
@@ -26,8 +23,7 @@ import com.example.presentation.component.GoToTopFAB
 import com.example.presentation.component.Header
 import com.example.presentation.component.HDivider
 import com.example.presentation.component.AnimalList
-import com.example.presentation.component.LinearProgressBar
-import com.example.presentation.screens.rescuedAnimalScreen.RescuedAnimalContract
+import com.example.presentation.component.LoadingProgressBar
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -68,7 +64,7 @@ fun FavoriteScreen(
     BaseScreen(
         snackbarHostState = snackbarHostState,
         loadingState = uiState.value.loadingState == FavoriteContract.LoadingState.Loading,
-        loadingProgressBar = { LinearProgressBar() },
+        loadingProgressBar = { LoadingProgressBar() },
         fab = {
             GoToTopFAB(onClicked = {
                 coroutineScope.launch {
