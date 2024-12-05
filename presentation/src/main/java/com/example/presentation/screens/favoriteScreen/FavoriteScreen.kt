@@ -42,9 +42,8 @@ fun FavoriteScreen(
     val listState = rememberLazyGridState()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+    LaunchedEffect(Unit) {
         // refresh your data
-        Logger.d("FavoriteScreen ON_RESUME")
         onEventSent(FavoriteContract.Event.InitData)
     }
 
@@ -75,7 +74,7 @@ fun FavoriteScreen(
         }) {
 //        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT)
         Column {
-            Header()
+            Header(title = "관심있는 동물")
             HDivider(modifier = Modifier.padding(horizontal = 20.dp))
             CustomPullToRefreshBox(
                 modifier = Modifier
@@ -87,7 +86,7 @@ fun FavoriteScreen(
                     listState = listState,
                     itemList = uiState.value.favoriteAnimalListState,
                     onLoadMore = { refresh ->
-                        onEventSent(FavoriteContract.Event.LoadMore(refresh = refresh))
+//                        onEventSent(FavoriteContract.Event.LoadMore(refresh = refresh))
                     },
                     itemClicked = { index, animal ->
                         onEventSent(FavoriteContract.Event.OnListItemClicked(animal))

@@ -26,7 +26,7 @@ object NetworkModule {
     fun provideMoshiConverterFactory(): MoshiConverterFactory {
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
-        return MoshiConverterFactory.create(moshi)
+        return MoshiConverterFactory.create(moshi).asLenient()
     }
 
 

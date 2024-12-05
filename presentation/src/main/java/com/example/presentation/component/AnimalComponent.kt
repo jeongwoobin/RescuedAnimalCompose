@@ -55,7 +55,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.domain.entity.Animal
 import com.example.domain.entity.Result
 import com.example.domain.entity.Status
-import com.example.presentation.ui.theme.Diary_Green_400
 import com.example.presentation.ui.theme.Primary_Red_500
 import com.orhanobut.logger.Logger
 import com.skydoves.landscapist.ImageOptions

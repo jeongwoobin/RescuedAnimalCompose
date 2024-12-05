@@ -51,7 +51,6 @@ fun MyBottomNavigation(
         HomeGraph.RescuedAnimal, HomeGraph.Favorite, HomeGraph.MyPage
     )
 
-
     Logger.d("currentRoute: $currentRoute")
 
     AnimatedVisibility(visible = currentRoute?.let {
@@ -89,7 +88,6 @@ fun MyBottomNavigation(
                         },
                         onClick = {
                             navController.navigate(item) {
-
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
                                 }

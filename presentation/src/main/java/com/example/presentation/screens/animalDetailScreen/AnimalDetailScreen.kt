@@ -1,8 +1,11 @@
 package com.example.presentation.screens.animalDetailScreen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -26,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -79,7 +83,7 @@ fun AnimalDetailScreen(
         loadingState = uiState.value.loadingState == AnimalDetailContract.LoadingState.Loading,
         loadingProgressBar = { LoadingProgressBar() },
     ) {
-        Header(backButtonClicked = popBackStack)
+        Header(title = uiState.value.animalState.kindCd, backButtonClicked = popBackStack)
         LazyColumn(modifier = Modifier.padding(horizontal = 20.dp)) {
             uiState.value.animalState.let { animal ->
                 item {
@@ -103,19 +107,29 @@ fun AnimalDetailScreen(
                     }
                 }
                 item {
-                    AboutRescued(animal = animal)
+                    Paragraph(paragraph = "구조 내용") {
+                        AboutRescued(animal = animal)
+                    }
                 }
                 item {
-                    AboutAnimal(animal = animal)
+                    Paragraph(paragraph = "동물 정보") {
+                        AboutAnimal(animal = animal)
+                    }
                 }
                 item {
-                    AboutNotice(animal = animal)
+                    Paragraph(paragraph = "공고 내용") {
+                        AboutNotice(animal = animal)
+                    }
                 }
                 item {
-                    AboutCareCenter(animal = animal)
+                    Paragraph(paragraph = "보호소 정보") {
+                        AboutCareCenter(animal = animal)
+                    }
                 }
                 item {
-                    AboutOffice(animal = animal)
+                    Paragraph(paragraph = "관할 기관") {
+                        AboutOffice(animal = animal)
+                    }
                 }
             }
         }
@@ -135,6 +149,16 @@ private fun AnimalImage(animal: Animal) {
         failure = {
             PlaceHolderIcon()
         })
+}
+
+@Composable
+private fun Paragraph(paragraph: String, content: @Composable () -> Unit) {
+    Text(text = paragraph, style = LocalTextStyle.current)
+    Spacer(modifier = Modifier.height(5.dp))
+    Column(modifier = Modifier.padding(start = 10.dp)) {
+        content()
+    }
+    Spacer(modifier = Modifier.height(20.dp))
 }
 
 @Composable
@@ -185,7 +209,6 @@ private fun AboutRescued(animal: Animal) {
 //    TitleAndContentRow(title = "고유번호", content = animal.desertionNo.toString())
     TitleAndContentRow(title = "등록날짜", content = Utils.convertMyDateFormat(animal.happenDt))
     TitleAndContentRow(title = "발견장소", content = animal.happenPlace)
-    Spacer(modifier = Modifier.height(10.dp))
 }
 
 // 품종, 색상, 나이, 체중, 성별, 중성화여부, 특징
@@ -198,7 +221,6 @@ private fun AboutAnimal(animal: Animal) {
     TitleAndContentRow(title = "성별", content = animal.sexCd)
     TitleAndContentRow(title = "중성화여부", content = animal.neuterYn)
     TitleAndContentRow(title = "특징", content = animal.specialMark)
-    Spacer(modifier = Modifier.height(10.dp))
 }
 
 // 공고번호, 공고시작일 ~ 공고종료일, 상태
@@ -211,7 +233,6 @@ private fun AboutNotice(animal: Animal) {
         }"
     )
     TitleAndContentRow(title = "상태", content = animal.processState)
-    Spacer(modifier = Modifier.height(10.dp))
 }
 
 // 보호소 이름(주소(네이버지도 연동?)), 보호소 전화번호
@@ -236,7 +257,6 @@ private fun AboutCareCenter(animal: Animal) {
             }
         }, content = animal.careTel, style = LocalTextStyle.current.copy(color = Primary_Blue_600))
     }
-    Spacer(modifier = Modifier.height(10.dp))
 }
 
 // 관할기관, 담당자, 연락처
@@ -257,5 +277,4 @@ private fun AboutOffice(animal: Animal) {
             style = LocalTextStyle.current.copy(color = Primary_Blue_600)
         )
     }
-    Spacer(modifier = Modifier.height(10.dp))
 }

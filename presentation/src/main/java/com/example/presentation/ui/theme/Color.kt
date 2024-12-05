@@ -18,12 +18,12 @@ val Primary_Red_200 = Color(0xFFFFDFDD)
 val Primary_Red_100 = Color(0xFFFFECEB)
 
 // Secondary
-val Diary_Green_600 = Color(0xFF31C99D)
-val Diary_Green_500 = Color(0xFF59D4B1)
-val Diary_Green_400 = Color(0xFF81D9BF)
-val Diary_Green_300 = Color(0xFF9BE0CC)
-val Diary_Green_200 = Color(0xFFC1EDE0)
-val Diary_Green_100 = Color(0xFFDDF5EF)
+val Primary_Green_600 = Color(0xFF31C99D)
+val Primary_Green_500 = Color(0xFF59D4B1)
+val Primary_Green_400 = Color(0xFF81D9BF)
+val Primary_Green_300 = Color(0xFF9BE0CC)
+val Primary_Green_200 = Color(0xFFC1EDE0)
+val Primary_Green_100 = Color(0xFFDDF5EF)
 
 val Primary_Blue_600 = Color(0xFF4DA9EE)
 val Primary_Blue_500 = Color(0xFF6AB8F3)

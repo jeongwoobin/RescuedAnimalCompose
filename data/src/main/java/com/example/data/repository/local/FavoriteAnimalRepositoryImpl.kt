@@ -7,6 +7,7 @@ import com.example.domain.repository.local.FavoriteAnimalRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import com.example.domain.entity.Result
+import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
@@ -16,6 +17,7 @@ class FavoriteAnimalRepositoryImpl @Inject constructor(
     override suspend fun selectAll(): Result<List<Animal>> = try {
         Result.success(DBAnimalMapper.mapperToAnimalList(favoriteAnimalDataSource.selectAll()))
     } catch (e: Exception) {
+        Logger.e(e.toString())
         Result.fail(message = "저장된 데이터를 가져오는데 실패했습니다.")
     }
 //            .map { value ->

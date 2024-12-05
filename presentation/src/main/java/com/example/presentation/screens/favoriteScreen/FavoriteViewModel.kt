@@ -95,7 +95,7 @@ class FavoriteViewModel @Inject constructor(
                     }
                 }
             }
-            delay(1000) // 로딩바 안 보여서 추가
+            delay(500) // 로딩바 안 보여서 추가
             setState { copy(loadingState = FavoriteContract.LoadingState.Idle) }
         }
     }

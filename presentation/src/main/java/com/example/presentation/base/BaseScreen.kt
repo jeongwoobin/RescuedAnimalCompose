@@ -10,6 +10,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.presentation.component.DefaultSnackBar
 
@@ -23,14 +24,16 @@ fun BaseScreen(
 ) {
 //    val loading by loadingStateFlow.collectAsStateWithLifecycle()
 
-    Scaffold(modifier = Modifier.fillMaxSize(), floatingActionButton = { fab() }) {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        floatingActionButton = { fab() }) { innerPadding ->
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(it)
+                    .padding(innerPadding)
             ) {
                 content()
             }

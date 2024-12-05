@@ -6,10 +6,9 @@ import androidx.room.PrimaryKey
 import com.squareup.moshi.JsonClass
 
 //@Keep
-//@JsonClass(generateAdapter = true)
+@JsonClass(generateAdapter = true)
 @Entity(tableName = "animal")
 data class DBAnimalEntity(
-    @PrimaryKey(autoGenerate = false)
     val desertionNo: Long,
     val filename: String?,
     val happenDt: String?,
@@ -33,4 +32,7 @@ data class DBAnimalEntity(
     val chargeNm: String?,
     val officetel: String?,
     val favorite: Boolean?
-)
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0
+}

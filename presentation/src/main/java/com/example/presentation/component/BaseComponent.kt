@@ -23,6 +23,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 //import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -51,6 +53,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun Header(
+    title: String? = null,
     backButtonClicked: (() -> Unit)? = null,
 //    rightButtonClicked: (() -> Unit)? = null
 ) {
@@ -68,11 +71,14 @@ fun Header(
             VectorIcon(
                 modifier = Modifier.clickable {
                     onClicked()
-                },
+                }.padding(end = 10.dp),
                 vector = Icons.Default.ArrowBackIosNew,
                 tint = Color.White,
                 contentDescription = "go to back"
             )
+        }
+        title?.let { t ->
+            Text(text = t, style = LocalTextStyle.current.copy(color = Color.White))
         }
         Spacer(modifier = Modifier.weight(1f))
 //            rightButtonClicked?.let { onClicked ->
@@ -177,18 +183,6 @@ fun PlaceHolderIcon() {
     )
 }
 
-@Composable
-fun LoadingProgressBar() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Dim)
-            .clickable(enabled = false) {},
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(modifier = Modifier.size(50.dp))
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

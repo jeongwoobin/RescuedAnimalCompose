@@ -31,8 +31,8 @@ interface FavoriteAnimalDao {
 //    @Query("UPDATE sido SET sido_date = :date WHERE id = :id")
 //    fun updateDate(id: Long, date: LocalDateTime)
 
-    // 탐색
-    @Query("SELECT * FROM animal ORDER BY desertionNo DESC")
+    // 탐색 // ORDER BY desertionNo DESC
+    @Query("SELECT * FROM animal ORDER BY id ASC")
     fun selectAll(): List<DBAnimalEntity>
 
     @Query("SELECT * FROM animal where desertionNo = :desertionNo")

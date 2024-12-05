@@ -22,6 +22,7 @@ import com.example.presentation.ui.theme.Primary_Red_100
 import com.example.presentation.ui.theme.Success
 import com.example.presentation.ui.theme.Text_0
 import com.example.presentation.ui.theme.Text_600
+import com.orhanobut.logger.Logger
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -42,16 +43,19 @@ fun DefaultSnackBar(
             val jsonObject = try {
                 JSONObject(data.visuals.message)
             } catch (e: JSONException) {
+                Logger.e(e.toString())
                 null
             }
             val isError = try {
                 jsonObject?.getBoolean("isError") ?: false
             } catch (e: JSONException) {
+                Logger.e(e.toString())
                 false
             }
             val content = try {
                 jsonObject?.getString("content") ?: ""
             } catch (e: JSONException) {
+                Logger.e(e.toString())
                 ""
             }
 

@@ -77,7 +77,7 @@ fun RescuedAnimalScreen(
         }) {
 //        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT)
         Column {
-            Header()
+            Header(title = "구조된 동물")
             HDivider(modifier = Modifier.padding(horizontal = 20.dp))
             CustomPullToRefreshBox(modifier = Modifier
                 .weight(1f)

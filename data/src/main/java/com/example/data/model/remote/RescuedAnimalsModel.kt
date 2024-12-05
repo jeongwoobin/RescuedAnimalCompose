@@ -22,7 +22,6 @@ data class SidoEntity(
 @Keep
 @JsonClass(generateAdapter = true)
 data class AnimalEntity(
-    @PrimaryKey(autoGenerate = false)
     val desertionNo: String,
     val filename: String?,
     val happenDt: String?,
