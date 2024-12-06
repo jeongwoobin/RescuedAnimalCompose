@@ -1,17 +1,24 @@
 package com.example.presentation.screens.rescuedAnimalScreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material3.SnackbarHostState
 //import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 //import androidx.window.core.layout.WindowWidthSizeClass
@@ -22,6 +29,8 @@ import com.example.presentation.component.Header
 import com.example.presentation.component.LoadingProgressBar
 import com.example.presentation.component.AnimalList
 import com.example.presentation.component.HDivider
+import com.example.presentation.component.VectorIcon
+import com.example.presentation.ui.theme.Primary_Red_500
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -46,6 +55,8 @@ fun RescuedAnimalScreen(
         onEventSent(RescuedAnimalContract.Event.InitData)
     }
 
+    val listScrollOffset = remember { derivedStateOf { listState.firstVisibleItemScrollOffset } }
+
 //    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
 //        // refresh your data
 //        Logger.d("RescuedAnimalScreen ON_RESUME")
@@ -68,16 +79,24 @@ fun RescuedAnimalScreen(
         loadingState = uiState.value.loadingState == RescuedAnimalContract.LoadingState.Loading,
         loadingProgressBar = { LoadingProgressBar() },
         fab = {
-            GoToTopFAB(onClicked = {
-                coroutineScope.launch {
-                    // Scroll to the top of the list when the FAB is clicked
-                    listState.animateScrollToItem(0)
-                }
-            })
+            if (listScrollOffset.value != 0) {
+                GoToTopFAB(onClicked = {
+                    coroutineScope.launch {
+                        // Scroll to the top of the list when the FAB is clicked
+                        listState.animateScrollToItem(0)
+                    }
+                })
+            }
         }) {
 //        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT)
         Column {
-            Header(title = "구조된 동물")
+            Header(title = "구조된 동물") {
+                VectorIcon(
+                    modifier = Modifier.clickable {},
+                    vector = Icons.Default.FilterAlt,
+                    tint = Color.White
+                )
+            }
             HDivider(modifier = Modifier.padding(horizontal = 20.dp))
             CustomPullToRefreshBox(modifier = Modifier
                 .weight(1f)
@@ -114,8 +133,7 @@ fun RescuedAnimalScreen(
                     favoriteClicked = { index, animal ->
                         onEventSent(
                             RescuedAnimalContract.Event.OnItemFavoriteClicked(
-                                index,
-                                animal
+                                index, animal
                             )
                         )
                     })

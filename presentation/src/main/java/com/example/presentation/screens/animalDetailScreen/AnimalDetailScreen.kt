@@ -155,9 +155,7 @@ private fun AnimalImage(animal: Animal) {
 private fun Paragraph(paragraph: String, content: @Composable () -> Unit) {
     Text(text = paragraph, style = LocalTextStyle.current)
     Spacer(modifier = Modifier.height(5.dp))
-    Column(modifier = Modifier.padding(start = 10.dp)) {
-        content()
-    }
+    content()
     Spacer(modifier = Modifier.height(20.dp))
 }
 

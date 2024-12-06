@@ -55,7 +55,7 @@ import kotlinx.coroutines.launch
 fun Header(
     title: String? = null,
     backButtonClicked: (() -> Unit)? = null,
-//    rightButtonClicked: (() -> Unit)? = null
+    rightComponent: @Composable (() -> Unit)? = null
 ) {
 //    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
 
@@ -81,6 +81,9 @@ fun Header(
             Text(text = t, style = LocalTextStyle.current.copy(color = Color.White))
         }
         Spacer(modifier = Modifier.weight(1f))
+        if (rightComponent != null) {
+            rightComponent()
+        }
 //            rightButtonClicked?.let { onClicked ->
 //                VectorIcon(
 //                    modifier = Modifier.clickable {
