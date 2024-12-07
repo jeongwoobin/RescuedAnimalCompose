@@ -11,6 +11,7 @@ interface RescuedAnimalsDataSource {
     suspend fun getSido(): Flow<Response<BaseResponse<ListBody<SidoEntity>>>>
 
     suspend fun getRescuedAnimal(
+        upkind: Int?,
         pageNo: Int,
         numOfRows: Int
     ): Flow<Response<BaseResponse<ListBody<AnimalEntity>>>>

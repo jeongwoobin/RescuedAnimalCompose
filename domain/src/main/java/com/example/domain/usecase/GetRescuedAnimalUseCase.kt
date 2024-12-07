@@ -12,9 +12,11 @@ class GetRescuedAnimalUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(
+        upkind: Int? = null,
         pageNo: Int,
         numOfRows: Int
     ): Flow<Result<ListBodyEntity<Animal>>> = repo.getRescuedAnimal(
+        upkind = upkind,
         pageNo = pageNo,
         numOfRows = numOfRows
     )

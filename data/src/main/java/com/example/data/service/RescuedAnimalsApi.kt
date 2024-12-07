@@ -13,8 +13,12 @@ interface RescuedAnimalsApi {
     @GET("sido")
     suspend fun fetchSido(): Response<BaseResponse<ListBody<SidoEntity>>>
 
+    /**
+     * upkind: 축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)
+     */
     @GET("abandonmentPublic")
     suspend fun fetchRescuedAnimal(
+        @Query("upkind") upkind: Int?,
         @Query("pageNo") pageNo: Int,
         @Query("numOfRows") numOfRows: Int
     ): Response<BaseResponse<ListBody<AnimalEntity>>>

@@ -18,8 +18,9 @@ class RescuedAnimalsDataSourceImpl @Inject constructor(
         flow { emit(api.fetchSido()) }
 
     override suspend fun getRescuedAnimal(
+        upkind: Int?,
         pageNo: Int,
         numOfRows: Int
     ): Flow<Response<BaseResponse<ListBody<AnimalEntity>>>> =
-        flow { emit(api.fetchRescuedAnimal(pageNo = pageNo, numOfRows = numOfRows)) }
+        flow { emit(api.fetchRescuedAnimal(upkind = upkind, pageNo = pageNo, numOfRows = numOfRows)) }
 }
