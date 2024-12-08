@@ -10,7 +10,6 @@ interface RescuedAnimalsRepository {
     suspend fun getSido(): Flow<Result<List<Sido>>>
 
     suspend fun getRescuedAnimal(
-        upkind: Int?,
-        pageNo: Int,
-        numOfRows: Int): Flow<Result<ListBodyEntity<Animal>>>
+        bgnde: String?, endde: String?, upkind: Int?, pageNo: Int, numOfRows: Int
+    ): Flow<Result<ListBodyEntity<Animal>>>
 }

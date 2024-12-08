@@ -14,10 +14,19 @@ interface RescuedAnimalsApi {
     suspend fun fetchSido(): Response<BaseResponse<ListBody<SidoEntity>>>
 
     /**
-     * upkind: 축종코드 (개 : 417000, 고양이 : 422400, 기타 : 429900)
+     * 구조동물 조회 API
+     *
+     * @param bgnde 유기날짜(검색 시작일 (YYYYMMDD))
+     * @param endde 유기날짜(검색 종료일 (YYYYMMDD))
+     * @param upkind 축종코드
+     * @param pageNo 페이지 번호
+     * @param numOfRows 페이지당 보여줄 개수
+     * @return
      */
     @GET("abandonmentPublic")
     suspend fun fetchRescuedAnimal(
+        @Query("bgnde") bgnde: String?,
+        @Query("endde") endde: String?,
         @Query("upkind") upkind: Int?,
         @Query("pageNo") pageNo: Int,
         @Query("numOfRows") numOfRows: Int

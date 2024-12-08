@@ -1,6 +1,7 @@
 package com.example.presentation.screens.rescuedAnimalScreen
 
 import com.example.domain.entity.Animal
+import com.example.domain.entity.AnimalSearchFilter
 import com.example.presentation.base.UiEffect
 import com.example.presentation.base.UiEvent
 import com.example.presentation.base.UiState
@@ -18,7 +19,7 @@ class RescuedAnimalContract {
 
     // Ui View States
     data class State(
-        val pageState: Int,
+        val filterState: AnimalSearchFilter,
         val rescuedAnimalListState: List<Animal>,
         val favoriteAnimalListState: List<Animal>,
         val loadingState: LoadingState

@@ -3,6 +3,7 @@ package com.example.presentation.screens.rescuedAnimalScreen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.Animal
+import com.example.domain.entity.AnimalSearchFilter
 import com.example.domain.entity.Status
 import com.example.domain.usecase.DeleteFavoriteAnimalUseCase
 import com.example.domain.usecase.SelectFavoriteAnimalUseCase
@@ -38,7 +39,7 @@ class RescuedAnimalViewModel @Inject constructor(
      */
     override fun createInitialState(savedStateHandle: SavedStateHandle): RescuedAnimalContract.State {
         return RescuedAnimalContract.State(
-            pageState = 1,
+            filterState = AnimalSearchFilter(),
             rescuedAnimalListState = listOf(),
             favoriteAnimalListState = listOf(),
             loadingState = RescuedAnimalContract.LoadingState.Idle
@@ -84,14 +85,14 @@ class RescuedAnimalViewModel @Inject constructor(
     }
 
     private fun updatePage(refresh: Boolean = false) {
-        var state = currentState.pageState
+        var state = currentState.filterState.pageNo
         if (refresh) state = 1
         else {
             state += if (state != 1) 1 else 2
         }
 
         setState {
-            copy(pageState = state)
+            copy(filterState = currentState.filterState.copy(pageNo = state))
         }
     }
 
@@ -104,11 +105,11 @@ class RescuedAnimalViewModel @Inject constructor(
         Logger.d("syncLocalAndRemoteList")
         if (favoriteList.isEmpty()
 //            || (rescuedList.last().desertionNo > favoriteList.first().desertionNo)
-            ) return rescuedList
+        ) return rescuedList
         val tempFavoriteList = favoriteList.toMutableList()
         val tempRescuedList = rescuedList.toMutableList()
         for (animal in tempRescuedList) {
-            for(favoriteAnimal in tempFavoriteList) {
+            for (favoriteAnimal in tempFavoriteList) {
                 if (animal.desertionNo == favoriteAnimal.desertionNo) {
                     animal.favorite = true
                     tempFavoriteList.remove(favoriteAnimal)
@@ -134,10 +135,14 @@ class RescuedAnimalViewModel @Inject constructor(
         Logger.d("getRescuedAnimal")
         if (refresh) updatePage(refresh = true)
         viewModelScope.launch(Dispatchers.Default) {
-            getRescuedAnimalUseCase(
-                pageNo = currentState.pageState,
-                numOfRows = if (currentState.pageState != 1) 20 else 40
-            ).onStart { setState { copy(loadingState = RescuedAnimalContract.LoadingState.Loading) } }
+            getRescuedAnimalUseCase.invoke(
+                bgnde = currentState.filterState.bgnde,
+                endde = currentState.filterState.endde,
+                upkind = currentState.filterState.upkind,
+                pageNo = currentState.filterState.pageNo,
+                numOfRows = currentState.filterState.numOfRows
+            )
+                .onStart { setState { copy(loadingState = RescuedAnimalContract.LoadingState.Loading) } }
                 .onCompletion {
                     setState { copy(loadingState = RescuedAnimalContract.LoadingState.Idle) }
                     Logger.d("getRescuedAnimal completion")
