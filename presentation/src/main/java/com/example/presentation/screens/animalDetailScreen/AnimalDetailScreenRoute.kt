@@ -7,7 +7,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.example.presentation.navigation.graph.DetailGraph
-import com.example.presentation.navigation.graph.RescuedAnimalGraph
 
 fun NavGraphBuilder.detailScreen(navController: NavHostController) {
     composable<DetailGraph.Detail>(typeMap = DetailGraph.Detail.typeMap) {

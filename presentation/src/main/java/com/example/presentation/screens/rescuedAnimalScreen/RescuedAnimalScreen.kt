@@ -1,16 +1,16 @@
 package com.example.presentation.screens.rescuedAnimalScreen
 
+//import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+//import androidx.window.core.layout.WindowWidthSizeClass
+//import com.example.rescuedanimals.presentation.screens.rescuedAnimalScreen.RescuedAnimalViewModel
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material3.SnackbarHostState
-//import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -21,21 +21,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-//import androidx.window.core.layout.WindowWidthSizeClass
+import com.example.domain.entity.AnimalSearchFilter
 import com.example.presentation.base.BaseScreen
+import com.example.presentation.component.AnimalList
 import com.example.presentation.component.CustomPullToRefreshBox
 import com.example.presentation.component.GoToTopFAB
+import com.example.presentation.component.HDivider
 import com.example.presentation.component.Header
 import com.example.presentation.component.LoadingProgressBar
-import com.example.presentation.component.AnimalList
-import com.example.presentation.component.HDivider
 import com.example.presentation.component.VectorIcon
-import com.example.presentation.ui.theme.Primary_Red_500
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
-//import com.example.rescuedanimals.presentation.screens.rescuedAnimalScreen.RescuedAnimalViewModel
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
+import org.json.JSONException
 
 @Composable
 fun RescuedAnimalScreen(
@@ -52,6 +52,16 @@ fun RescuedAnimalScreen(
 
     LaunchedEffect(Unit) {
         Logger.d("RescuedAnimalScreen Init")
+        navController.currentBackStackEntry?.savedStateHandle?.remove<String>("resultFilter")
+            ?.let { value ->
+                try {
+                    val resultFilter = Json.decodeFromString<AnimalSearchFilter>(value)
+                    Logger.d("resultFilter: $resultFilter")
+                } catch (e: JSONException) {
+                    Logger.e(e.toString())
+                }
+            } ?: Logger.e("resultFilter fail or null")
+
         onEventSent(RescuedAnimalContract.Event.InitData)
     }
 
@@ -92,9 +102,9 @@ fun RescuedAnimalScreen(
         Column {
             Header(title = "구조된 동물") {
                 VectorIcon(
-                    modifier = Modifier.clickable {},
-                    vector = Icons.Default.FilterAlt,
-                    tint = Color.White
+                    modifier = Modifier.clickable {
+                        onEventSent(RescuedAnimalContract.Event.OnFilterClicked(filter = uiState.value.filterState))
+                    }, vector = Icons.Default.FilterAlt, tint = Color.White
                 )
             }
             HDivider(modifier = Modifier.padding(horizontal = 20.dp))

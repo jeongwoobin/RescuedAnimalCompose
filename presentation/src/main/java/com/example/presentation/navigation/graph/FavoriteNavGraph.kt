@@ -8,9 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.domain.entity.Animal
-import com.example.presentation.screens.animalDetailScreen.AnimalDetailContract
-import com.example.presentation.screens.animalDetailScreen.AnimalDetailScreen
-import com.example.presentation.screens.animalDetailScreen.AnimalDetailViewModel
 import com.example.presentation.screens.animalDetailScreen.detailScreen
 import com.example.presentation.screens.favoriteScreen.FavoriteContract
 import com.example.presentation.screens.favoriteScreen.FavoriteScreen

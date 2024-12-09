@@ -9,12 +9,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.domain.entity.Animal
+import com.example.domain.entity.AnimalSearchFilter
 import com.example.presentation.screens.animalDetailScreen.AnimalDetailScreen
 import com.example.presentation.screens.animalDetailScreen.AnimalDetailViewModel
 import com.example.presentation.screens.animalDetailScreen.detailScreen
 import com.example.presentation.screens.rescuedAnimalScreen.RescuedAnimalContract
 import com.example.presentation.screens.rescuedAnimalScreen.RescuedAnimalScreen
 import com.example.presentation.screens.rescuedAnimalScreen.RescuedAnimalViewModel
+import com.example.presentation.screens.rescuedAnimalScreen.searchFilterScreen.searchFilterScreen
 import com.orhanobut.logger.Logger
 
 fun NavGraphBuilder.rescuedAnimalNavGraph(navController: NavHostController) {
@@ -34,16 +36,24 @@ fun NavGraphBuilder.rescuedAnimalNavGraph(navController: NavHostController) {
                             animal = navigationEffect.animal
                         )
 
-                        is RescuedAnimalContract.Effect.Navigation.ToFilter -> {}
+                        is RescuedAnimalContract.Effect.Navigation.ToFilter -> navController.navigateToSearchFilter(
+                            filter = navigationEffect.filter
+                        )
                     }
                 })
         }
 
         detailScreen(navController)
+
+        searchFilterScreen(navController)
     }
 }
 
 
 fun NavHostController.navigateToRescuedAnimalDetail(animal: Animal) {
     navigate(DetailGraph.Detail(animal = animal))
+}
+
+fun NavHostController.navigateToSearchFilter(filter: AnimalSearchFilter) {
+    navigate(RescuedAnimalGraph.RescuedAnimal.SearchFilter(filter = filter))
 }

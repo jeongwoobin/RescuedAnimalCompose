@@ -12,7 +12,7 @@ class RescuedAnimalContract {
     sealed class Event : UiEvent {
         data object InitData : Event()
         data class LoadMore(val refresh: Boolean) : Event()
-        data object OnFilterClicked : Event()
+        data class OnFilterClicked(val filter: AnimalSearchFilter) : Event()
         data class OnListItemClicked(val animal: Animal) : Event()
         data class OnItemFavoriteClicked(val index: Int, val animal: Animal) : Event()
     }
@@ -36,7 +36,7 @@ class RescuedAnimalContract {
         data class ShowSnackbar(val content: String) : Effect()
         sealed class Navigation : Effect() {
             data class ToDetail(val animal: Animal) : Navigation()
-            data object ToFilter : Navigation()
+            data class ToFilter(val filter: AnimalSearchFilter) : Navigation()
         }
     }
 }

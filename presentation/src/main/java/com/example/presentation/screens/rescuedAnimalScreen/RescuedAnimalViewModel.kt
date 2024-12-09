@@ -64,7 +64,7 @@ class RescuedAnimalViewModel @Inject constructor(
             }
 
             is RescuedAnimalContract.Event.OnFilterClicked -> {
-                setEffect { RescuedAnimalContract.Effect.Navigation.ToFilter }
+                setEffect { RescuedAnimalContract.Effect.Navigation.ToFilter(event.filter) }
             }
 
             is RescuedAnimalContract.Event.OnListItemClicked -> {
@@ -138,7 +138,7 @@ class RescuedAnimalViewModel @Inject constructor(
             getRescuedAnimalUseCase.invoke(
                 bgnde = currentState.filterState.bgnde,
                 endde = currentState.filterState.endde,
-                upkind = currentState.filterState.upkind,
+                upkind = currentState.filterState.upkind?.id,
                 pageNo = currentState.filterState.pageNo,
                 numOfRows = currentState.filterState.numOfRows
             )

@@ -2,6 +2,7 @@ package com.example.presentation.base
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,7 +21,7 @@ fun BaseScreen(
     loadingState: Boolean,
     loadingProgressBar: @Composable () -> Unit = {},
     fab: @Composable () -> Unit = {},
-    content: @Composable () -> Unit
+    content: @Composable ColumnScope.() -> Unit
 ) {
 //    val loading by loadingStateFlow.collectAsStateWithLifecycle()
 

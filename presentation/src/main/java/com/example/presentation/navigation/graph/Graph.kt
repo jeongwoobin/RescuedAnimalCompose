@@ -3,6 +3,7 @@ package com.example.presentation.navigation.graph
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.example.domain.entity.Animal
+import com.example.domain.entity.AnimalSearchFilter
 import com.example.presentation.R
 import com.example.presentation.utils.serializableType
 import kotlinx.serialization.Serializable
@@ -51,7 +52,16 @@ sealed class HomeGraph(
 
 sealed interface RescuedAnimalGraph {
     @Serializable
-    data object RescuedAnimal : RescuedAnimalGraph {}
+    data object RescuedAnimal : RescuedAnimalGraph {
+        @Serializable
+        data class SearchFilter(val filter: AnimalSearchFilter) {
+            companion object {
+                val typeMap = mapOf(
+                    typeOf<AnimalSearchFilter>() to serializableType<AnimalSearchFilter>(),
+                )
+            }
+        }
+    }
 }
 
 sealed interface FavoriteGraph {
