@@ -31,5 +31,5 @@ data class Animal(
     val orgNm: String?,
     val chargeNm: String?,
     val officetel: String?,
-    var favorite: Boolean?
+    val favorite: Boolean?
 )

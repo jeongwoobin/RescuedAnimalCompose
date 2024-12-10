@@ -52,15 +52,19 @@ class RescuedAnimalViewModel @Inject constructor(
     override fun handleEvent(event: RescuedAnimalContract.Event) {
         when (event) {
             is RescuedAnimalContract.Event.InitData -> {
-                initData()
+                initData(event.filter)
             }
 
             is RescuedAnimalContract.Event.LoadMore -> {
                 if (event.refresh) {
-                    selectFavoriteAnimal()
+                    selectFavoriteAnimal(refresh = event.refresh)
                 } else {
                     getRescuedAnimal(refresh = event.refresh)
                 }
+            }
+
+            is RescuedAnimalContract.Event.OnFabClicked -> {
+                setEffect { RescuedAnimalContract.Effect.ScrollUp }
             }
 
             is RescuedAnimalContract.Event.OnFilterClicked -> {
@@ -80,11 +84,24 @@ class RescuedAnimalViewModel @Inject constructor(
         }
     }
 
-    private fun initData() {
-        selectFavoriteAnimal()
+    private fun initData(filter: AnimalSearchFilter?) {
+        var refreshState = currentState.rescuedAnimalListState.isEmpty()
+        filter?.let {
+            refreshState = refreshState || currentState.filterState != it
+            setSearchFilter(it)
+        }
+        selectFavoriteAnimal(refresh = refreshState)
+    }
+
+    private fun setSearchFilter(filter: AnimalSearchFilter) {
+        Logger.d("setSearchFilter\ncurrent: ${currentState.filterState}\nnew: $filter\nequal?: ${currentState.filterState == filter}")
+        setState {
+            copy(filterState = filter)
+        }
     }
 
     private fun updatePage(refresh: Boolean = false) {
+        Logger.d("updatePage: $refresh")
         var state = currentState.filterState.pageNo
         if (refresh) state = 1
         else {
@@ -107,21 +124,36 @@ class RescuedAnimalViewModel @Inject constructor(
 //            || (rescuedList.last().desertionNo > favoriteList.first().desertionNo)
         ) return rescuedList
         val tempFavoriteList = favoriteList.toMutableList()
-        val tempRescuedList = rescuedList.toMutableList()
-        for (animal in tempRescuedList) {
-            for (favoriteAnimal in tempFavoriteList) {
-                if (animal.desertionNo == favoriteAnimal.desertionNo) {
-                    animal.favorite = true
-                    tempFavoriteList.remove(favoriteAnimal)
-                    break
+        // favorite에서 삭제 후 돌아왔을 때 새로 데이터를 불러오지 않기 위해 false로 초기화
+        val tempRescuedList = rescuedList.toMutableList().apply {
+            for(i in 0 until this.size) {
+                var item = this[i].copy(favorite = false)
+
+                for (favoriteAnimal in tempFavoriteList) {
+                    if (item.desertionNo == favoriteAnimal.desertionNo) {
+                        item = item.copy(favorite = true)
+                        tempFavoriteList.remove(favoriteAnimal)
+                        break
+                    }
                 }
+                this[i] = item
             }
-            // 서버에서 받은 리스트가 sort가 되어있을 때 사용..
-//            if (animal.desertionNo == tempFavoriteList.first().desertionNo) {
-//                animal.favorite = true
-//                tempFavoriteList.removeFirst()
+
+//            for (animal in this) {
+//                for (favoriteAnimal in tempFavoriteList) {
+//                    if (animal.desertionNo == favoriteAnimal.desertionNo) {
+//                        animal.favorite = true
+//                        tempFavoriteList.remove(favoriteAnimal)
+//                        break
+//                    }
+//                }
+//                // 서버에서 받은 리스트가 sort가 되어있을 때 사용..
+////            if (animal.desertionNo == tempFavoriteList.first().desertionNo) {
+////                animal.favorite = true
+////                tempFavoriteList.removeFirst()
+////            }
+//                if (tempFavoriteList.isEmpty()) break
 //            }
-            if (tempFavoriteList.isEmpty()) break
         }
         setState {
             copy(
@@ -145,6 +177,9 @@ class RescuedAnimalViewModel @Inject constructor(
                 .onStart { setState { copy(loadingState = RescuedAnimalContract.LoadingState.Loading) } }
                 .onCompletion {
                     setState { copy(loadingState = RescuedAnimalContract.LoadingState.Idle) }
+                    if(refresh) {
+                        setEvent(RescuedAnimalContract.Event.OnFabClicked)
+                    }
                     Logger.d("getRescuedAnimal completion")
                 }.collect { result ->
                     Logger.d("getRescuedAnimal result\nstatus: ${result.status}\nmessage: ${result.message}")
@@ -309,7 +344,8 @@ class RescuedAnimalViewModel @Inject constructor(
         }
     }
 
-    private fun selectFavoriteAnimal() {
+    private fun selectFavoriteAnimal(refresh: Boolean) {
+        Logger.d("selectFavoriteAnimal $refresh")
         setState { copy(loadingState = RescuedAnimalContract.LoadingState.Loading) }
         viewModelScope.launch(Dispatchers.IO) {
             selectFavoriteAnimalUseCase().let { result ->
@@ -318,17 +354,37 @@ class RescuedAnimalViewModel @Inject constructor(
                     Status.LOADING -> {}
                     Status.SUCCESS -> {
                         result.data?.let { data ->
-                            if (data.isNotEmpty()) setState {
-                                copy(
-                                    favoriteAnimalListState = data
-                                )
+                            if (data.isNotEmpty()) {
+                                if (refresh) {
+                                    setState {
+                                        copy(
+                                            favoriteAnimalListState = data
+                                        )
+                                    }
+                                } else {
+                                    val list = syncLocalAndRemoteList(
+                                        favoriteList = data,
+                                        rescuedList = currentState.rescuedAnimalListState
+                                    )
+                                    setState {
+                                        copy(
+                                            rescuedAnimalListState = list,
+                                        )
+                                    }
+//                                    Logger.d("currentState First: ${currentState.rescuedAnimalListState.first()}")
+                                }
                             }
+
                         }
                     }
 
                     else -> {}
                 }
-                getRescuedAnimal(refresh = true)
+                if (refresh) {
+                    getRescuedAnimal(refresh = refresh)
+                } else {
+                    setState { copy(loadingState = RescuedAnimalContract.LoadingState.Idle) }
+                }
             }
         }
     }

@@ -10,8 +10,9 @@ class RescuedAnimalContract {
 
     // Events that user performed
     sealed class Event : UiEvent {
-        data object InitData : Event()
+        data class InitData(val filter: AnimalSearchFilter? = null) : Event()
         data class LoadMore(val refresh: Boolean) : Event()
+        data object OnFabClicked : Event()
         data class OnFilterClicked(val filter: AnimalSearchFilter) : Event()
         data class OnListItemClicked(val animal: Animal) : Event()
         data class OnItemFavoriteClicked(val index: Int, val animal: Animal) : Event()
@@ -38,5 +39,6 @@ class RescuedAnimalContract {
             data class ToDetail(val animal: Animal) : Navigation()
             data class ToFilter(val filter: AnimalSearchFilter) : Navigation()
         }
+        data object ScrollUp : Effect()
     }
 }

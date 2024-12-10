@@ -22,8 +22,10 @@ fun NavGraphBuilder.searchFilterScreen(navController: NavHostController) {
             onNavigationRequested = { navigationEffect ->
             },
             popBackStack = { filter ->
-                navController.previousBackStackEntry?.savedStateHandle?.apply {
-                    set("resultFilter", Json.encodeToString(filter))
+                filter?.let {
+                    navController.previousBackStackEntry?.savedStateHandle?.apply {
+                        set("resultFilter", Json.encodeToString(filter))
+                    }
                 }
                 navController.popBackStack()
             })

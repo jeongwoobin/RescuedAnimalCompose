@@ -22,6 +22,7 @@ data class AnimalSearchFilter(
 }
 
 enum class Upkind(val id: Int) {
+    ALL(id = -1),
     DOG(id = 417000),
     CAT(id = 422400),
     ETC(id = 429900)

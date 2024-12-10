@@ -52,17 +52,23 @@ fun RescuedAnimalScreen(
 
     LaunchedEffect(Unit) {
         Logger.d("RescuedAnimalScreen Init")
-        navController.currentBackStackEntry?.savedStateHandle?.remove<String>("resultFilter")
-            ?.let { value ->
-                try {
-                    val resultFilter = Json.decodeFromString<AnimalSearchFilter>(value)
-                    Logger.d("resultFilter: $resultFilter")
-                } catch (e: JSONException) {
-                    Logger.e(e.toString())
-                }
-            } ?: Logger.e("resultFilter fail or null")
+        val filter: AnimalSearchFilter? =
+            navController.currentBackStackEntry?.savedStateHandle?.remove<String>("resultFilter")
+                ?.let { value ->
+                    try {
+                        val resultFilter = Json.decodeFromString<AnimalSearchFilter>(value)
+                        Logger.d("resultFilter: $resultFilter")
+                        resultFilter
+                    } catch (e: Exception) {
+                        Logger.e(e.toString())
+                        null
+                    }
+                } ?: run {
+                Logger.d("resultFilter is null")
+                null
+            }
 
-        onEventSent(RescuedAnimalContract.Event.InitData)
+        onEventSent(RescuedAnimalContract.Event.InitData(filter))
     }
 
     val listScrollOffset = remember { derivedStateOf { listState.firstVisibleItemScrollOffset } }
@@ -81,6 +87,10 @@ fun RescuedAnimalScreen(
                 }
 
                 is RescuedAnimalContract.Effect.Navigation -> onNavigationRequested(effect)
+
+                is RescuedAnimalContract.Effect.ScrollUp -> {
+                    listState.animateScrollToItem(0)
+                }
             }
         }
     }
@@ -91,10 +101,11 @@ fun RescuedAnimalScreen(
         fab = {
             if (listScrollOffset.value != 0) {
                 GoToTopFAB(onClicked = {
-                    coroutineScope.launch {
-                        // Scroll to the top of the list when the FAB is clicked
-                        listState.animateScrollToItem(0)
-                    }
+                    onEventSent(RescuedAnimalContract.Event.OnFabClicked)
+//                    coroutineScope.launch {
+//                        // Scroll to the top of the list when the FAB is clicked
+//                        listState.animateScrollToItem(0)
+//                    }
                 })
             }
         }) {

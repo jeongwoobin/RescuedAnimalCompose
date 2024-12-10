@@ -138,7 +138,7 @@ fun AnimalList(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        itemsIndexed(itemList) { index, item ->
+        itemsIndexed(items = itemList) { index, item ->
 //            if ((windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.COMPACT))
             AnimalItemCompact(
                 index = index,
