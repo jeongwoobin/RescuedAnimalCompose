@@ -21,8 +21,8 @@ data class AnimalSearchFilter(
     val numOfRows: Int = if (pageNo != 1) 20 else 40
 }
 
-enum class Upkind(val id: Int) {
-    ALL(id = -1),
+enum class Upkind(val id: Int?) {
+    ALL(id = null),
     DOG(id = 417000),
     CAT(id = 422400),
     ETC(id = 429900)
