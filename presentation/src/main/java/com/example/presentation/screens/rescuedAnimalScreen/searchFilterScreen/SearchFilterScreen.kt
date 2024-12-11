@@ -83,7 +83,16 @@ fun SearchFilterScreen(
                     Text(text = "filter: $filter")
                 }
                 item {
-                    AboutUpkind(filter = filter, onValueChanged = { upkind -> onEventSent(SearchFilterContract.Event.OnUpkindClicked(upkind))})
+                    AboutDate(filter = filter, onValueChanged = {})
+                }
+                item {
+                    AboutUpkind(
+                        filter = filter,
+                        onValueChanged = { upkind ->
+                            onEventSent(
+                                SearchFilterContract.Event.OnUpkindClicked(upkind)
+                            )
+                        })
                 }
             }
         }
@@ -100,8 +109,19 @@ fun SearchFilterScreen(
 }
 
 @Composable
+private fun AboutDate(filter: AnimalSearchFilter, onValueChanged: (String) -> Unit) {
+    Box() {
+
+    }
+}
+
+@Composable
 private fun AboutUpkind(filter: AnimalSearchFilter, onValueChanged: (Upkind) -> Unit) {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Upkind.entries.forEach { upkind ->
             Row(verticalAlignment = Alignment.CenterVertically) {
                 CustomRadioBtn(
