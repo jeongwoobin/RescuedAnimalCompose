@@ -10,7 +10,14 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 object Utils {
+    /**
+     * yyyyMMdd Locale.KOREAN
+     */
     val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.KOREAN)
+
+    /**
+     * yyyy.MM.dd Locale.KOREAN
+     */
     val myDateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.KOREAN)
 
     fun convertMyDateFormat(date: String?): String? {

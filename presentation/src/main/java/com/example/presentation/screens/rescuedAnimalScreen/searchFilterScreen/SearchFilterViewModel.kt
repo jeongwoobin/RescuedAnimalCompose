@@ -1,23 +1,14 @@
 package com.example.presentation.screens.rescuedAnimalScreen.searchFilterScreen
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.example.domain.entity.Animal
-import com.example.domain.entity.Status
 import com.example.domain.entity.Upkind
 import com.example.domain.usecase.DeleteFavoriteAnimalUseCase
 import com.example.domain.usecase.InsertFavoriteAnimalUseCase
 import com.example.presentation.base.BaseViewModel
-import com.example.presentation.navigation.graph.DetailGraph
 import com.example.presentation.navigation.graph.RescuedAnimalGraph
-import com.example.presentation.utils.Utils
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,7 +31,11 @@ class SearchFilterViewModel @Inject constructor(
     override fun handleEvent(event: SearchFilterContract.Event) {
         when (event) {
             is SearchFilterContract.Event.OnUpkindClicked -> {
-                updateKind(event.kind)
+                updateKind(upkind = event.upkind)
+            }
+
+            is SearchFilterContract.Event.OnDateChanged -> {
+                updateDate(isStartDate = event.isStartDate, date = event.date)
             }
 //            is SearchFilterContract.Event.OnImageClicked -> {
 //
@@ -66,6 +61,21 @@ class SearchFilterViewModel @Inject constructor(
             copy(
                 filterState = currentState.filterState.copy(upkind = upkind)
             )
+        }
+    }
+
+    private fun updateDate(isStartDate: Boolean, date: String?) {
+        Logger.d("updateDate\nisStartDate: $isStartDate\ndate: $date")
+        setState {
+            if (isStartDate) {
+                copy(
+                    filterState = currentState.filterState.copy(bgnde = date)
+                )
+            } else {
+                copy(
+                    filterState = currentState.filterState.copy(endde = date)
+                )
+            }
         }
     }
 }
