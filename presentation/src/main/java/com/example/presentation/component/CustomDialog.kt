@@ -1,8 +1,10 @@
 package com.example.presentation.component
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -15,6 +17,7 @@ import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -25,13 +28,10 @@ import androidx.compose.foundation.layout.Arrangement as Arrangement1
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomDatePickerDialog(
-    selectedDate: String?,
-    onClickCancel: () -> Unit,
-    onClickConfirm: (date: String) -> Unit
+    title: String?, selectedDate: String?, onClickCancel: () -> Unit, onClickConfirm: (date: String) -> Unit
 ) {
 
-    val datePickerState = rememberDatePickerState(
-        yearRange = DatePickerDefaults.YearRange,
+    val datePickerState = rememberDatePickerState(yearRange = DatePickerDefaults.YearRange,
         initialDisplayMode = DisplayMode.Picker,
         initialSelectedDateMillis = selectedDate?.let {
 //                val formatter = SimpleDateFormat("yyyyMMdd", Locale.getDefault()).apply {
@@ -56,29 +56,42 @@ fun CustomDatePickerDialog(
 
     DatePickerDialog(
         onDismissRequest = { onClickCancel() },
-        dismissButton = {
-            Button(onClick = {
-                onClickCancel()
-            }) {
-                Text(text = "취소")
-            }
-        },
-        confirmButton = {
-            Button(onClick = {
-                datePickerState.selectedDateMillis?.let { selectedDateMillis ->
-                    val yyyyMMdd = Utils.dateFormat.format(Date(selectedDateMillis))
-
-                    onClickConfirm(yyyyMMdd)
-                }
-            }) {
-                Text(text = "확인")
-            }
-        },
+        dismissButton = {},
+        confirmButton = {},
         shape = RoundedCornerShape(6.dp),
     ) {
+        Column {
+            DatePicker(
+                state = datePickerState,
+            )
 
-        DatePicker(
-            state = datePickerState,
-        )
+            Row(modifier = Modifier.padding(horizontal = 24.dp), verticalAlignment = Alignment.CenterVertically) {
+                Button(onClick = {
+                    onClickCancel()
+                }) {
+                    Text(text = "취소")
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Button(onClick = {
+//                    datePickerState.selectedDateMillis?.let { selectedDateMillis ->
+//                        val yyyyMMdd = Utils.dateFormat.format(Date(selectedDateMillis))
+//
+//                        onClickConfirm(yyyyMMdd)
+//                    }
+                }) {
+                    Text(text = "초기화")
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+                Button(onClick = {
+                    datePickerState.selectedDateMillis?.let { selectedDateMillis ->
+                        val yyyyMMdd = Utils.dateFormat.format(Date(selectedDateMillis))
+
+                        onClickConfirm(yyyyMMdd)
+                    }
+                }) {
+                    Text(text = "확인")
+                }
+            }
+        }
     }
 }
