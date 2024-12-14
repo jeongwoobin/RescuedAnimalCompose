@@ -34,6 +34,10 @@ class SearchFilterViewModel @Inject constructor(
                 updateKind(upkind = event.upkind)
             }
 
+            is SearchFilterContract.Event.OnDateInitClicked -> {
+                updateDateInit()
+            }
+
             is SearchFilterContract.Event.OnDateChanged -> {
                 updateDate(isStartDate = event.isStartDate, date = event.date)
             }
@@ -61,6 +65,12 @@ class SearchFilterViewModel @Inject constructor(
             copy(
                 filterState = currentState.filterState.copy(upkind = upkind)
             )
+        }
+    }
+
+    private fun updateDateInit() {
+        setState {
+            copy(filterState = currentState.filterState.copy(bgnde = null, endde = null))
         }
     }
 

@@ -11,6 +11,7 @@ class SearchFilterContract {
     // Events that user performed
     sealed class Event : UiEvent {
         data class OnUpkindClicked(val upkind: Upkind): Event()
+        data object OnDateInitClicked: Event()
         data class OnDateChanged(val isStartDate: Boolean, val date: String?): Event()
 //        data class OnImageClicked(val image: String) : Event()
 //        data class OnCareTelClicked(val tel: String) : Event()

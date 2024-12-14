@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,7 +29,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.domain.entity.AnimalSearchFilter
 import com.example.domain.entity.Upkind
@@ -37,9 +41,12 @@ import com.example.presentation.component.CustomDatePickerDialog
 import com.example.presentation.component.CustomRadioBtn
 import com.example.presentation.component.Header
 import com.example.presentation.component.LoadingProgressBar
+import com.example.presentation.ui.theme.Text_600
+import com.example.presentation.utils.Utils
 import com.orhanobut.logger.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
+import java.util.TimeZone
 
 @Composable
 fun SearchFilterScreen(
@@ -81,11 +88,27 @@ fun SearchFilterScreen(
             uiState.value.filterState.let { filter ->
                 item {
                     Text(text = "filter: $filter")
+                    Spacer(modifier = Modifier.height(15.dp))
                 }
                 item {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         AboutDate(modifier = Modifier.weight(1f),
+                            title = "검색 시작일",
                             date = filter.bgnde,
+                            isSelectableDate = { utcTimeMillis ->
+                                val selectableDate = filter.endde?.let {
+                                    (Utils.dateFormat.apply {
+                                        timeZone = TimeZone.getTimeZone("UTC")
+                                    }.parse(it)?.time
+                                        ?: System.currentTimeMillis()) >= utcTimeMillis
+                                } ?: true
+                                selectableDate && utcTimeMillis < System.currentTimeMillis()
+                            },
+                            OnDateInitClicked = {
+                                onEventSent(
+                                    SearchFilterContract.Event.OnDateInitClicked
+                                )
+                            },
                             onValueChanged = { date ->
                                 onEventSent(
                                     SearchFilterContract.Event.OnDateChanged(
@@ -95,7 +118,22 @@ fun SearchFilterScreen(
                             })
                         Spacer(modifier = Modifier.width(10.dp))
                         AboutDate(modifier = Modifier.weight(1f),
+                            title = "검색 종료일",
                             date = filter.endde,
+                            isSelectableDate = { utcTimeMillis ->
+                                val selectableDate = filter.bgnde?.let {
+                                    (Utils.dateFormat.apply {
+                                        timeZone = TimeZone.getTimeZone("UTC")
+                                    }.parse(it)?.time
+                                        ?: System.currentTimeMillis()) <= utcTimeMillis
+                                } ?: true
+                                selectableDate && utcTimeMillis < System.currentTimeMillis()
+                            },
+                            OnDateInitClicked = {
+                                onEventSent(
+                                    SearchFilterContract.Event.OnDateInitClicked
+                                )
+                            },
                             onValueChanged = { date ->
                                 onEventSent(
                                     SearchFilterContract.Event.OnDateChanged(
@@ -104,6 +142,7 @@ fun SearchFilterScreen(
                                 )
                             })
                     }
+                    Spacer(modifier = Modifier.height(15.dp))
                 }
                 item {
                     AboutUpkind(filter = filter, onValueChanged = { upkind ->
@@ -111,38 +150,69 @@ fun SearchFilterScreen(
                             SearchFilterContract.Event.OnUpkindClicked(upkind = upkind)
                         )
                     })
+                    Spacer(modifier = Modifier.height(15.dp))
                 }
             }
         }
-        Box(modifier = Modifier
-            .height(56.dp)
-            .fillMaxWidth()
-            .background(color = Color.White)
-            .clickable {
-                popBackStack(uiState.value.filterState)
-            }) {
-            Text("Save")
+        Box(
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .padding(bottom = 20.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .height(56.dp)
+                    .fillMaxWidth()
+                    .background(color = Color.White, shape = RoundedCornerShape(5.dp))
+                    .clickable {
+                        popBackStack(uiState.value.filterState)
+                    }, contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    "저장하기", style = TextStyle(
+                        color = Text_600, fontSize = 14.sp, fontWeight = FontWeight.Normal
+                    )
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun AboutDate(modifier: Modifier, date: String?, onValueChanged: (date: String) -> Unit) {
+private fun AboutDate(
+    modifier: Modifier,
+    title: String?,
+    date: String?,
+    isSelectableDate: (utcTimeMillis: Long) -> Boolean,
+    OnDateInitClicked: () -> Unit,
+    onValueChanged: (date: String?) -> Unit
+) {
     var isDialogShow by remember { mutableStateOf(false) }
 
-    Box(modifier = modifier
-        .border(
-            width = 1.dp, color = Color.White, shape = RoundedCornerShape(6.dp)
-        )
-        .clickable {
-            isDialogShow = true
-        }) {
-        Text(date.toString())
+    Column(modifier = modifier) {
+        Text(text = title.toString())
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                width = 1.dp, color = Color.White, shape = RoundedCornerShape(6.dp)
+            )
+            .clickable {
+                isDialogShow = true
+            }
+            .padding(4.dp)) {
+            Text(date ?: "전체 기간")
+        }
     }
 
     if (isDialogShow) {
-        CustomDatePickerDialog(selectedDate = date,
+        CustomDatePickerDialog(title = title,
+            selectedDate = date,
+            isSelectable = isSelectableDate,
             onClickCancel = { isDialogShow = false },
+            OnDateInitClicked = {
+                OnDateInitClicked()
+                isDialogShow = false
+            },
             onClickConfirm = { result ->
                 Logger.d("onClickConfirm: $result")
                 onValueChanged(result)
@@ -153,6 +223,7 @@ private fun AboutDate(modifier: Modifier, date: String?, onValueChanged: (date: 
 
 @Composable
 private fun AboutUpkind(filter: AnimalSearchFilter, onValueChanged: (Upkind) -> Unit) {
+    Text(text = "축종")
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,

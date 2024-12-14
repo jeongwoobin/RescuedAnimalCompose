@@ -15,15 +15,12 @@ import kotlinx.serialization.Serializable
 data class AnimalSearchFilter(
     var bgnde: String? = null,
     var endde: String? = null,
-    var upkind: Upkind? = null,
+    var upkind: Upkind? = null ?: Upkind.ALL,
     var pageNo: Int = 1,
 ) {
     val numOfRows: Int = if (pageNo != 1) 20 else 40
 }
 
 enum class Upkind(val id: Int?) {
-    ALL(id = null),
-    DOG(id = 417000),
-    CAT(id = 422400),
-    ETC(id = 429900)
+    ALL(id = null), DOG(id = 417000), CAT(id = 422400), ETC(id = 429900)
 }

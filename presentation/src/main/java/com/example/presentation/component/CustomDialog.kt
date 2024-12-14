@@ -1,6 +1,7 @@
 package com.example.presentation.component
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,11 +12,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,14 +26,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.presentation.utils.Utils
 import java.util.Date
+import java.util.TimeZone
 import androidx.compose.foundation.layout.Arrangement as Arrangement1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomDatePickerDialog(
-    title: String?, selectedDate: String?, onClickCancel: () -> Unit, onClickConfirm: (date: String) -> Unit
+    title: String?,
+    selectedDate: String?,
+    isSelectable: (utcTimeMillis: Long) -> Boolean,
+    onClickCancel: () -> Unit,
+    OnDateInitClicked: () -> Unit,
+    onClickConfirm: (date: String) -> Unit
 ) {
-
     val datePickerState = rememberDatePickerState(yearRange = DatePickerDefaults.YearRange,
         initialDisplayMode = DisplayMode.Picker,
         initialSelectedDateMillis = selectedDate?.let {
@@ -43,14 +51,14 @@ fun CustomDatePickerDialog(
 //                    // 이를 UTC 시간으로 변환하면서 -9시간을 적용하기 때문에 결과적으로 20240228을 넘기면 2024년 2월 27일에 선택이 되있는 문제가 발생한다.
 //                    timeZone = TimeZone.getTimeZone("UTC")
 //                }
-            Utils.dateFormat.parse(it)?.time
-                ?: System.currentTimeMillis() // 날짜 파싱 실패 시 현재 시간을 기본값으로 사용
+            Utils.dateFormat.apply {
+                timeZone = TimeZone.getTimeZone("UTC")
+            }.parse(it)?.time ?: System.currentTimeMillis() // 날짜 파싱 실패 시 현재 시간을 기본값으로 사용
         } ?: System.currentTimeMillis(), // selectedDate가 null인 경우 현재 시간을 기본값으로 사용,
         selectableDates = object : SelectableDates {
             override fun isSelectableDate(utcTimeMillis: Long): Boolean {
                 // 날짜 제한 조건
-                return true
-//                    return utcTimeMillis > System.currentTimeMillis()
+                return isSelectable(utcTimeMillis)
             }
         })
 
@@ -61,11 +69,97 @@ fun CustomDatePickerDialog(
         shape = RoundedCornerShape(6.dp),
     ) {
         Column {
-            DatePicker(
-                state = datePickerState,
-            )
+            DatePicker(state = datePickerState, title = {
+                Text(
+                    modifier = Modifier.padding(
+                        PaddingValues(
+                            start = 24.dp, end = 12.dp, top = 16.dp
+                        )
+                    ), text = title.toString()
+                )
+            })
 
-            Row(modifier = Modifier.padding(horizontal = 24.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(onClick = {
+                    onClickCancel()
+                }) {
+                    Text(text = "취소")
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Button(onClick = {
+                    OnDateInitClicked()
+                }) {
+                    Text(text = "초기화")
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+                Button(onClick = {
+                    datePickerState.selectedDateMillis?.let { selectedDateMillis ->
+                        val yyyyMMdd = Utils.dateFormat.format(Date(selectedDateMillis))
+
+                        onClickConfirm(yyyyMMdd)
+                    }
+                }) {
+                    Text(text = "확인")
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomDateRangePickerDialog(
+    title: String?,
+    selectedDate: Pair<String?, String?>,
+    isSelectable: (utcTimeMillis: Long) -> Boolean,
+    onClickCancel: () -> Unit,
+    onClickInit: () -> Unit,
+    onClickConfirm: (date: Pair<String?, String?>) -> Unit
+) {
+
+    val datePickerState = rememberDateRangePickerState(yearRange = DatePickerDefaults.YearRange,
+        initialDisplayMode = DisplayMode.Picker,
+        initialSelectedStartDateMillis = selectedDate.first?.let {
+            Utils.dateFormat.apply {
+                timeZone = TimeZone.getTimeZone("UTC")
+            }.parse(it)?.time ?: System.currentTimeMillis()
+        } ?: System.currentTimeMillis(),
+        initialSelectedEndDateMillis = selectedDate.second?.let {
+            Utils.dateFormat.apply {
+                timeZone = TimeZone.getTimeZone("UTC")
+            }.parse(it)?.time ?: System.currentTimeMillis()
+        } ?: System.currentTimeMillis(),
+        selectableDates = object : SelectableDates {
+            override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                // 날짜 제한 조건
+                return isSelectable(utcTimeMillis)
+            }
+        })
+
+    DatePickerDialog(
+        onDismissRequest = { onClickCancel() },
+        dismissButton = {},
+        confirmButton = {},
+        shape = RoundedCornerShape(6.dp),
+    ) {
+        Column {
+            DateRangePicker(modifier = Modifier.weight(1f), state = datePickerState, title = {
+                Text(
+                    modifier = Modifier.padding(
+                        PaddingValues(
+                            start = 24.dp, end = 12.dp, top = 16.dp
+                        )
+                    ), text = title.toString()
+                )
+            })
+
+            Row(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Button(onClick = {
                     onClickCancel()
                 }) {
@@ -83,11 +177,14 @@ fun CustomDatePickerDialog(
                 }
                 Spacer(modifier = Modifier.width(10.dp))
                 Button(onClick = {
-                    datePickerState.selectedDateMillis?.let { selectedDateMillis ->
-                        val yyyyMMdd = Utils.dateFormat.format(Date(selectedDateMillis))
-
-                        onClickConfirm(yyyyMMdd)
+                    val startDate =
+                        datePickerState.selectedStartDateMillis?.let { selectedDateMillis ->
+                            Utils.dateFormat.format(Date(selectedDateMillis))
+                        }
+                    val endDate = datePickerState.selectedEndDateMillis?.let { selectedDateMillis ->
+                        Utils.dateFormat.format(Date(selectedDateMillis))
                     }
+                    onClickConfirm(Pair(startDate, endDate))
                 }) {
                     Text(text = "확인")
                 }
