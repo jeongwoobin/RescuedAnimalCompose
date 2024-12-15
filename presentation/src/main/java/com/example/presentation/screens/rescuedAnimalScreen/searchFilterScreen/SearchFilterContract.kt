@@ -1,6 +1,7 @@
 package com.example.presentation.screens.rescuedAnimalScreen.searchFilterScreen
 
 import com.example.domain.entity.AnimalSearchFilter
+import com.example.domain.entity.Neuter
 import com.example.domain.entity.Upkind
 import com.example.presentation.base.UiEffect
 import com.example.presentation.base.UiEvent
@@ -11,6 +12,7 @@ class SearchFilterContract {
     // Events that user performed
     sealed class Event : UiEvent {
         data class OnUpkindClicked(val upkind: Upkind): Event()
+        data class OnNeuterClicked(val neuter: Neuter): Event()
         data object OnDateInitClicked: Event()
         data class OnDateChanged(val isStartDate: Boolean, val date: String?): Event()
 //        data class OnImageClicked(val image: String) : Event()

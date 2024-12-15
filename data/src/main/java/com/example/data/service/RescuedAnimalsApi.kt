@@ -28,6 +28,7 @@ interface RescuedAnimalsApi {
         @Query("bgnde") bgnde: String?,
         @Query("endde") endde: String?,
         @Query("upkind") upkind: Int?,
+        @Query("neuter") neuter: String?,
         @Query("pageNo") pageNo: Int,
         @Query("numOfRows") numOfRows: Int
     ): Response<BaseResponse<ListBody<AnimalEntity>>>

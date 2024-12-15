@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.domain.entity.AnimalSearchFilter
+import com.example.domain.entity.Neuter
 import com.example.domain.entity.Upkind
 import com.example.presentation.base.BaseScreen
 import com.example.presentation.component.CustomDatePickerDialog
@@ -152,6 +153,14 @@ fun SearchFilterScreen(
                     })
                     Spacer(modifier = Modifier.height(15.dp))
                 }
+                item {
+                    AboutNeuter(filter = filter, onValueChanged = { neuter ->
+                        onEventSent(
+                            SearchFilterContract.Event.OnNeuterClicked(neuter = neuter)
+                        )
+                    })
+                    Spacer(modifier = Modifier.height(15.dp))
+                }
             }
         }
         Box(
@@ -238,4 +247,24 @@ private fun AboutUpkind(filter: AnimalSearchFilter, onValueChanged: (Upkind) -> 
             }
         }
     }
+}
+
+@Composable
+private fun AboutNeuter(filter: AnimalSearchFilter, onValueChanged: (Neuter) -> Unit) {
+    Text(text = "중성화 여부")
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Neuter.entries.forEach { neuter ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                CustomRadioBtn(isSelected = filter.neuter == neuter,
+                    onValueChanged = { onValueChanged(neuter) })
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(text = neuter.name)
+            }
+        }
+    }
+
 }

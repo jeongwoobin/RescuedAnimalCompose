@@ -171,6 +171,7 @@ class RescuedAnimalViewModel @Inject constructor(
                 bgnde = currentState.filterState.bgnde,
                 endde = currentState.filterState.endde,
                 upkind = currentState.filterState.upkind?.id,
+                neuter = currentState.filterState.neuter?.neuter,
                 pageNo = currentState.filterState.pageNo,
                 numOfRows = currentState.filterState.numOfRows
             )

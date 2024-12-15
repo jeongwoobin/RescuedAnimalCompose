@@ -71,9 +71,9 @@ class RescuedAnimalsRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getRescuedAnimal(
-        bgnde: String?, endde: String?, upkind: Int?, pageNo: Int, numOfRows: Int
+        bgnde: String?, endde: String?, upkind: Int?, neuter: String?, pageNo: Int, numOfRows: Int
     ): Flow<Result<ListBodyEntity<Animal>>> = dataSource.getRescuedAnimal(
-        bgnde = bgnde, endde = endde, upkind = upkind, pageNo = pageNo, numOfRows = numOfRows
+        bgnde = bgnde, endde = endde, upkind = upkind, neuter = neuter, pageNo = pageNo, numOfRows = numOfRows
     ).retryWhen { cause, retryCount, delayTime ->
         if (retryCount < 5) {
             Logger.e("retry cause: $cause, retryCount: $retryCount, delayTime: $delayTime")
