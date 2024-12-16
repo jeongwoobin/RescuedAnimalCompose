@@ -20,9 +20,9 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    suspend fun getSido() = getSidoUseCase().collect { result -> Logger.d("sido: $result") }
-    suspend fun getRescuedAnimal() = getRescuedAnimalUseCase(
-        pageNo = 1,
-        numOfRows = 20
-    ).collect { result -> Logger.d("animal: $result") }
+//    suspend fun getSido() = getSidoUseCase().collect { result -> Logger.d("sido: $result") }
+//    suspend fun getRescuedAnimal() = getRescuedAnimalUseCase(
+//        pageNo = 1,
+//        numOfRows = 20
+//    ).collect { result -> Logger.d("animal: $result") }
 }

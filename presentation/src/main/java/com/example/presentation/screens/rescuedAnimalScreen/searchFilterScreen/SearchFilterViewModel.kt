@@ -3,6 +3,7 @@ package com.example.presentation.screens.rescuedAnimalScreen.searchFilterScreen
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
 import com.example.domain.entity.Neuter
+import com.example.domain.entity.State
 import com.example.domain.entity.Upkind
 import com.example.domain.usecase.DeleteFavoriteAnimalUseCase
 import com.example.domain.usecase.InsertFavoriteAnimalUseCase
@@ -37,6 +38,10 @@ class SearchFilterViewModel @Inject constructor(
 
             is SearchFilterContract.Event.OnNeuterClicked -> {
                 updateNeuter(neuter = event.neuter)
+            }
+
+            is SearchFilterContract.Event.OnStateClicked -> {
+                updateState(state = event.state)
             }
 
             is SearchFilterContract.Event.OnDateInitClicked -> {
@@ -77,6 +82,14 @@ class SearchFilterViewModel @Inject constructor(
         setState {
             copy(
                 filterState = currentState.filterState.copy(neuter = neuter)
+            )
+        }
+    }
+
+    private fun updateState(state: State) {
+        setState {
+            copy(
+                filterState = currentState.filterState.copy(state = state)
             )
         }
     }

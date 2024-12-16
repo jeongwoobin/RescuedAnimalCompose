@@ -161,6 +161,14 @@ fun SearchFilterScreen(
                     })
                     Spacer(modifier = Modifier.height(20.dp))
                 }
+                item {
+                    AboutState(filter = filter, onValueChanged = { state ->
+                        onEventSent(
+                            SearchFilterContract.Event.OnStateClicked(state = state)
+                        )
+                    })
+                    Spacer(modifier = Modifier.height(20.dp))
+                }
             }
         }
         Box(
@@ -243,7 +251,7 @@ private fun AboutUpkind(filter: AnimalSearchFilter, onValueChanged: (Upkind) -> 
                 CustomRadioBtn(isSelected = filter.upkind == upkind,
                     onValueChanged = { onValueChanged(upkind) })
                 Spacer(modifier = Modifier.width(10.dp))
-                Text(text = upkind.name)
+                Text(text = upkind.kor)
             }
         }
     }
@@ -262,7 +270,28 @@ private fun AboutNeuter(filter: AnimalSearchFilter, onValueChanged: (Neuter) -> 
                 CustomRadioBtn(isSelected = filter.neuter == neuter,
                     onValueChanged = { onValueChanged(neuter) })
                 Spacer(modifier = Modifier.width(10.dp))
-                Text(text = neuter.name)
+                Text(text = neuter.kor)
+            }
+        }
+    }
+
+}
+
+
+@Composable
+private fun AboutState(filter: AnimalSearchFilter, onValueChanged: (com.example.domain.entity.State) -> Unit) {
+    Text(text = "상태")
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        com.example.domain.entity.State.entries.forEach { state ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                CustomRadioBtn(isSelected = filter.state == state,
+                    onValueChanged = { onValueChanged(state) })
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(text = state.kor)
             }
         }
     }

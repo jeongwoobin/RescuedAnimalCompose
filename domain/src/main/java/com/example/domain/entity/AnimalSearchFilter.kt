@@ -25,14 +25,14 @@ data class AnimalSearchFilter(
     val numOfRows: Int = if (pageNo != 1) 20 else 40
 }
 
-enum class Upkind(val id: Int?) {
-    ALL(id = null), DOG(id = 417000), CAT(id = 422400), ETC(id = 429900)
+enum class Upkind(val id: Int?, val kor: String) {
+    ALL(id = null, kor = "전체"), DOG(id = 417000, kor = "개"), CAT(id = 422400, kor = "고양이"), ETC(id = 429900, kor = "기타")
 }
 
-enum class Neuter(val neuter: String?) {
-    ALL(neuter = null), YES(neuter = "Y"), NO(neuter = "N"), UNKNOWN(neuter = "U")
+enum class Neuter(val neuter: String?, val kor: String) {
+    ALL(neuter = null, kor = "전체"), YES(neuter = "Y", kor = "예"), NO(neuter = "N", kor = "아니오"), UNKNOWN(neuter = "U", kor = "미상")
 }
 
-enum class State(val state: String?) {
-    ALL(state = null), NOTICE(state = "notice"), PROTECT(state = "protect")
+enum class State(val state: String?, val kor: String) {
+    ALL(state = null, kor = "전체"), NOTICE(state = "notice", kor = "공고중"), PROTECT(state = "protect", kor = "보호중")
 }
