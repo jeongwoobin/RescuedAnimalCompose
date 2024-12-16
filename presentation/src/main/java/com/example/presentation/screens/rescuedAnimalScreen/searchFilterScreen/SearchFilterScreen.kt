@@ -89,7 +89,7 @@ fun SearchFilterScreen(
             uiState.value.filterState.let { filter ->
                 item {
                     Text(text = "filter: $filter")
-                    Spacer(modifier = Modifier.height(15.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
                 }
                 item {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -143,7 +143,7 @@ fun SearchFilterScreen(
                                 )
                             })
                     }
-                    Spacer(modifier = Modifier.height(15.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
                 }
                 item {
                     AboutUpkind(filter = filter, onValueChanged = { upkind ->
@@ -151,7 +151,7 @@ fun SearchFilterScreen(
                             SearchFilterContract.Event.OnUpkindClicked(upkind = upkind)
                         )
                     })
-                    Spacer(modifier = Modifier.height(15.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
                 }
                 item {
                     AboutNeuter(filter = filter, onValueChanged = { neuter ->
@@ -159,7 +159,7 @@ fun SearchFilterScreen(
                             SearchFilterContract.Event.OnNeuterClicked(neuter = neuter)
                         )
                     })
-                    Spacer(modifier = Modifier.height(15.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
                 }
             }
         }
