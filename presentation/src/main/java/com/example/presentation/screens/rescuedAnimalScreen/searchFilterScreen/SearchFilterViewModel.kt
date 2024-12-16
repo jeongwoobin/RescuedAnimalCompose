@@ -15,8 +15,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchFilterViewModel @Inject constructor(
-    private val insertFavoriteAnimalUseCase: InsertFavoriteAnimalUseCase,
-    private val deleteFavoriteAnimalUseCase: DeleteFavoriteAnimalUseCase,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<SearchFilterContract.Event, SearchFilterContract.State, SearchFilterContract.Effect>(
     savedStateHandle

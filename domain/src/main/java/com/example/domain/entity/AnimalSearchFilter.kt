@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 /**
  * api 호출 시 적용할 필터
  *
+ * @property upr_cd 시도 코드
  * @property bgnde 유기날짜(검색 시작일 (YYYYMMDD))
  * @property endde 유기날짜(검색 종료일 (YYYYMMDD))
  * @property upkind 축종코드
@@ -15,6 +16,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class AnimalSearchFilter(
+    var upr_cd: Sido? = null,
     var bgnde: String? = null,
     var endde: String? = null,
     var upkind: Upkind? = null ?: Upkind.ALL,
