@@ -7,6 +7,7 @@ import com.example.data.mapper.SidoMapper
 import com.example.data.model.remote.ListBody
 import com.example.data.util.retryWhen
 import com.example.domain.entity.Animal
+import com.example.domain.entity.AnimalSearchFilter
 import com.example.domain.entity.ListBodyEntity
 import com.example.domain.entity.Sido
 import com.example.domain.repository.remote.RescuedAnimalsRepository
@@ -71,9 +72,9 @@ class RescuedAnimalsRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getRescuedAnimal(
-        bgnde: String?, endde: String?, upkind: Int?, neuter: String?, pageNo: Int, numOfRows: Int
+        animalSearchFilter: AnimalSearchFilter
     ): Flow<Result<ListBodyEntity<Animal>>> = dataSource.getRescuedAnimal(
-        bgnde = bgnde, endde = endde, upkind = upkind, neuter = neuter, pageNo = pageNo, numOfRows = numOfRows
+        animalSearchFilter = animalSearchFilter
     ).retryWhen { cause, retryCount, delayTime ->
         if (retryCount < 5) {
             Logger.e("retry cause: $cause, retryCount: $retryCount, delayTime: $delayTime")

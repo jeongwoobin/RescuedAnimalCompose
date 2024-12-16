@@ -126,7 +126,7 @@ class RescuedAnimalViewModel @Inject constructor(
         val tempFavoriteList = favoriteList.toMutableList()
         // favorite에서 삭제 후 돌아왔을 때 새로 데이터를 불러오지 않기 위해 false로 초기화
         val tempRescuedList = rescuedList.toMutableList().apply {
-            for(i in 0 until this.size) {
+            for (i in 0 until this.size) {
                 var item = this[i].copy(favorite = false)
 
                 for (favoriteAnimal in tempFavoriteList) {
@@ -168,17 +168,12 @@ class RescuedAnimalViewModel @Inject constructor(
         if (refresh) updatePage(refresh = true)
         viewModelScope.launch(Dispatchers.Default) {
             getRescuedAnimalUseCase.invoke(
-                bgnde = currentState.filterState.bgnde,
-                endde = currentState.filterState.endde,
-                upkind = currentState.filterState.upkind?.id,
-                neuter = currentState.filterState.neuter?.neuter,
-                pageNo = currentState.filterState.pageNo,
-                numOfRows = currentState.filterState.numOfRows
+                animalSearchFilter = currentState.filterState
             )
                 .onStart { setState { copy(loadingState = RescuedAnimalContract.LoadingState.Loading) } }
                 .onCompletion {
                     setState { copy(loadingState = RescuedAnimalContract.LoadingState.Idle) }
-                    if(refresh) {
+                    if (refresh) {
                         setEvent(RescuedAnimalContract.Event.OnFabClicked)
                     }
                     Logger.d("getRescuedAnimal completion")

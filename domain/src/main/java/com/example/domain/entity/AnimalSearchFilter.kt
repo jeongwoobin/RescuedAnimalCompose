@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
  * @property bgnde 유기날짜(검색 시작일 (YYYYMMDD))
  * @property endde 유기날짜(검색 종료일 (YYYYMMDD))
  * @property upkind 축종코드
+ * @property neuter 중성화 여부
  * @property pageNo 페이지 번호
  * @property numOfRows 페이지당 보여줄 개수
  */

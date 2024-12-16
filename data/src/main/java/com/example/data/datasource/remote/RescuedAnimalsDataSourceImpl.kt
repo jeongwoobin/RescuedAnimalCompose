@@ -5,6 +5,7 @@ import com.example.data.service.RescuedAnimalsApi
 import com.example.data.model.remote.BaseResponse
 import com.example.data.model.remote.ListBody
 import com.example.data.model.remote.SidoEntity
+import com.example.domain.entity.AnimalSearchFilter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
@@ -18,16 +19,16 @@ class RescuedAnimalsDataSourceImpl @Inject constructor(
         flow { emit(api.fetchSido()) }
 
     override suspend fun getRescuedAnimal(
-        bgnde: String?, endde: String?, upkind: Int?, neuter: String?, pageNo: Int, numOfRows: Int
+        animalSearchFilter: AnimalSearchFilter
     ): Flow<Response<BaseResponse<ListBody<AnimalEntity>>>> = flow {
         emit(
             api.fetchRescuedAnimal(
-                bgnde = bgnde,
-                endde = endde,
-                upkind = upkind,
-                neuter = neuter,
-                pageNo = pageNo,
-                numOfRows = numOfRows
+                bgnde = animalSearchFilter.bgnde,
+                endde = animalSearchFilter.endde,
+                upkind = animalSearchFilter.upkind?.id,
+                neuter = animalSearchFilter.neuter?.neuter,
+                pageNo = animalSearchFilter.pageNo,
+                numOfRows = animalSearchFilter.numOfRows
             )
         )
     }
