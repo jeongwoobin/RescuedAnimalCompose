@@ -1,23 +1,32 @@
 package com.example.data.model.remote
 
 import androidx.annotation.Keep
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.example.domain.entity.Neuter
+import com.example.domain.entity.Shelter
+import com.example.domain.entity.Sido
+import com.example.domain.entity.Sigungu
+import com.example.domain.entity.State
+import com.example.domain.entity.Upkind
 import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
 @Keep
 @JsonClass(generateAdapter = true)
 data class SidoEntity(
-    val orgCd: String,
-    val orgdownNm: String
+    val orgCd: String, val orgdownNm: String
 )
 
-//@Keep
-//@JsonClass(generateAdapter = true)
-//data class SidoItemEntity(
-//    val orgCd: String,
-//    val orgdownNm: String
-//)
+@Keep
+@JsonClass(generateAdapter = true)
+data class SigunguEntity(
+    val uprCd: String, val orgCd: String, val orgdownNm: String
+)
+
+@Keep
+@JsonClass(generateAdapter = true)
+data class ShelterEntity(
+    val careRegNo: String, val careNm: String
+)
 
 @Keep
 @JsonClass(generateAdapter = true)
@@ -46,3 +55,20 @@ data class AnimalEntity(
     val officetel: String?,
     val favorite: Boolean?
 )
+
+
+@Keep
+@JsonClass(generateAdapter = true)
+data class AnimalSearchFilterEntity(
+    var upr_cd: Sido? = null,
+    var org_cd: Sigungu? = null,
+    var care_reg_no: Shelter? = null,
+    var bgnde: String? = null,
+    var endde: String? = null,
+    var upkind: Upkind? = null ?: Upkind.ALL,
+    var neuter: Neuter? = null ?: Neuter.ALL,
+    var state: State? = null ?: State.ALL,
+    var pageNo: Int = 1,
+) {
+    val numOfRows: Int = if (pageNo != 1) 20 else 40
+}

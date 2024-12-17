@@ -16,6 +16,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,12 +42,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.domain.entity.AnimalSearchFilter
 import com.example.domain.entity.Neuter
+import com.example.domain.entity.Shelter
+import com.example.domain.entity.Sido
+import com.example.domain.entity.Sigungu
 import com.example.domain.entity.Upkind
 import com.example.presentation.base.BaseScreen
 import com.example.presentation.component.CustomDatePickerDialog
 import com.example.presentation.component.CustomRadioBtn
 import com.example.presentation.component.Header
 import com.example.presentation.component.LoadingProgressBar
+import com.example.presentation.screens.MainActivity
 import com.example.presentation.ui.theme.Text_600
 import com.example.presentation.utils.Utils
 import com.orhanobut.logger.Logger
@@ -90,6 +100,34 @@ fun SearchFilterScreen(
                 item {
                     Text(text = "filter: $filter")
                     Spacer(modifier = Modifier.height(20.dp))
+                }
+                item {
+                    AboutSido(filter = filter, onValueChanged = { sido ->
+                        onEventSent(
+                            SearchFilterContract.Event.OnSidoClicked(sido = sido)
+                        )
+                    })
+                    Spacer(modifier = Modifier.height(20.dp))
+                }
+                filter.upr_cd?.let {
+                    item {
+                        AboutSigungu(filter = filter, onValueChanged = { sigungu ->
+                            onEventSent(
+                                SearchFilterContract.Event.OnSigunguClicked(sigungu = sigungu)
+                            )
+                        })
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
+                }
+                filter.org_cd?.let {
+                    item {
+                        AboutShelter(filter = filter, onValueChanged = { shelter ->
+                            onEventSent(
+                                SearchFilterContract.Event.OnShelterClicked(shelter = shelter)
+                            )
+                        })
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
                 }
                 item {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -196,6 +234,96 @@ fun SearchFilterScreen(
 }
 
 @Composable
+private fun AboutSido(
+    filter: AnimalSearchFilter, onValueChanged: (sido: Sido?) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Text(text = "시도 선택")
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                width = 1.dp, color = Color.White, shape = RoundedCornerShape(6.dp)
+            )
+            .padding(4.dp)
+    ) {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { expanded = !expanded },
+            text = filter.upr_cd?.orgdownNm ?: "전체"
+        )
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            MainActivity.sido?.forEach { sido ->
+                DropdownMenuItem(text = { Text(text = sido?.orgdownNm ?: "전체") },
+                    onClick = { onValueChanged(sido) })
+            }
+        }
+    }
+}
+
+@Composable
+private fun AboutSigungu(
+    filter: AnimalSearchFilter, onValueChanged: (sigungu: Sigungu?) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Text(text = "시군구 선택")
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                width = 1.dp, color = Color.White, shape = RoundedCornerShape(6.dp)
+            )
+            .padding(4.dp)
+    ) {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { expanded = !expanded },
+            text = filter.org_cd?.orgdownNm ?: "전체"
+        )
+//        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+//            MainActivity.sido?.forEach { sido ->
+//                DropdownMenuItem(text = { Text(text = sido?.orgdownNm ?: "전체") },
+//                    onClick = { onValueChanged(sido) })
+//            }
+//        }
+    }
+}
+
+@Composable
+private fun AboutShelter(
+    filter: AnimalSearchFilter, onValueChanged: (shelter: Shelter?) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Text(text = "보호소 선택")
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                width = 1.dp, color = Color.White, shape = RoundedCornerShape(6.dp)
+            )
+            .padding(4.dp)
+    ) {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { expanded = !expanded },
+            text = filter.care_reg_no?.careNm ?: "전체"
+        )
+//        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+//            MainActivity.sido?.forEach { sido ->
+//                DropdownMenuItem(text = { Text(text = sido?.orgdownNm ?: "전체") },
+//                    onClick = { onValueChanged(sido) })
+//            }
+//        }
+    }
+}
+
+@Composable
 private fun AboutDate(
     modifier: Modifier,
     title: String?,
@@ -279,7 +407,9 @@ private fun AboutNeuter(filter: AnimalSearchFilter, onValueChanged: (Neuter) -> 
 
 
 @Composable
-private fun AboutState(filter: AnimalSearchFilter, onValueChanged: (com.example.domain.entity.State) -> Unit) {
+private fun AboutState(
+    filter: AnimalSearchFilter, onValueChanged: (com.example.domain.entity.State) -> Unit
+) {
     Text(text = "상태")
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -288,7 +418,8 @@ private fun AboutState(filter: AnimalSearchFilter, onValueChanged: (com.example.
     ) {
         com.example.domain.entity.State.entries.forEach { state ->
             Row(verticalAlignment = Alignment.CenterVertically) {
-                CustomRadioBtn(isSelected = filter.state == state,
+                CustomRadioBtn(
+                    isSelected = filter.state == state,
                     onValueChanged = { onValueChanged(state) })
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(text = state.kor)

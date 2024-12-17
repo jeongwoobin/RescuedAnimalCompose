@@ -3,6 +3,9 @@ package com.example.presentation.screens.rescuedAnimalScreen.searchFilterScreen
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
 import com.example.domain.entity.Neuter
+import com.example.domain.entity.Shelter
+import com.example.domain.entity.Sido
+import com.example.domain.entity.Sigungu
 import com.example.domain.entity.State
 import com.example.domain.entity.Upkind
 import com.example.domain.usecase.DeleteFavoriteAnimalUseCase
@@ -40,6 +43,18 @@ class SearchFilterViewModel @Inject constructor(
 
             is SearchFilterContract.Event.OnStateClicked -> {
                 updateState(state = event.state)
+            }
+
+            is SearchFilterContract.Event.OnSidoClicked -> {
+                updateSido(sido = event.sido)
+            }
+
+            is SearchFilterContract.Event.OnSigunguClicked -> {
+                updateSigungu(sigungu = event.sigungu)
+            }
+
+            is SearchFilterContract.Event.OnShelterClicked -> {
+                updateShelter(shelter = event.shelter)
             }
 
             is SearchFilterContract.Event.OnDateInitClicked -> {
@@ -88,6 +103,30 @@ class SearchFilterViewModel @Inject constructor(
         setState {
             copy(
                 filterState = currentState.filterState.copy(state = state)
+            )
+        }
+    }
+
+    private fun updateSido(sido: Sido?) {
+        setState {
+            copy(
+                filterState = currentState.filterState.copy(upr_cd = sido)
+            )
+        }
+    }
+
+    private fun updateSigungu(sigungu: Sigungu?) {
+        setState {
+            copy(
+                filterState = currentState.filterState.copy(org_cd = sigungu)
+            )
+        }
+    }
+
+    private fun updateShelter(shelter: Shelter?) {
+        setState {
+            copy(
+                filterState = currentState.filterState.copy(care_reg_no = shelter)
             )
         }
     }

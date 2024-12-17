@@ -17,6 +17,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AnimalSearchFilter(
     var upr_cd: Sido? = null,
+    var org_cd: Sigungu? = null,
+    var care_reg_no: Shelter? = null,
     var bgnde: String? = null,
     var endde: String? = null,
     var upkind: Upkind? = null ?: Upkind.ALL,
@@ -28,13 +30,21 @@ data class AnimalSearchFilter(
 }
 
 enum class Upkind(val id: Int?, val kor: String) {
-    ALL(id = null, kor = "전체"), DOG(id = 417000, kor = "개"), CAT(id = 422400, kor = "고양이"), ETC(id = 429900, kor = "기타")
+    ALL(id = null, kor = "전체"), DOG(id = 417000, kor = "개"), CAT(
+        id = 422400, kor = "고양이"
+    ),
+    ETC(id = 429900, kor = "기타")
 }
 
 enum class Neuter(val neuter: String?, val kor: String) {
-    ALL(neuter = null, kor = "전체"), YES(neuter = "Y", kor = "예"), NO(neuter = "N", kor = "아니오"), UNKNOWN(neuter = "U", kor = "미상")
+    ALL(neuter = null, kor = "전체"), YES(neuter = "Y", kor = "예"), NO(
+        neuter = "N", kor = "아니오"
+    ),
+    UNKNOWN(neuter = "U", kor = "미상")
 }
 
 enum class State(val state: String?, val kor: String) {
-    ALL(state = null, kor = "전체"), NOTICE(state = "notice", kor = "공고중"), PROTECT(state = "protect", kor = "보호중")
+    ALL(state = null, kor = "전체"), NOTICE(state = "notice", kor = "공고중"), PROTECT(
+        state = "protect", kor = "보호중"
+    )
 }
