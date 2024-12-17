@@ -113,6 +113,7 @@ class SearchFilterViewModel @Inject constructor(
             )
         }
         sido?.let { getSigungu(it.orgCd) } ?: {
+
             setState {
                 copy(sigunguListState = null)
             }
