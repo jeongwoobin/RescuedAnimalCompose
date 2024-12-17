@@ -33,9 +33,9 @@ data class Header(
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class ListBody<T>(
+data class ListBodyEntity<T>(
     @Json(name="items")
-    val items: Item<T>,
+    val items: ItemEntity<T>,
     @Json(name="numOfRows")
     val numOfRows: Long,
     @Json(name="pageNo")
@@ -46,7 +46,7 @@ data class ListBody<T>(
 
 @Keep
 @JsonClass(generateAdapter = true)
-data class Item<T>(
+data class ItemEntity<T>(
     @Json(name="item")
     val item: List<T>
 )

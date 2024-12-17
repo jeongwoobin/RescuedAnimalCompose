@@ -2,7 +2,7 @@ package com.example.domain.repository.remote
 
 import com.example.domain.entity.Animal
 import com.example.domain.entity.AnimalSearchFilter
-import com.example.domain.entity.ListBodyEntity
+import com.example.domain.entity.ListBody
 import com.example.domain.entity.Result
 import com.example.domain.entity.Shelter
 import com.example.domain.entity.Sido
@@ -18,5 +18,5 @@ interface RescuedAnimalsRepository {
 
     suspend fun getRescuedAnimal(
         animalSearchFilter: AnimalSearchFilter
-    ): Flow<Result<ListBodyEntity<Animal>>>
+    ): Flow<Result<ListBody<Animal>>>
 }

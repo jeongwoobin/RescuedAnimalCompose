@@ -2,7 +2,9 @@ package com.example.data.service
 
 import com.example.data.model.remote.AnimalEntity
 import com.example.data.model.remote.BaseResponse
-import com.example.data.model.remote.ListBody
+import com.example.data.model.remote.Body
+import com.example.data.model.remote.ItemEntity
+import com.example.data.model.remote.ListBodyEntity
 import com.example.data.model.remote.ShelterEntity
 import com.example.data.model.remote.SigunguEntity
 import com.example.data.model.remote.SidoEntity
@@ -15,18 +17,18 @@ interface RescuedAnimalsApi {
     @GET("sido")
     suspend fun fetchSido(
         @Query("numOfRows") numOfRows: Int = 20
-    ): Response<BaseResponse<ListBody<SidoEntity>>>
+    ): Response<BaseResponse<ListBodyEntity<SidoEntity>>>
 
     @GET("sigungu")
     suspend fun fetchSigungu(
         @Query("upr_cd") upr_cd: String
-    ): Response<BaseResponse<ListBody<SigunguEntity>>>
+    ): Response<BaseResponse<ItemEntity<SigunguEntity>>>
 
 
     @GET("shelter")
     suspend fun fetchShelter(
         @Query("upr_cd") upr_cd: String, @Query("org_cd") org_cd: String
-    ): Response<BaseResponse<ListBody<ShelterEntity>>>
+    ): Response<BaseResponse<ItemEntity<ShelterEntity>>>
 
 
     /**
@@ -53,5 +55,5 @@ interface RescuedAnimalsApi {
         @Query("neuter") neuter: String?,
         @Query("pageNo") pageNo: Int,
         @Query("numOfRows") numOfRows: Int
-    ): Response<BaseResponse<ListBody<AnimalEntity>>>
+    ): Response<BaseResponse<ListBodyEntity<AnimalEntity>>>
 }

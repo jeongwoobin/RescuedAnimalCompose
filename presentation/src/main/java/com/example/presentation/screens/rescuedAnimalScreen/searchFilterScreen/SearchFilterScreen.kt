@@ -111,21 +111,25 @@ fun SearchFilterScreen(
                 }
                 filter.upr_cd?.let {
                     item {
-                        AboutSigungu(filter = filter, onValueChanged = { sigungu ->
-                            onEventSent(
-                                SearchFilterContract.Event.OnSigunguClicked(sigungu = sigungu)
-                            )
-                        })
+                        AboutSigungu(filter = filter,
+                            sigunguList = uiState.value.sigunguListState,
+                            onValueChanged = { sigungu ->
+                                onEventSent(
+                                    SearchFilterContract.Event.OnSigunguClicked(sigungu = sigungu)
+                                )
+                            })
                         Spacer(modifier = Modifier.height(20.dp))
                     }
                 }
                 filter.org_cd?.let {
                     item {
-                        AboutShelter(filter = filter, onValueChanged = { shelter ->
-                            onEventSent(
-                                SearchFilterContract.Event.OnShelterClicked(shelter = shelter)
-                            )
-                        })
+                        AboutShelter(filter = filter,
+                            shelterList = uiState.value.shelterListState,
+                            onValueChanged = { shelter ->
+                                onEventSent(
+                                    SearchFilterContract.Event.OnShelterClicked(shelter = shelter)
+                                )
+                            })
                         Spacer(modifier = Modifier.height(20.dp))
                     }
                 }
@@ -256,8 +260,10 @@ private fun AboutSido(
         )
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             MainActivity.sido?.forEach { sido ->
-                DropdownMenuItem(text = { Text(text = sido?.orgdownNm ?: "전체") },
-                    onClick = { onValueChanged(sido) })
+                DropdownMenuItem(text = { Text(text = sido?.orgdownNm ?: "전체") }, onClick = {
+                    onValueChanged(sido)
+                    expanded = false
+                })
             }
         }
     }
@@ -265,7 +271,9 @@ private fun AboutSido(
 
 @Composable
 private fun AboutSigungu(
-    filter: AnimalSearchFilter, onValueChanged: (sigungu: Sigungu?) -> Unit
+    filter: AnimalSearchFilter,
+    sigunguList: List<Sigungu?>?,
+    onValueChanged: (sigungu: Sigungu?) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -284,18 +292,22 @@ private fun AboutSigungu(
                 .clickable { expanded = !expanded },
             text = filter.org_cd?.orgdownNm ?: "전체"
         )
-//        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-//            MainActivity.sido?.forEach { sido ->
-//                DropdownMenuItem(text = { Text(text = sido?.orgdownNm ?: "전체") },
-//                    onClick = { onValueChanged(sido) })
-//            }
-//        }
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            sigunguList?.forEach { sigungu ->
+                DropdownMenuItem(text = { Text(text = sigungu?.orgdownNm ?: "전체") }, onClick = {
+                    onValueChanged(sigungu)
+                    expanded = false
+                })
+            }
+        }
     }
 }
 
 @Composable
 private fun AboutShelter(
-    filter: AnimalSearchFilter, onValueChanged: (shelter: Shelter?) -> Unit
+    filter: AnimalSearchFilter,
+    shelterList: List<Shelter?>?,
+    onValueChanged: (shelter: Shelter?) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -314,12 +326,14 @@ private fun AboutShelter(
                 .clickable { expanded = !expanded },
             text = filter.care_reg_no?.careNm ?: "전체"
         )
-//        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-//            MainActivity.sido?.forEach { sido ->
-//                DropdownMenuItem(text = { Text(text = sido?.orgdownNm ?: "전체") },
-//                    onClick = { onValueChanged(sido) })
-//            }
-//        }
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            shelterList?.forEach { shelter ->
+                DropdownMenuItem(text = { Text(text = shelter?.careNm ?: "전체") }, onClick = {
+                    onValueChanged(shelter)
+                    expanded = false
+                })
+            }
+        }
     }
 }
 

@@ -7,17 +7,13 @@ import com.example.data.mapper.ListBodyMapper
 import com.example.data.mapper.ShelterMapper
 import com.example.data.mapper.SidoMapper
 import com.example.data.mapper.SigunguMapper
-import com.example.data.model.remote.ListBody
 import com.example.data.util.retryWhen
 import com.example.domain.entity.Animal
 import com.example.domain.entity.AnimalSearchFilter
-import com.example.domain.entity.ListBodyEntity
+import com.example.domain.entity.ListBody
 import com.example.domain.entity.Sido
 import com.example.domain.repository.remote.RescuedAnimalsRepository
 import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import com.example.domain.entity.Result
 import com.example.domain.entity.Shelter
 import com.example.domain.entity.Sigungu
@@ -27,7 +23,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import java.net.UnknownServiceException
 
 
@@ -90,7 +85,7 @@ class RescuedAnimalsRepositoryImpl @Inject constructor(
                 if (body.response.body != null) {
                     val data = body.response.body
                     Result.success(
-                        data = SigunguMapper(data.items.item)
+                        data = SigunguMapper(data.item)
                     )
                 } else {
                     Result.error(message = body.response.header.resultMsg)
@@ -132,7 +127,7 @@ class RescuedAnimalsRepositoryImpl @Inject constructor(
                     if (body.response.body != null) {
                         val data = body.response.body
                         Result.success(
-                            data = ShelterMapper(data.items.item)
+                            data = ShelterMapper(data.item)
                         )
                     } else {
                         Result.error(message = body.response.header.resultMsg)
@@ -161,7 +156,7 @@ class RescuedAnimalsRepositoryImpl @Inject constructor(
 
     override suspend fun getRescuedAnimal(
         animalSearchFilter: AnimalSearchFilter
-    ): Flow<Result<ListBodyEntity<Animal>>> = dataSource.getRescuedAnimal(
+    ): Flow<Result<ListBody<Animal>>> = dataSource.getRescuedAnimal(
         animalSearchFilter = AnimalSearchFilterMapper.invoke(animalSearchFilter)
     ).retryWhen { cause, retryCount, delayTime ->
         if (retryCount < 5) {

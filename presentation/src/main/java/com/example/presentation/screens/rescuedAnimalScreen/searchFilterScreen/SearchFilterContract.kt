@@ -5,7 +5,6 @@ import com.example.domain.entity.Neuter
 import com.example.domain.entity.Shelter
 import com.example.domain.entity.Sido
 import com.example.domain.entity.Sigungu
-import com.example.domain.entity.State
 import com.example.domain.entity.Upkind
 import com.example.presentation.base.UiEffect
 import com.example.presentation.base.UiEvent
@@ -31,6 +30,9 @@ class SearchFilterContract {
     // Ui View States
     data class State(
         val filterState: AnimalSearchFilter,
+        val sigunguListState: List<Sigungu?>?,
+        val shelterListState: List<Shelter?>?,
+        val loadingState: LoadingState
     ) : UiState
 
     // View State that related to Screen

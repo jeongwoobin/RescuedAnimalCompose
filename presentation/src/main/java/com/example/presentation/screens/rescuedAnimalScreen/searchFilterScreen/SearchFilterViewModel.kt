@@ -1,23 +1,35 @@
 package com.example.presentation.screens.rescuedAnimalScreen.searchFilterScreen
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.domain.entity.Neuter
 import com.example.domain.entity.Shelter
 import com.example.domain.entity.Sido
 import com.example.domain.entity.Sigungu
 import com.example.domain.entity.State
+import com.example.domain.entity.Status
 import com.example.domain.entity.Upkind
 import com.example.domain.usecase.DeleteFavoriteAnimalUseCase
+import com.example.domain.usecase.GetShelterUseCase
+import com.example.domain.usecase.GetSigunguUseCase
 import com.example.domain.usecase.InsertFavoriteAnimalUseCase
 import com.example.presentation.base.BaseViewModel
 import com.example.presentation.navigation.graph.RescuedAnimalGraph
+import com.example.presentation.screens.rescuedAnimalScreen.RescuedAnimalContract
+import com.example.presentation.utils.Utils
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchFilterViewModel @Inject constructor(
+    private val getSigunguUseCase: GetSigunguUseCase,
+    private val getShelterUseCase: GetShelterUseCase,
     savedStateHandle: SavedStateHandle,
 ) : BaseViewModel<SearchFilterContract.Event, SearchFilterContract.State, SearchFilterContract.Effect>(
     savedStateHandle
@@ -28,6 +40,9 @@ class SearchFilterViewModel @Inject constructor(
             filterState = savedStateHandle.toRoute<RescuedAnimalGraph.RescuedAnimal.SearchFilter>(
                 typeMap = RescuedAnimalGraph.RescuedAnimal.SearchFilter.typeMap
             ).filter,
+            sigunguListState = null,
+            shelterListState = null,
+            loadingState = SearchFilterContract.LoadingState.Idle
         )
     }
 
@@ -64,22 +79,6 @@ class SearchFilterViewModel @Inject constructor(
             is SearchFilterContract.Event.OnDateChanged -> {
                 updateDate(isStartDate = event.isStartDate, date = event.date)
             }
-//            is SearchFilterContract.Event.OnImageClicked -> {
-//
-//            }
-//
-//            is SearchFilterContract.Event.OnCareTelClicked -> {
-//
-//            }
-//
-//            is SearchFilterContract.Event.OnItemFavoriteClicked -> {
-//                if (event.animal.favorite == true) deleteFavoriteAnimal(
-//                    animal = event.animal
-//                )
-//                else insertFavoriteAnimal(animal = event.animal)
-//            }
-//
-//            else -> {}
         }
     }
 
@@ -113,6 +112,11 @@ class SearchFilterViewModel @Inject constructor(
                 filterState = currentState.filterState.copy(upr_cd = sido)
             )
         }
+        sido?.let { getSigungu(it.orgCd) } ?: {
+            setState {
+                copy(sigunguListState = null)
+            }
+        }
     }
 
     private fun updateSigungu(sigungu: Sigungu?) {
@@ -120,6 +124,11 @@ class SearchFilterViewModel @Inject constructor(
             copy(
                 filterState = currentState.filterState.copy(org_cd = sigungu)
             )
+        }
+        sigungu?.let { getShelter(it.uprCd, it.orgCd) } ?: {
+            setState {
+                copy(shelterListState = null)
+            }
         }
     }
 
@@ -149,6 +158,84 @@ class SearchFilterViewModel @Inject constructor(
                     filterState = currentState.filterState.copy(endde = date)
                 )
             }
+        }
+    }
+
+    private fun getSigungu(upr_cd: String) {
+        Logger.d("getSigungu")
+        viewModelScope.launch(Dispatchers.Default) {
+            getSigunguUseCase.invoke(
+                upr_cd = upr_cd
+            )
+                .onStart { setState { copy(loadingState = SearchFilterContract.LoadingState.Loading) } }
+                .onCompletion {
+                    setState { copy(loadingState = SearchFilterContract.LoadingState.Idle) }
+                    Logger.d("getSigungu completion")
+                }.collect { result ->
+                    Logger.d("getSigungu result\nstatus: ${result.status}\nmessage: ${result.message}")
+                    when (result.status) {
+                        Status.LOADING -> {}
+                        Status.SUCCESS -> {
+                            result.data?.let { data ->
+                                setState {
+                                    copy(
+                                        sigunguListState = listOf(null) + data
+                                    )
+                                }
+                            }
+                        }
+
+                        else -> {
+                            setEffect {
+                                SearchFilterContract.Effect.ShowSnackbar(
+                                    Utils.snackBarContent(
+                                        isError = true, content = result.message.toString()
+                                    )
+                                )
+                            }
+                        }
+                    }
+
+                }
+        }
+    }
+
+    private fun getShelter(upr_cd: String, org_cd: String) {
+        Logger.d("getShelter")
+        viewModelScope.launch(Dispatchers.Default) {
+            getShelterUseCase.invoke(
+                upr_cd = upr_cd, org_cd = org_cd
+            )
+                .onStart { setState { copy(loadingState = SearchFilterContract.LoadingState.Loading) } }
+                .onCompletion {
+                    setState { copy(loadingState = SearchFilterContract.LoadingState.Idle) }
+                    Logger.d("getShelter completion")
+                }.collect { result ->
+                    Logger.d("getShelter result\nstatus: ${result.status}\nmessage: ${result.message}")
+                    when (result.status) {
+                        Status.LOADING -> {}
+                        Status.SUCCESS -> {
+                            result.data?.let { data ->
+                                setState {
+                                    copy(
+                                        shelterListState = listOf(null) + data
+                                    )
+                                }
+                            }
+                        }
+
+                        else -> {
+                            setEffect {
+                                SearchFilterContract.Effect.ShowSnackbar(
+                                    Utils.snackBarContent(
+                                        isError = true, content = result.message.toString()
+                                    )
+                                )
+                            }
+                        }
+                    }
+
+                }
         }
     }
 }

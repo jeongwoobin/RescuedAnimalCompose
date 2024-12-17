@@ -2,7 +2,7 @@ package com.example.domain.usecase
 
 import com.example.domain.entity.Animal
 import com.example.domain.entity.AnimalSearchFilter
-import com.example.domain.entity.ListBodyEntity
+import com.example.domain.entity.ListBody
 import com.example.domain.entity.Result
 import com.example.domain.repository.remote.RescuedAnimalsRepository
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +20,7 @@ class GetRescuedAnimalUseCase @Inject constructor(
      */
     suspend operator fun invoke(
         animalSearchFilter: AnimalSearchFilter
-    ): Flow<Result<ListBodyEntity<Animal>>> = repo.getRescuedAnimal(
+    ): Flow<Result<ListBody<Animal>>> = repo.getRescuedAnimal(
         animalSearchFilter = animalSearchFilter
     )
 }
