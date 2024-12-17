@@ -37,11 +37,11 @@ data class ListBodyEntity<T>(
     @Json(name="items")
     val items: ItemEntity<T>,
     @Json(name="numOfRows")
-    val numOfRows: Long,
+    val numOfRows: Long?,
     @Json(name="pageNo")
-    val pageNo: Long,
+    val pageNo: Long?,
     @Json(name="totalCount")
-    val totalCount: Long,
+    val totalCount: Long?,
 )
 
 @Keep

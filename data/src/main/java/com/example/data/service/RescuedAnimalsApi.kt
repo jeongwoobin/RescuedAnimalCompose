@@ -22,13 +22,13 @@ interface RescuedAnimalsApi {
     @GET("sigungu")
     suspend fun fetchSigungu(
         @Query("upr_cd") upr_cd: String
-    ): Response<BaseResponse<ItemEntity<SigunguEntity>>>
+    ): Response<BaseResponse<ListBodyEntity<SigunguEntity>>>
 
 
     @GET("shelter")
     suspend fun fetchShelter(
         @Query("upr_cd") upr_cd: String, @Query("org_cd") org_cd: String
-    ): Response<BaseResponse<ItemEntity<ShelterEntity>>>
+    ): Response<BaseResponse<ListBodyEntity<ShelterEntity>>>
 
 
     /**

@@ -22,12 +22,12 @@ class RescuedAnimalsDataSourceImpl @Inject constructor(
     override suspend fun getSido(): Flow<Response<BaseResponse<ListBodyEntity<SidoEntity>>>> =
         flow { emit(api.fetchSido()) }
 
-    override suspend fun getSigungu(upr_cd: String): Flow<Response<BaseResponse<ItemEntity<SigunguEntity>>>> =
+    override suspend fun getSigungu(upr_cd: String): Flow<Response<BaseResponse<ListBodyEntity<SigunguEntity>>>> =
         flow { emit(api.fetchSigungu(upr_cd = upr_cd)) }
 
     override suspend fun getShelter(
         upr_cd: String, org_cd: String
-    ): Flow<Response<BaseResponse<ItemEntity<ShelterEntity>>>> =
+    ): Flow<Response<BaseResponse<ListBodyEntity<ShelterEntity>>>> =
         flow { emit(api.fetchShelter(upr_cd = upr_cd, org_cd = org_cd)) }
 
     override suspend fun getRescuedAnimal(

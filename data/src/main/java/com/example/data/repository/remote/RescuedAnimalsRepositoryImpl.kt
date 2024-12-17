@@ -85,7 +85,7 @@ class RescuedAnimalsRepositoryImpl @Inject constructor(
                 if (body.response.body != null) {
                     val data = body.response.body
                     Result.success(
-                        data = SigunguMapper(data.item)
+                        data = SigunguMapper(data.items.item)
                     )
                 } else {
                     Result.error(message = body.response.header.resultMsg)
@@ -127,7 +127,7 @@ class RescuedAnimalsRepositoryImpl @Inject constructor(
                     if (body.response.body != null) {
                         val data = body.response.body
                         Result.success(
-                            data = ShelterMapper(data.item)
+                            data = ShelterMapper(data.items.item)
                         )
                     } else {
                         Result.error(message = body.response.header.resultMsg)

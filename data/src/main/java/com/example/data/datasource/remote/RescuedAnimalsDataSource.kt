@@ -15,9 +15,9 @@ import retrofit2.Response
 interface RescuedAnimalsDataSource {
     suspend fun getSido(): Flow<Response<BaseResponse<ListBodyEntity<SidoEntity>>>>
 
-    suspend fun getSigungu(upr_cd: String): Flow<Response<BaseResponse<ItemEntity<SigunguEntity>>>>
+    suspend fun getSigungu(upr_cd: String): Flow<Response<BaseResponse<ListBodyEntity<SigunguEntity>>>>
 
-    suspend fun getShelter(upr_cd: String, org_cd: String): Flow<Response<BaseResponse<ItemEntity<ShelterEntity>>>>
+    suspend fun getShelter(upr_cd: String, org_cd: String): Flow<Response<BaseResponse<ListBodyEntity<ShelterEntity>>>>
 
     suspend fun getRescuedAnimal(
         animalSearchFilter: AnimalSearchFilterEntity
