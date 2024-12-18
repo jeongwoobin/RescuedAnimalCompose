@@ -3,8 +3,6 @@ package com.example.data.datasource.remote
 import com.example.data.model.remote.AnimalEntity
 import com.example.data.model.remote.AnimalSearchFilterEntity
 import com.example.data.model.remote.BaseResponse
-import com.example.data.model.remote.Body
-import com.example.data.model.remote.ItemEntity
 import com.example.data.model.remote.ListBodyEntity
 import com.example.data.model.remote.ShelterEntity
 import com.example.data.model.remote.SidoEntity

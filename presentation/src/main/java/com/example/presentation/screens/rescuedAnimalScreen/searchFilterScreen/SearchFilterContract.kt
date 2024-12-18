@@ -14,6 +14,7 @@ class SearchFilterContract {
 
     // Events that user performed
     sealed class Event : UiEvent {
+        data object OnFilterInitClicked: Event()
         data class OnUpkindClicked(val upkind: Upkind) : Event()
         data class OnNeuterClicked(val neuter: Neuter) : Event()
         data class OnStateClicked(val state: com.example.domain.entity.State) : Event()

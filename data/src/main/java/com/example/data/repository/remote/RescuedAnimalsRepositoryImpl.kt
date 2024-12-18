@@ -32,7 +32,7 @@ class RescuedAnimalsRepositoryImpl @Inject constructor(
 
     override suspend fun getSido(): Flow<Result<List<Sido>>> =
         dataSource.getSido().retryWhen { cause, retryCount, delayTime ->
-            if (retryCount < 5) {
+            if (retryCount < 30) {
                 Logger.e("retry cause: $cause, retryCount: $retryCount, delayTime: $delayTime")
                 delay(delayTime)
                 true
@@ -43,9 +43,7 @@ class RescuedAnimalsRepositoryImpl @Inject constructor(
             if (response.isSuccessful && (body != null)) {
                 if (body.response.body != null) {
                     val data = body.response.body
-                    Result.success(
-                        data = SidoMapper(data.items.item)
-                    )
+                    Result.success(data = data.items.item?.let { SidoMapper(it) })
                 } else {
                     Result.error(message = body.response.header.resultMsg)
                 }
@@ -84,9 +82,7 @@ class RescuedAnimalsRepositoryImpl @Inject constructor(
             if (response.isSuccessful && (body != null)) {
                 if (body.response.body != null) {
                     val data = body.response.body
-                    Result.success(
-                        data = SigunguMapper(data.items.item)
-                    )
+                    Result.success(data = data.items.item?.let { SigunguMapper(it) })
                 } else {
                     Result.error(message = body.response.header.resultMsg)
                 }
@@ -126,9 +122,7 @@ class RescuedAnimalsRepositoryImpl @Inject constructor(
                 if (response.isSuccessful && (body != null)) {
                     if (body.response.body != null) {
                         val data = body.response.body
-                        Result.success(
-                            data = ShelterMapper(data.items.item)
-                        )
+                        Result.success(data = data.items.item?.let { ShelterMapper(it) })
                     } else {
                         Result.error(message = body.response.header.resultMsg)
                     }
@@ -169,13 +163,12 @@ class RescuedAnimalsRepositoryImpl @Inject constructor(
         if (response.isSuccessful && (body != null)) {
             if (body.response.body != null) {
                 val data = body.response.body
-                Result.success(
-                    data = ListBodyMapper(
-                        originEntity = data, newEntity = AnimalMapper.mapperToAnimalList(
-                            data.items.item
+                Result.success(data = ListBodyMapper(originEntity = data,
+                    newEntity = data.items.item?.let {
+                        AnimalMapper.mapperToAnimalList(
+                            it
                         )
-                    )
-                )
+                    }))
             } else {
                 Result.error(message = body.response.header.resultMsg)
             }

@@ -90,7 +90,13 @@ fun SearchFilterScreen(
         loadingState = false,
         loadingProgressBar = { LoadingProgressBar() },
     ) {
-        Header(title = "검색 필터", backButtonClicked = { popBackStack(null) })
+        Header(title = "검색 필터", backButtonClicked = { popBackStack(null) }) {
+            Box(modifier = Modifier.clickable { onEventSent(SearchFilterContract.Event.OnFilterInitClicked) }) {
+                Text(text = "초기화", style = TextStyle(
+                    color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Normal
+                ))
+            }
+        }
         LazyColumn(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
@@ -98,7 +104,7 @@ fun SearchFilterScreen(
         ) {
             uiState.value.filterState.let { filter ->
                 item {
-                    Text(text = "filter: $filter")
+                    Text(text = "filter\n$filter")
                     Spacer(modifier = Modifier.height(20.dp))
                 }
                 item {

@@ -165,7 +165,10 @@ class RescuedAnimalViewModel @Inject constructor(
 
     private fun getRescuedAnimal(refresh: Boolean = false) {
         Logger.d("getRescuedAnimal")
-        if (refresh) updatePage(refresh = true)
+        if (refresh) {
+            setEvent(RescuedAnimalContract.Event.OnFabClicked)
+            updatePage(refresh = true)
+        }
         viewModelScope.launch(Dispatchers.Default) {
             getRescuedAnimalUseCase.invoke(
                 animalSearchFilter = currentState.filterState
@@ -173,9 +176,9 @@ class RescuedAnimalViewModel @Inject constructor(
                 .onStart { setState { copy(loadingState = RescuedAnimalContract.LoadingState.Loading) } }
                 .onCompletion {
                     setState { copy(loadingState = RescuedAnimalContract.LoadingState.Idle) }
-                    if (refresh) {
-                        setEvent(RescuedAnimalContract.Event.OnFabClicked)
-                    }
+//                    if (refresh) {
+//                        setEvent(RescuedAnimalContract.Event.OnFabClicked)
+//                    }
                     Logger.d("getRescuedAnimal completion")
                 }.collect { result ->
                     Logger.d("getRescuedAnimal result\nstatus: ${result.status}\nmessage: ${result.message}")
@@ -183,27 +186,36 @@ class RescuedAnimalViewModel @Inject constructor(
                         Status.LOADING -> {}
                         Status.SUCCESS -> {
                             result.data?.let { data ->
-                                if (data.items.item.isNotEmpty()) {
-                                    val list = syncLocalAndRemoteList(
-                                        favoriteList = currentState.favoriteAnimalListState,
-                                        rescuedList = data.items.item
-                                    )
-                                    setState {
-                                        copy(
-                                            rescuedAnimalListState = if (refresh) list
-                                            else currentState.rescuedAnimalListState + list
-                                        )
-                                    }
-                                } else {
-                                    // 데이터가 없습니다
-                                    setEffect {
-                                        RescuedAnimalContract.Effect.ShowSnackbar(
-                                            Utils.snackBarContent(
-                                                content = "마지막 데이터 입니다."
+                                data.items.item.let { item ->
+                                    if (item.isNullOrEmpty()) {
+                                        if (refresh) {
+                                            setState {
+                                                copy(
+                                                    rescuedAnimalListState = listOf()
+                                                )
+                                            }
+                                        }
+                                        setEffect {
+                                            RescuedAnimalContract.Effect.ShowSnackbar(
+                                                Utils.snackBarContent(
+                                                    content = "마지막 데이터 입니다."
+                                                )
                                             )
+                                        }
+                                    } else {
+                                        val list = syncLocalAndRemoteList(
+                                            favoriteList = currentState.favoriteAnimalListState,
+                                            rescuedList = item
                                         )
+                                        setState {
+                                            copy(
+                                                rescuedAnimalListState = if (refresh) list
+                                                else currentState.rescuedAnimalListState + list
+                                            )
+                                        }
                                     }
                                 }
+
                                 updatePage()
                             }
                         }

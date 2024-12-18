@@ -83,6 +83,7 @@ fun RescuedAnimalScreen(
         effectFlow.collectLatest { effect ->
             when (effect) {
                 is RescuedAnimalContract.Effect.ShowSnackbar -> {
+                    Logger.d("snackbar event: $effect")
                     snackbarHostState.showSnackbar(effect.content, null)
                 }
 

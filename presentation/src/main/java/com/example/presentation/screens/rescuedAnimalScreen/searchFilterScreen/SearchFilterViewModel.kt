@@ -3,6 +3,7 @@ package com.example.presentation.screens.rescuedAnimalScreen.searchFilterScreen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.example.domain.entity.AnimalSearchFilter
 import com.example.domain.entity.Neuter
 import com.example.domain.entity.Shelter
 import com.example.domain.entity.Sido
@@ -35,6 +36,17 @@ class SearchFilterViewModel @Inject constructor(
     savedStateHandle
 ) {
 
+    init {
+        currentState.filterState.let { filterState ->
+            filterState.upr_cd?.let {
+                getSigungu(upr_cd = it.orgCd)
+            }
+            filterState.org_cd?.let {
+                getShelter(upr_cd = it.uprCd, org_cd = it.orgCd)
+            }
+        }
+    }
+
     override fun createInitialState(savedStateHandle: SavedStateHandle): SearchFilterContract.State {
         return SearchFilterContract.State(
             filterState = savedStateHandle.toRoute<RescuedAnimalGraph.RescuedAnimal.SearchFilter>(
@@ -48,6 +60,10 @@ class SearchFilterViewModel @Inject constructor(
 
     override fun handleEvent(event: SearchFilterContract.Event) {
         when (event) {
+            is SearchFilterContract.Event.OnFilterInitClicked -> {
+                setFilterInit()
+            }
+
             is SearchFilterContract.Event.OnUpkindClicked -> {
                 updateKind(upkind = event.upkind)
             }
@@ -82,6 +98,16 @@ class SearchFilterViewModel @Inject constructor(
         }
     }
 
+    private fun setFilterInit() {
+        setState {
+            copy(
+                filterState = AnimalSearchFilter(),
+                sigunguListState = null,
+                shelterListState = null,
+            )
+        }
+    }
+
     private fun updateKind(upkind: Upkind) {
         setState {
             copy(
@@ -107,26 +133,42 @@ class SearchFilterViewModel @Inject constructor(
     }
 
     private fun updateSido(sido: Sido?) {
+        val tempFilterState = currentState.filterState
         setState {
             copy(
-                filterState = currentState.filterState.copy(upr_cd = sido)
+                filterState = currentState.filterState.copy(
+                    upr_cd = sido,
+                    org_cd = if (tempFilterState.upr_cd == sido) tempFilterState.org_cd else null,
+                    care_reg_no = if (tempFilterState.upr_cd == sido) tempFilterState.care_reg_no else null
+                )
             )
         }
-        sido?.let { getSigungu(it.orgCd) } ?: {
-
+        sido?.let {
+            if (tempFilterState.upr_cd != sido) {
+                getSigungu(it.orgCd)
+            }
+        } ?: {
             setState {
-                copy(sigunguListState = null)
+                copy(sigunguListState = null, shelterListState = null)
             }
         }
     }
 
     private fun updateSigungu(sigungu: Sigungu?) {
+        val tempFilterState = currentState.filterState
         setState {
             copy(
-                filterState = currentState.filterState.copy(org_cd = sigungu)
+                filterState = currentState.filterState.copy(
+                    org_cd = sigungu,
+                    care_reg_no = if (tempFilterState.org_cd == sigungu) tempFilterState.care_reg_no else null
+                )
             )
         }
-        sigungu?.let { getShelter(it.uprCd, it.orgCd) } ?: {
+        sigungu?.let {
+            if (tempFilterState.org_cd != sigungu) {
+                getShelter(it.uprCd, it.orgCd)
+            }
+        } ?: {
             setState {
                 copy(shelterListState = null)
             }
