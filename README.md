@@ -11,7 +11,7 @@
   
 ## 💻 개발환경
 - **Version** : Java 17
-- **IDE** : Android Studio
+- **IDE** : Android Studio
 
 ## ⚙️ 기술 스택
 - done
