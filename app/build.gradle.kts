@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.rescuedanimals"
+    namespace = "com.example.app"
 
     defaultConfig {
 

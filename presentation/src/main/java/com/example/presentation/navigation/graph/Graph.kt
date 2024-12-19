@@ -4,9 +4,9 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.example.domain.entity.Animal
 import com.example.domain.entity.AnimalSearchFilter
-import com.example.presentation.R
 import com.example.presentation.utils.serializableType
 import kotlinx.serialization.Serializable
+import com.example.presentation.R
 import kotlin.reflect.typeOf
 
 sealed interface RootGraph {
