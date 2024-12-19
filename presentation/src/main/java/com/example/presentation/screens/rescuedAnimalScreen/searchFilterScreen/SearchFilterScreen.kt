@@ -103,10 +103,10 @@ fun SearchFilterScreen(
                 .weight(1f)
         ) {
             uiState.value.filterState.let { filter ->
-                item {
-                    Text(text = "filter\n$filter")
-                    Spacer(modifier = Modifier.height(20.dp))
-                }
+//                item {
+//                    Text(text = "filter\n$filter")
+//                    Spacer(modifier = Modifier.height(20.dp))
+//                }
                 item {
                     AboutSido(filter = filter, onValueChanged = { sido ->
                         onEventSent(

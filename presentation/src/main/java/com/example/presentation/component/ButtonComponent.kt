@@ -32,7 +32,7 @@ fun CustomCheckBox(isSelected: Boolean, onValueChanged: () -> Unit) {
 fun CustomRadioBtn(isSelected: Boolean, onValueChanged: () -> Unit) {
     Box(
         modifier = Modifier
-            .size(25.dp)
+            .size(20.dp)
             .border(
                 width = 1.dp, color = Primary_Red_500, shape = CircleShape
             )

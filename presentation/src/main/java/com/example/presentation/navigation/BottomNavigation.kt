@@ -1,7 +1,5 @@
 package com.example.presentation.navigation
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
@@ -13,12 +11,8 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -29,13 +23,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.presentation.component.HDivider
 import com.example.presentation.navigation.graph.FavoriteGraph
-import com.example.presentation.navigation.graph.HomeGraph
+import com.example.presentation.navigation.graph.BottombarGraph
 import com.example.presentation.navigation.graph.MyPageGraph
 import com.example.presentation.navigation.graph.RescuedAnimalGraph
 import com.example.presentation.ui.theme.Text_400
 import com.orhanobut.logger.Logger
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun MyBottomNavigation(
@@ -48,7 +40,7 @@ fun MyBottomNavigation(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination
     val items = listOf(
-        HomeGraph.RescuedAnimal, HomeGraph.Favorite, HomeGraph.MyPage
+        BottombarGraph.RescuedAnimal, BottombarGraph.Favorite, /*BottombarGraph.MyPage*/
     )
 
     Logger.d("currentRoute: $currentRoute")

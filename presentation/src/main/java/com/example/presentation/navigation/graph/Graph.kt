@@ -26,7 +26,7 @@ sealed interface AuthGraph {
 }
 
 @Serializable
-sealed class HomeGraph(
+sealed class BottombarGraph(
     // Resource ID of the title for the menu item
     @StringRes val title: Int,
     // Resource ID of the icon for the menu item
@@ -35,17 +35,17 @@ sealed class HomeGraph(
 //    val screenRoute: HomeGraph
 ) {
     @Serializable
-    data object RescuedAnimal : HomeGraph(
+    data object RescuedAnimal : BottombarGraph(
         R.string.home, R.drawable.ic_home,
     )
 
     @Serializable
-    data object Favorite : HomeGraph(
+    data object Favorite : BottombarGraph(
         R.string.favorite, R.drawable.ic_favorite,
     )
 
     @Serializable
-    data object MyPage : HomeGraph(
+    data object MyPage : BottombarGraph(
         R.string.myPage, R.drawable.ic_mypage,
     )
 }

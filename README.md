@@ -1,5 +1,5 @@
 
-# RescuedAnimalCompose
+# ![icon.png](screenshot/icon.png) RescuedAnimalCompose
 공공API를 사용하여 "구조동물 조회" 안드로이드 애플리케이션을 구현하였습니다.
 
 ## 📄 프로젝트 목적
@@ -66,4 +66,3 @@
 - 내 반려동물 검색
   - **구현 예정**
     - 반려동물 등록 코드로 검색
-      

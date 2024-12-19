@@ -200,18 +200,6 @@ fun AnimalItemCompact(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.Start
             ) {
-                Text(
-                    modifier = Modifier.padding(start = 10.dp), style = TextStyle(
-                        color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.Bold
-                    ), text = "# ${item.desertionNo}"
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    modifier = Modifier.padding(start = 10.dp), style = TextStyle(
-                        color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.SemiBold
-                    ), text = "Name : ${item.kindCd}"
-                )
-                Spacer(modifier = Modifier.height(5.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -219,8 +207,8 @@ fun AnimalItemCompact(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit
                 ) {
                     Text(
                         modifier = Modifier.padding(start = 10.dp), style = TextStyle(
-                            color = Color.Gray, fontSize = 14.sp, fontWeight = FontWeight.Normal
-                        ), text = "Age : ${item.age}"
+                            color = Color.Black, fontSize = 20.sp, fontWeight = FontWeight.Bold
+                        ), text = item.kindCd ?: ""
                     )
                     VectorIcon(
                         modifier = Modifier.clickable {
@@ -230,6 +218,24 @@ fun AnimalItemCompact(index: Int, item: Animal, onClicked: (Int, Animal) -> Unit
                         tint = Primary_Red_500
                     )
                 }
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    modifier = Modifier.padding(start = 10.dp), style = TextStyle(
+                        color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.SemiBold
+                    ), text = "나이: ${item.age}"
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(
+                    modifier = Modifier.padding(start = 10.dp), style = TextStyle(
+                        color = Color.Gray, fontSize = 14.sp, fontWeight = FontWeight.Normal
+                    ), text = "등록날짜: ${item.happenDt ?: ""}"
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(
+                    modifier = Modifier.padding(start = 10.dp), style = TextStyle(
+                        color = Color.Gray, fontSize = 14.sp, fontWeight = FontWeight.Normal
+                    ), text = "발견장소: ${item.happenPlace ?: ""}"
+                )
             }
         }
     }

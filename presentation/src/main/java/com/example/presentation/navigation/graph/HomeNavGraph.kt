@@ -3,13 +3,12 @@ package com.example.presentation.navigation.graph
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun HomeNavGraph(navController: NavHostController) {
 
     NavHost(
-        navController = navController, startDestination = HomeGraph.RescuedAnimal
+        navController = navController, startDestination = BottombarGraph.RescuedAnimal
     ) {
 
         rescuedAnimalNavGraph(navController = navController)

@@ -8,7 +8,7 @@ import com.example.presentation.screens.myPage.MyPageScreen
 
 fun NavGraphBuilder.myPageNavGraph(navController: NavHostController) {
 
-    navigation<HomeGraph.MyPage>(
+    navigation<BottombarGraph.MyPage>(
         startDestination = MyPageGraph.MyPage
     ) {
         composable<MyPageGraph.MyPage> {

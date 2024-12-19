@@ -15,7 +15,7 @@ import com.example.presentation.screens.favoriteScreen.FavoriteViewModel
 
 fun NavGraphBuilder.favoriteNavGraph(navController: NavHostController) {
 
-    navigation<HomeGraph.Favorite>(
+    navigation<BottombarGraph.Favorite>(
         startDestination = FavoriteGraph.Favorite
     ) {
         composable<FavoriteGraph.Favorite> {
