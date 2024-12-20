@@ -10,25 +10,25 @@ import com.example.domain.entity.Upkind
 import com.squareup.moshi.JsonClass
 import kotlinx.serialization.Serializable
 
-@Keep
+
 @JsonClass(generateAdapter = true)
 data class SidoEntity(
     val orgCd: String, val orgdownNm: String
 )
 
-@Keep
+
 @JsonClass(generateAdapter = true)
 data class SigunguEntity(
     val uprCd: String, val orgCd: String, val orgdownNm: String
 )
 
-@Keep
+
 @JsonClass(generateAdapter = true)
 data class ShelterEntity(
     val careRegNo: String, val careNm: String
 )
 
-@Keep
+
 @JsonClass(generateAdapter = true)
 data class AnimalEntity(
     val desertionNo: String,
@@ -57,7 +57,7 @@ data class AnimalEntity(
 )
 
 
-@Keep
+
 @JsonClass(generateAdapter = true)
 data class AnimalSearchFilterEntity(
     var upr_cd: Sido? = null,

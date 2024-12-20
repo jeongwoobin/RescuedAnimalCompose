@@ -16,6 +16,8 @@
         android:theme="@style/Theme.RescuedAnimals"
         tools:targetApi="31"
         android:usesCleartextTraffic="true">
+        <!--        android:debuggable="true"-->
+        <!--        tools:ignore="HardcodedDebugMode"-->
         <activity
             android:name="com.example.presentation.screens.MainActivity"
             android:exported="true"

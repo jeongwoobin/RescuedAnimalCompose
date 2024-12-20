@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 import com.example.presentation.R
 import kotlin.reflect.typeOf
 
+@Serializable
 sealed interface RootGraph {
     @Serializable
     data object Root : RootGraph

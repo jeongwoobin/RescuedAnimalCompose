@@ -4,14 +4,14 @@ import androidx.annotation.Keep
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-@Keep
+
 @JsonClass(generateAdapter = true)
 data class BaseResponse<T>(
     @Json(name="response")
     val response: Response<T>,
 )
 
-@Keep
+
 @JsonClass(generateAdapter = true)
 data class Response<T>(
     @Json(name="header")
@@ -20,7 +20,7 @@ data class Response<T>(
     val body: T?,
 )
 
-@Keep
+
 @JsonClass(generateAdapter = true)
 data class Header(
     @Json(name="reqNo")
@@ -31,7 +31,7 @@ data class Header(
     val resultMsg: String,
 )
 
-@Keep
+
 @JsonClass(generateAdapter = true)
 data class ListBodyEntity<T>(
     @Json(name="items")
@@ -44,14 +44,14 @@ data class ListBodyEntity<T>(
     val totalCount: Long?,
 )
 
-@Keep
+
 @JsonClass(generateAdapter = true)
 data class ListItemEntity<T>(
     @Json(name="item")
     val item: List<T>?
 )
 
-@Keep
+
 @JsonClass(generateAdapter = true)
 data class ItemEntity<T>(
     @Json(name="item")

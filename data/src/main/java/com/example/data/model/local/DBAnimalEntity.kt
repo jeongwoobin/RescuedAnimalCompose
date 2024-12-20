@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.JsonClass
 
-//@Keep
 @JsonClass(generateAdapter = true)
 @Entity(tableName = "animal")
 data class DBAnimalEntity(

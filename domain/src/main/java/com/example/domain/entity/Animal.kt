@@ -4,7 +4,6 @@ import kotlinx.serialization.Serializable
 
 //import androidx.annotation.Keep
 
-//@Keep
 //@JsonClass(generateAdapter = true)
 
 @Serializable
