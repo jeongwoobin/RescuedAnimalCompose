@@ -2,7 +2,7 @@
 # Project info
 projectApplicationId = "foxydev97.rescuedanimals"
 projectVersionName = "1.0"
-projectVersionCode = "1"
+projectVersionCode = "3"
 projectMinSdkVersion = "26"
 projectTargetSdkVersion = "34"
 projectCompileSdkVersion = "34"
@@ -35,6 +35,7 @@ navigationCompose = "2.8.3"
 hiltNavigationCompose = "1.2.0"
 roomKtx = "2.6.1"
 landscapistGlide = "2.4.1"
+androidxSplashScreen = "1.0.1"
 #pagingRuntimeKtx = "3.3.2"
 #sandwich = "2.0.10"
 
@@ -51,6 +52,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxSplashScreen" }
 
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }

@@ -15,5 +15,5 @@ fun DependencyHandlerScope.addUILayerDependencies(project: Project) {
     add("implementation", project.libs.findLibrary("androidx.material.icons.extended").get())
     add("implementation", project.libs.findLibrary("landscapist.glide").get())
 
-
+    add("implementation", project.libs.findLibrary("androidx.core.splashscreen").get())
 }

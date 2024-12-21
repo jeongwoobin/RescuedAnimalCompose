@@ -37,14 +37,11 @@ internal fun Project.configureBuildTypes(
 //                            configureStagingBuildType(apiKey)
 //                        }
                         release {
-//                            isDebuggable = true
+                            // 릴리즈 테스트 시 필요
 //                            signingConfig = signingConfigs.getByName("debug")
+//                            isDebuggable = true
 
                             isMinifyEnabled = true
-                            proguardFiles(
-                                commonExtension.getDefaultProguardFile("proguard-android-optimize.txt"),
-                                "proguard-rules.pro"
-                            )
 
                             configureReleaseBuildType(
                                 commonExtension,
@@ -107,4 +104,9 @@ private fun BuildType.configureReleaseBuildType(
     buildConfigField("String", "RESCUED_ANIMALS_BASE_URL", "\"$rescuedAnimalsBaseUrl\"")
     buildConfigField("String", "ANIMAL_INFO_BASE_URL", "\"$animalInfoBaseUrl\"")
     buildConfigField("String", "PUBLIC_SRVC_KEY", "\"$serviceKey\"")
+
+    proguardFiles(
+        commonExtension.getDefaultProguardFile("proguard-android-optimize.txt"),
+        "proguard-rules.pro"
+    )
 }

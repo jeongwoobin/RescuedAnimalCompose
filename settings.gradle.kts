@@ -15,6 +15,9 @@ dependencyResolutionManagement {
     }
 }
 
+// build-logic rebuild 시 에러 임시 해결
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
+
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "RescuedAnimals"

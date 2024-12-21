@@ -18,10 +18,11 @@
         android:usesCleartextTraffic="true">
         <!--        android:debuggable="true"-->
         <!--        tools:ignore="HardcodedDebugMode"-->
+
         <activity
             android:name="com.example.presentation.screens.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.RescuedAnimals">
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
